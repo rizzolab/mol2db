@@ -12,6 +12,8 @@ input_mol2 = sys.argv[1]
 
 
 
+
+
 #this function accepts an array of elements and check each element is a
 #float. If ONE of the elements is an integer it will immediately return False
 def is_floatnumber(float_line):
@@ -77,10 +79,9 @@ def calculate_num_rows(mol2):
         #print(line.split()[0])
         if '##########' in line:
             des_count += 1  
-        print(line)
         if if_atom(line):
             atom_count += 1
-            print('ATOM_LINE')
+            #print('ATOM_LINE')
         if if_bond(line):
             bond_count += 1
         if 'ROOT' in line:
@@ -93,19 +94,38 @@ def calculate_num_rows(mol2):
     return return_list
 
 
+
+#read in the input_mol2 file
 with open (input_mol2,'r') as mol2_file:
     read_files = mol2_file.readlines()
 
 column_list = []
-split_line = []
-for line in read_files:
-    if len(line.split()) == 0:
-        continue
-    elif '##########' in line.split()[0]:
-        column_list.append(line.split()[1])
+number_col_list = calculate_num_rows(read_files)
+
+tmp_list=[]
+for i,num in enumerate(number_col_list,0):
+    tmp_list.append(number_col_list[i][1])
+print(max(tmp_list))
+
+#for i,line in enumerate(read_files,1):
+#    number_col_list = calculate_num_rows(read_files)
+#    if len(line.split()) == 0:
+#        continue
+#    elif '##########' in line.split()[0]:
+#        column_list.append(line.split()[1])
+   # for num in number_col_list[1]: 
+   #     column_list.append('atom_'+ str(num))
 
 
-print(calculate_num_rows(read_files))
+#print(column_list)
+
+
+
+
+
+
+
+print(number_col_list)
 
 
 
@@ -114,7 +134,7 @@ print(calculate_num_rows(read_files))
 
 
 end_time = time.time()
-
+print('duration: ' + str(end_time - start_time))
 
 
 
