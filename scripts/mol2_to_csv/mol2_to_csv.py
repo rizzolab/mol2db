@@ -8,7 +8,7 @@ import sys
 import csv
 import time
 start_time = time.time()
-input_mol2 = sys.argv[1]
+#input_mol2 = sys.argv[1]
 
 
 
@@ -95,17 +95,17 @@ def calculate_num_rows(mol2):
 
 
 
-#read in the input_mol2 file
-with open (input_mol2,'r') as mol2_file:
-    read_files = mol2_file.readlines()
+##read in the input_mol2 file
+#with open (input_mol2,'r') as mol2_file:
+#    read_files = mol2_file.readlines()
 
-column_list = []
-number_col_list = calculate_num_rows(read_files)
-
-tmp_list=[]
-for i,num in enumerate(number_col_list,0):
-    tmp_list.append(number_col_list[i][1])
-print(max(tmp_list))
+#column_list = []
+#number_col_list = calculate_num_rows(read_files)
+#
+#tmp_list=[]
+#for i,num in enumerate(number_col_list,0):
+#    tmp_list.append(number_col_list[i][1])
+#print(max(tmp_list))
 
 #for i,line in enumerate(read_files,1):
 #    number_col_list = calculate_num_rows(read_files)
@@ -125,7 +125,7 @@ print(max(tmp_list))
 
 
 
-print(number_col_list)
+#print(number_col_list)
 
 
 
