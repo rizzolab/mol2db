@@ -7,7 +7,7 @@ using namespace pqxx;
 int main(int argc, char* argv[]) {
     char * sql;
    try {
-      connection C("dbname = spak user = spak password = KapSat2400180000 \
+      connection C("dbname = spak user = spak password = KapSat2400180000\
       hostaddr = 127.0.0.1 port = 5432");
       if (C.is_open()) {
          cout << "Opened database successfully: " << C.dbname() << endl;

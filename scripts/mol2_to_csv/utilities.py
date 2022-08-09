@@ -59,8 +59,14 @@ def if_bond(line):
             return True
     except:
         return return_value
-
-
+#check if the string line means header line
+def if_header(line):
+    return_value = False
+    try:
+        if len(line.split()) == 3 and line.split()[0] == "##########":
+            return True
+    except:
+        return return_value
 
 #gather the the number of atoms and bonds in a molecule
 def calculate_num_rows(mol2):
@@ -92,6 +98,28 @@ def calculate_num_rows(mol2):
             bond_count = 0
 
     return return_list
+
+def get_headers_names(mol2s):
+    header_names = []
+    return_array = []
+    single_mol   = []
+   
+    for line in mol2s:
+        #if !if_header(line):
+        #    continue
+        #print(line.split()[0])
+
+        if if_header(line):
+            single_mol.append(line.split()[1])
+
+            
+        if 'ROOT' in line:
+            #mol_count += 1
+            #return_list.append([des_count,atom_count,bond_count])
+            return_array.append(single_mol)
+            single_mol = []
+
+    return return_array
 
 
 

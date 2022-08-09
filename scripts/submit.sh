@@ -1,3 +1,3 @@
 
 
-psql -d spak< exam.sql
+psql -d spak< ../exam.sql
