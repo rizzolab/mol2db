@@ -43,14 +43,18 @@ def raw_to_objects(mol2s):
 
 
     mol_count = 0
-    for line in mol2s:
+    for i,line in enumerate(mol2s,0):
         if (ut.if_header(line)):
             if ('Name:' in line and headers[mol_count]):
                 obj.name = line.split()[2]
                 print(obj.name)
+            else:
+                print("line number " + str(i) + ": has no name. It must have a name to proceed...")
+                quit()
             if ('Molecular_Weight:' in line and  headers[mol_count]):
                 obj.MW   = line.split()[2]
                 print(obj.MW)
+                
         if 'ROOT' in line:
             mol_count += 1
                     
