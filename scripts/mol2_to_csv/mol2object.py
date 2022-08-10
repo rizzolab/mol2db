@@ -1,4 +1,5 @@
 import utilities as ut
+import sys
 
 class Mol2obj:
     #def __init__(self, name,headers): #, atoms, bonds):
@@ -50,7 +51,7 @@ def raw_to_objects(mol2s):
                 print(obj.name)
             else:
                 print("line number " + str(i) + ": has no name. It must have a name to proceed...")
-                quit()
+                sys.exit()
             if ('Molecular_Weight:' in line and  headers[mol_count]):
                 obj.MW   = line.split()[2]
                 print(obj.MW)
