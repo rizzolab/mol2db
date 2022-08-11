@@ -31,11 +31,8 @@ class Mol2obj:
     #    return f"{self.headers}"
     def get_attr(self):
         attr = []
-        lol = dir(self) 
-        print(lol)
         for attribute, value in self.__dict__.items():
-            print(attribute, '=', value)
- 
+            attr.append(value)
         return attr 
 
     def clear(self):

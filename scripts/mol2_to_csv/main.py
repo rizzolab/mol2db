@@ -5,11 +5,11 @@ import mol2object as mol2obj
 
 #import other functions
 import utilities as ut 
-import mol2_to_json as m2jn
 
 #import built-in python modules
 import sys
 import argparse
+import csv
 
 
 #where we specify input parameters
@@ -24,12 +24,6 @@ input_mol2  = args.raw_mol2
 output_name = args.processed_csv
 
 
-##example dockmol object
-#a = mol2obj.Mol2obj("name1",{'ESOL': 4.2, 'LOGP': 4.5})
-#print(a.get_name())
-#print(a.get_headers())
-
-
 #read in the input_mol2 file
 with open (input_mol2,'r') as mol2_file:
     read_files = mol2_file.readlines()
@@ -40,36 +34,7 @@ for line in read_files:
     if "MOLECULE" in line:
         num_mol +=1
 mol2objects = [mol2obj.Mol2obj() for _ in range(num_mol)] 
-
 mol2obj.raw_to_objects(read_files,mol2objects)
-
-
-print(mol2objects[50].atoms['x'][3])
-
-
-
-
-
-number_col_list = ut.calculate_num_rows(read_files)
-
-tmp_list=[]
-for i,num in enumerate(number_col_list,0):
-    tmp_list.append(number_col_list[i][1])
-#print(number_col_list)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #if user did specify name use that name
@@ -80,5 +45,8 @@ if (output_name != None):
 #else use a default name
 else:
     with open ('mol2db.csv', 'w') as write_output:
-        for line in number_col_list:
-            write_output.writelines(str(line)+'\n')
+        wr= csv.writer(write_output, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+        for mol in mol2objects:
+            row = []
+            row = mol.get_attr()
+            wr.writerow(row)
