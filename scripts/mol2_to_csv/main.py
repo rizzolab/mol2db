@@ -35,13 +35,16 @@ with open (input_mol2,'r') as mol2_file:
     read_files = mol2_file.readlines()
 
 #first input the mol2 file into the mol2object
+num_mol = 0
+for line in read_files:
+    if "MOLECULE" in line:
+        num_mol +=1
+mol2objects = [mol2obj.Mol2obj() for _ in range(num_mol)] 
 
-mol2objects = []
-mol2objects = mol2obj.raw_to_objects(read_files)
-#print(mol2objects)
+mol2obj.raw_to_objects(read_files,mol2objects)
 
 
-
+print(mol2objects[50].atoms['x'][3])
 
 
 
