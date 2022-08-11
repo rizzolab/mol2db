@@ -17,7 +17,12 @@ class Mol2obj:
                          "charge":    [] 
                      } 
 
-        self.bonds = {} 
+        self.bonds = {
+                         "bond_num":    [],
+                         "bond_first":  [],
+                         "bond_second": [],
+                         "bond_type":   []
+                     } 
     ##getting name of molecule
     #def get_name(self):
     #    return f"{self.name}"
@@ -48,6 +53,12 @@ def raw_to_objects(mol2s,objs):
     tmp_z         = []
     tmp_atom_type = []
     tmp_charge    = []
+
+
+    tmp_bond_num    = []
+    tmp_bond_first  = []
+    tmp_bond_second = []
+    tmp_bond_type   = []
     
     headers   = ut.get_headers_names(mol2s)
     
@@ -86,23 +97,29 @@ def raw_to_objects(mol2s,objs):
             tmp_atom_type.append(str(line.split()[5]))
             tmp_charge.append(float(line.split()[-1]))
     
-        ##if line is an bond line
-        #if (1==1):
-        #    print("BOND")        
-
-
+        #if line is an bond line
+        if (ut.if_bond(line)):
+            tmp_bond_num.append(int(line.split()[0]))
+            tmp_bond_first.append(int(line.split()[1]))
+            tmp_bond_second.append(int(line.split()[2]))
+            tmp_bond_type.append(str(line.split()[3]))
 
         #End of molecule reset descriptor counter and increment mol_counter
         if 'ROOT' in line:
             #print("ROOT")
             #insert tmp arrays into the dictionary attributes
-            objs[mol_count].atoms["atom_num"]  = tmp_atom_num        
-            objs[mol_count].atoms["atom_name"] = tmp_atom_name
-            objs[mol_count].atoms["x"]         = tmp_x
-            objs[mol_count].atoms["y"]         = tmp_y       
-            objs[mol_count].atoms["z"]         = tmp_z
-            objs[mol_count].atoms["atom_type"] = tmp_atom_type
-            objs[mol_count].atoms["charge"]    = tmp_charge
+            objs[mol_count].atoms["atom_num"]    = tmp_atom_num        
+            objs[mol_count].atoms["atom_name"]   = tmp_atom_name
+            objs[mol_count].atoms["x"]           = tmp_x
+            objs[mol_count].atoms["y"]           = tmp_y       
+            objs[mol_count].atoms["z"]           = tmp_z
+            objs[mol_count].atoms["atom_type"]   = tmp_atom_type
+            objs[mol_count].atoms["charge"]      = tmp_charge
+           
+            objs[mol_count].bonds["bond_num"]    = tmp_bond_num
+            objs[mol_count].bonds["bond_first"]  = tmp_bond_first
+            objs[mol_count].bonds["bond_second"] = tmp_bond_second
+            objs[mol_count].bonds["bond_type"]   = tmp_bond_type
 
 
             #clear the tmp_atom and iterate to the next molecule         
