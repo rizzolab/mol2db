@@ -29,6 +29,14 @@ class Mol2obj:
     ##getting all headers of molecule
     #def get_headers(self):
     #    return f"{self.headers}"
+    def get_attr(self):
+        attr = []
+        lol = dir(self) 
+        print(lol)
+        for attribute, value in self.__dict__.items():
+            print(attribute, '=', value)
+ 
+        return attr 
 
     def clear(self):
         self.atoms.clear()
@@ -122,7 +130,7 @@ def raw_to_objects(mol2s,objs):
             objs[mol_count].bonds["bond_type"]   = tmp_bond_type
 
 
-            #clear the tmp_atom and iterate to the next molecule         
+            #clear the tmp_atom and tmp_bond and iterate to the next molecule         
             tmp_atom_num  = []
             tmp_atom_name = []
             tmp_x         = []
@@ -130,5 +138,10 @@ def raw_to_objects(mol2s,objs):
             tmp_z         = []
             tmp_atom_type = []
             tmp_charge    = []
+
+            tmp_bond_num    = []
+            tmp_bond_first  = []
+            tmp_bond_second = []
+            tmp_bond_type   = []
             mol_count += 1
             des_count = 0
