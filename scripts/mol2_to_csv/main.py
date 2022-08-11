@@ -38,7 +38,7 @@ with open (input_mol2,'r') as mol2_file:
 
 mol2objects = []
 mol2objects = mol2obj.raw_to_objects(read_files)
-print(mol2objects)
+#print(mol2objects)
 
 
 

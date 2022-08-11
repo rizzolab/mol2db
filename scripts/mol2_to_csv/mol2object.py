@@ -2,16 +2,9 @@ import utilities as ut
 import sys
 
 class Mol2obj:
-    #def __init__(self, name,headers): #, atoms, bonds):
-    #    self.name = name
-    #    self.headers = headers
-    #    #self.atoms = atoms
-    #    #self.bonds = bonds 
 
     def __init__(self): #, atoms, bonds):
-        self.name = ""
-        self.MW   = 0
-        self.descriptors = {}
+
     #getting name of molecule
     def get_name(self):
         return f"{self.name}"
@@ -25,41 +18,33 @@ class Mol2obj:
 
 
 
-##create a mol2object and bring back just one 
-#def raw_to_object(mol2):
-#    obj = Mol2obj()
-#
-#
-#
-#
-#    return obj
-
 #create an array of mol2objects
 def raw_to_objects(mol2s):
-    obj = Mol2obj()
-    objs = []
+    obj       = Mol2obj()
+    objs      = []
+    tmp_dict  = {}
     
-    headers = ut.get_headers_names(mol2s)
-    print(headers)
+    headers   = ut.get_headers_names(mol2s)
+    
+    #get rid of the colon from the header labels
+    for i in range(len(headers)):
+        for j in range(len(headers[i])):
+            headers[i][j] = headers[i][j].replace(":","") 
+            print(headers[i][j])
 
 
-    mol_count = 0
+    mol_count       = 0
+    des_count       = 0
     for i,line in enumerate(mol2s,0):
         if (ut.if_header(line)):
-            if ('Name:' in line and headers[mol_count]):
-                obj.name = line.split()[2]
-                print(obj.name)
-            else:
-                print("line number " + str(i) + ": has no name. It must have a name to proceed...")
-                sys.exit()
-            if ('Molecular_Weight:' in line and  headers[mol_count]):
-                obj.MW   = line.split()[2]
-                print(obj.MW)
+            setattr(obj,headers[mol_count][des_count],line.split()[2])
+            print(getattr(obj,headers[mol_count][des_count]))
+            print(obj.Name)
+            des_count += 1
                 
         if 'ROOT' in line:
+            objs.append(obj) 
             mol_count += 1
+            des_count = 0
                     
-
-
-
     return objs
