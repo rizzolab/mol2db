@@ -7,8 +7,6 @@
 import sys
 import csv
 import time
-start_time = time.time()
-#input_mol2 = sys.argv[1]
 
 
 
@@ -149,20 +147,6 @@ def get_headers_names(mol2s):
 
 
 
-
-
-
-
-#print(number_col_list)
-
-
-
-
-
-
-
-end_time = time.time()
-print('duration: ' + str(end_time - start_time))
 
 
 
