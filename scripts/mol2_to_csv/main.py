@@ -18,15 +18,18 @@ start_time = time.time()
 
 #where we specify input parameters
 parser = argparse.ArgumentParser()
-parser.add_argument('-i',dest='raw_mol2',required=True, help="Feed a raw mol2 file here")
+parser.add_argument('--job',dest='job',required=True, help="Feed the job type")
+parser.add_argument('-i',dest='input',required=True, help="Feed a raw mol2 file here")
 parser.add_argument('-o',dest='name_csv', help="Name output csv file here")
 args = parser.parse_args()
 
 
 #give the path of the mol2 you want to process
-input_mol2  = args.raw_mol2
-output_name = args.name_csv
-
+if (args.job == "mol2csv"):
+    input_mol2  = args.input
+    output_name = args.name_csv
+elif (args.job == "csv2psql"):
+    input_csv   = args.input
 
 #read in the input_mol2 file
 with open (input_mol2,'r') as mol2_file:
