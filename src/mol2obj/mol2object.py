@@ -1,5 +1,5 @@
 #import self-made modules
-import src.scripts.mol2obj.utilities as ut
+import mol2obj.utilities as ut
 
 
 #import built-in

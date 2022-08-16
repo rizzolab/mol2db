@@ -1,10 +1,10 @@
 #! /usr/bin/python
 
 #import dockmol class
-import src.scripts.mol2obj.mol2object as mol2obj
+import mol2obj.mol2object as mol2obj
 
 #import other functions
-import src.scripts.mol2obj.utilities as ut 
+import mol2obj.utilities as ut 
 
 #import built-in python modules
 import sys
@@ -47,8 +47,11 @@ if (args.job == "mol2csv"):
     #if user did specify name use that name
     if (output_name != None):
         with open (args.name_csv, 'w') as write_output:
-            for line in number_col_list:
-                write_output.writelines(str(line)+'\n')
+            wr= csv.writer(write_output, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+            for mol in mol2objects:
+                row = []
+                row = mol.get_attr()
+                wr.writerow(row)
     #else use a default name
     else:
         with open ('mol2db.csv', 'w') as write_output:
