@@ -1,17 +1,15 @@
-#! /usr/bin/python
-
-#import dockmol class
-import mol2obj.mol2object as mol2obj
-
-#import other functions
-import mol2obj.utilities as ut 
-
+#! /usr/bin/python3
 #import built-in python modules
 import sys
 import argparse
 import csv
 import time
 
+#import dockmol class
+from mol2obj import mol2object as mol2obj
+
+#import other functions
+from mol2obj import utilities as ut
 
 #start time
 start_time = time.time()

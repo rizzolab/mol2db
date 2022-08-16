@@ -1,9 +1,9 @@
+#import built-in
+import sys
+
 #import self-made modules
 import mol2obj.utilities as ut
 
-
-#import built-in
-import sys
 
 class Mol2obj:
     def __init__(self): #, atoms, bonds):
