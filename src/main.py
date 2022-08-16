@@ -6,10 +6,10 @@ import csv
 import time
 
 #import dockmol class
-from mol2obj import mol2object as mol2obj
+from par.mol2obj import mol2object as mol2obj
 
 #import other functions
-from mol2obj import utilities as ut
+from par.mol2obj import utilities as ut
 
 #start time
 start_time = time.time()

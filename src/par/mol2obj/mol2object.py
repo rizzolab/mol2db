@@ -2,7 +2,7 @@
 import sys
 
 #import self-made modules
-import mol2obj.utilities as ut
+import par.mol2obj.utilities as ut
 
 
 class Mol2obj:
