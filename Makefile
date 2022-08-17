@@ -45,3 +45,4 @@ main.c:
 
 clean:
 	@rm -rf ./bin
+	@rm ./src/main.c

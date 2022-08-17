@@ -23,6 +23,7 @@ args = parser.parse_args()
 
 
 #give the path of the mol2 you want to process
+#SELECTED_JOB: raw mol2 to csv file for importation into the library 
 if (args.job == "mol2csv"):
     input_mol2  = args.input
     output_name = args.name_csv
