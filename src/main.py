@@ -6,10 +6,10 @@ import csv
 import time
 
 #import dockmol class
-from par.mol2obj import mol2object as mol2obj
+from mol2obj import mol2object as mol2obj
 
 #import other functions
-from par.mol2obj import utilities as ut
+from mol2obj import utilities as ut
 
 #start time
 start_time = time.time()
@@ -17,8 +17,8 @@ start_time = time.time()
 #where we specify input parameters
 parser = argparse.ArgumentParser()
 parser.add_argument('--job',dest='job',required=True, help="Feed the job type")
-parser.add_argument('-i',dest='input',required=True, help="Feed a raw mol2 file here")
-parser.add_argument('-o',dest='name_csv', help="Name output csv file here")
+parser.add_argument('-i',dest='input',required=True, help="PATH to input")
+parser.add_argument('-o',dest='name_csv', help="Feed output file name")
 args = parser.parse_args()
 
 
@@ -32,10 +32,11 @@ if (args.job == "mol2csv"):
         read_files = mol2_file.readlines()
     
     #first input the mol2 file into the mol2object
+
+    #calculate the #num of mol
     num_mol = 0
-    for line in read_files:
-        if "MOLECULE" in line:
-            num_mol +=1
+    num_mol = ut.calc_num_mol(read_files)
+
     #create num_mol number of mol2objs
     mol2objects = [mol2obj.Mol2obj() for _ in range(num_mol)]
     
