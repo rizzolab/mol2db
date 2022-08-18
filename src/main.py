@@ -18,9 +18,23 @@ start_time = time.time()
 parser = argparse.ArgumentParser()
 parser.add_argument('--job',dest='job',required=True, help="Feed the job type")
 parser.add_argument('-i',dest='input',required=True, help="PATH to input")
+
+
+#arguments pertaining to only mol2csv
 parser.add_argument('-o',dest='name_csv', help="Feed output file name")
+parser.add_argument('--null',dest='not_none', action="store_true",help="output in the csv to have NULL, instead of being empty")
+
+
+#arguements pertaining to csv2psql
+
+
+
+#make args object
 args = parser.parse_args()
 
+
+##decision tree here
+#if (args.job == "mol2csv"):
 
 #give the path of the mol2 you want to process
 #SELECTED_JOB: raw mol2 to csv file for importation into the library 
@@ -42,7 +56,6 @@ if (args.job == "mol2csv"):
     
     #convert mol2 file into mol2objects
     mol2obj.raw_to_objects(read_files,mol2objects)
-    
     
     #if user did specify name use that name
     if (output_name != None):
