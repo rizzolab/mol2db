@@ -15,6 +15,9 @@ LINKFORSHARED := $(shell $(PYTHON) -c "import distutils.sysconfig; print(distuti
 LIBS := $(shell $(PYTHON) -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('LIBS'))")
 SYSLIBS :=  $(shell $(PYTHON) -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('SYSLIBS'))")
 
+
+WORKDIR := $(shell pwd)
+
 CYTHON := $(shell which cython)
 .PHONY: paths all clean test
 
@@ -33,6 +36,7 @@ paths:
 	@echo "LIBS=$(LIBS)"
 	@echo "SYSLIBS=$(SYSLIBS)"
 	@echo "CYTHON=$(CYTHON)"
+	@echo "WORKDIR=$(WORKDIR)"
 
 cython:
 	$(PYTHON) setup.py build_ext --inplace 
@@ -40,4 +44,6 @@ cython:
 clean:
 	@rm ./mol2obj/*.c
 	@rm ./mol2obj/*.so
+	@rm ./write_mol/*.c
+	@rm ./write_mol/*.so
 	@rm -rf ./build

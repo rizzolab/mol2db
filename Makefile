@@ -15,6 +15,9 @@ LINKFORSHARED := $(shell $(PYTHON) -c "import distutils.sysconfig; print(distuti
 LIBS := $(shell $(PYTHON) -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('LIBS'))")
 SYSLIBS :=  $(shell $(PYTHON) -c "import distutils.sysconfig; print(distutils.sysconfig.get_config_var('SYSLIBS'))")
 
+
+WORKDIR := $(shell pwd)
+
 CYTHON := $(shell which cython)
 .PHONY: paths all clean test
 
@@ -33,6 +36,11 @@ paths:
 	@echo "LIBS=$(LIBS)"
 	@echo "SYSLIBS=$(SYSLIBS)"
 	@echo "CYTHON=$(CYTHON)"
+	@echo "WORKDIR=$(WORKDIR)"
+
+all:
+	@make cython
+	@make main
 
 main: main.c
 	$(CC) -Os -I $(INCDIR) -o ./src/mol2db ./src/main.c -l$(PYLIB) $(LIBS) $(SYSLIBS) $(LINKFORSHARED) 	
@@ -44,8 +52,8 @@ main.c:
 	$(CYTHON) -3 --embed ./src/main.py -o ./src/main.c
 
 cython:
-	$(PYTHON) setup.py build_ext --inplace 
+	@cd $(WORKDIR)/src/ && make cython
 
 clean:
 	@rm -rf ./bin
-	@rm ./src/main.c
+	@cd $(WORKDIR)/src/ && rm main.c && make clean
