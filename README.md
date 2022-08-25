@@ -13,9 +13,14 @@ pip install Cython
 Current installation
 
 `
-cython -3 --embed main.py -o main.c
-gcc -Os -I /usr/include/python3.9/ -o main main.c -lpython3.9 -lpthread -lm -lutil -ldl
+make all
+`
 
+
+If you want clean up the build
+
+`
+make clean
 `
 
 This should output a binary named main
