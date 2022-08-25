@@ -7,8 +7,8 @@
 import sys
 import csv
 import time
-start_time = time.time()
-input_mol2 = sys.argv[1]
+
+
 
 
 
@@ -57,8 +57,14 @@ def if_bond(line):
             return True
     except:
         return return_value
-
-
+#check if the string line means header line
+def if_header(line):
+    return_value = False
+    try:
+        if len(line.split()) == 3 and line.split()[0] == "##########":
+            return True
+    except:
+        return return_value
 
 #gather the the number of atoms and bonds in a molecule
 def calculate_num_rows(mol2):
@@ -77,10 +83,9 @@ def calculate_num_rows(mol2):
         #print(line.split()[0])
         if '##########' in line:
             des_count += 1  
-        print(line)
         if if_atom(line):
             atom_count += 1
-            print('ATOM_LINE')
+            #print('ATOM_LINE')
         if if_bond(line):
             bond_count += 1
         if 'ROOT' in line:
@@ -92,29 +97,38 @@ def calculate_num_rows(mol2):
 
     return return_list
 
-
-with open (input_mol2,'r') as mol2_file:
-    read_files = mol2_file.readlines()
-
-column_list = []
-split_line = []
-for line in read_files:
-    if len(line.split()) == 0:
-        continue
-    elif '##########' in line.split()[0]:
-        column_list.append(line.split()[1])
-
-
-print(calculate_num_rows(read_files))
+def calc_num_mol(mol2):
+    return_num = 0
+    for line in mol2:
+        if "MOLECULE" in line:
+            return_num+=1
+    return return_num
 
 
 
 
 
+def get_headers_names(mol2s):
+    header_names = []
+    return_array = []
+    single_mol   = []
+   
+    for line in mol2s:
+        #if !if_header(line):
+        #    continue
+        #print(line.split()[0])
 
+        if if_header(line):
+            single_mol.append(line.split()[1])
 
-end_time = time.time()
+            
+        if 'ROOT' in line:
+            #mol_count += 1
+            #return_list.append([des_count,atom_count,bond_count])
+            return_array.append(single_mol)
+            single_mol = []
 
+    return return_array
 
 
 
