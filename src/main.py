@@ -10,6 +10,7 @@ from mol2obj import mol2object as mol2obj
 
 #import other functions
 from mol2obj import utilities as ut
+from write_mol import write_mol as wm
 
 #start time
 start_time = time.time()
@@ -56,23 +57,27 @@ if (args.job == "mol2csv"):
     
     #convert mol2 file into mol2objects
     mol2obj.raw_to_objects(read_files,mol2objects)
-    
-    #if user did specify name use that name
-    if (output_name != None):
-        with open (args.name_csv, 'w') as write_output:
-            wr= csv.writer(write_output, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-            for mol in mol2objects:
-                row = []
-                row = mol.get_attr()
-                wr.writerow(row)
-    #else use a default name
-    else:
-        with open ('mol2db.csv', 'w') as write_output:
-            wr= csv.writer(write_output, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-            for mol in mol2objects:
-                row = []
-                row = mol.get_attr()
-                wr.writerow(row)
+   
+
+    wm.write_mols(output_name,mol2objects) 
+
+ 
+    ##if user did specify name use that name
+    #if (output_name != None):
+    #    with open (args.name_csv, 'w') as write_output:
+    #        wr= csv.writer(write_output, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    #        for mol in mol2objects:
+    #            row = []
+    #            row = mol.get_attr()
+    #            wr.writerow(row)
+    ##else use a default name
+    #else:
+    #    with open ('mol2db.csv', 'w') as write_output:
+    #        wr= csv.writer(write_output, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+    #        for mol in mol2objects:
+    #            row = []
+    #            row = mol.get_attr()
+    #            wr.writerow(row)
 
 elif (args.job == "csv2psql"):
     input_csv   = args.input
