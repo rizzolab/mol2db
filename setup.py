@@ -9,7 +9,7 @@ setup(
     author_email='stevemn.pak10@gmail.com',    
     license='MIT license',
     packages=['mol2db'],
-    install_requires=[],
+    install_requires=['Cython'],
 
     classifiers=[
         'Development Status :: 1 - Planning',
