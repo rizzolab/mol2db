@@ -48,36 +48,17 @@ if (args.job == "mol2csv"):
     
     #first input the mol2 file into the mol2object
 
-    #calculate the #num of mol
-    num_mol = 0
-    num_mol = ut.calc_num_mol(read_files)
+    ##calculate the #num of mol
+    #num_mol = 0
+    #num_mol = ut.calc_num_mol(read_files)
 
-    #create num_mol number of mol2objs
-    mol2objects = [mol2obj.Mol2obj() for _ in range(num_mol)]
+    ##create num_mol number of mol2objs
+    #mol2objects = [mol2obj.Mol2obj() for _ in range(num_mol)]
     
-    #convert mol2 file into mol2objects
-    mol2obj.raw_to_objects(read_files,mol2objects)
+    ##convert mol2 file into mol2objects and write them into .mol2 files
+    mol2obj.mol2obj2write(read_files,output_name)
    
 
-    wm.write_mols(output_name,mol2objects) 
-
- 
-    ##if user did specify name use that name
-    #if (output_name != None):
-    #    with open (args.name_csv, 'w') as write_output:
-    #        wr= csv.writer(write_output, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-    #        for mol in mol2objects:
-    #            row = []
-    #            row = mol.get_attr()
-    #            wr.writerow(row)
-    ##else use a default name
-    #else:
-    #    with open ('mol2db.csv', 'w') as write_output:
-    #        wr= csv.writer(write_output, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-    #        for mol in mol2objects:
-    #            row = []
-    #            row = mol.get_attr()
-    #            wr.writerow(row)
 
 elif (args.job == "csv2psql"):
     input_csv   = args.input

@@ -56,4 +56,4 @@ cython:
 
 clean:
 	@rm -rf ./bin
-	@cd $(WORKDIR)/src/ && rm main.c && make clean
+	@cd $(WORKDIR)/src/ && rm -f main.c && make clean

@@ -42,8 +42,8 @@ cython:
 	$(PYTHON) setup.py build_ext --inplace 
 
 clean:
-	@rm ./mol2obj/*.c
-	@rm ./mol2obj/*.so
-	@rm ./write_mol/*.c
-	@rm ./write_mol/*.so
+	@rm -f ./mol2obj/*.c
+	@rm -f ./mol2obj/*.so
+	@rm -f ./write_mol/*.c
+	@rm -f ./write_mol/*.so
 	@rm -rf ./build
