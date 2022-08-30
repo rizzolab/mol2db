@@ -277,7 +277,7 @@ def mol2obj2write(mol2s,output_name):
             tmp_bond_first  = []
             tmp_bond_second = []
             tmp_bond_type   = []
-
+ 
             obj.clear()
             #obj.atoms["atom_num"]    = tmp_atom_num
             #obj.atoms["atom_name"]   = tmp_atom_name
