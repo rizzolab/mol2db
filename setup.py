@@ -6,7 +6,7 @@ setup(
     description='A molecule library handeler',
     url='https://github.com/Pakman450/mol2db',
     author='Steven Pak',
-    author_email='stevemn.pak10@gmail.com',    
+    author_email='steven.pak10@gmail.com',    
     license='MIT license',
     packages=['mol2db'],
     install_requires=['Cython'],
