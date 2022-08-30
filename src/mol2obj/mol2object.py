@@ -33,8 +33,14 @@ class Mol2obj:
     def get_attr(self):
         attr = []
         for attribute, value in self.__dict__.items():
-            attr.append(value)
+            attr.append(attribute)
         return attr 
+
+    def get_attr_val(self):
+        attr = []
+        for attribute, value in self.__dict__.items():
+            attr.append(value)
+        return attr
 
     def clear(self,not_none=False):
         attr = []
