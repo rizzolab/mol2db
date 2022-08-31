@@ -19,12 +19,21 @@ start_time = time.time()
 #where we specify input parameters
 parser = argparse.ArgumentParser()
 parser.add_argument('--job',dest='job',required=True, help="Feed the job type")
-parser.add_argument('-i',dest='input',required=True, help="PATH to input")
+parser.add_argument('-i',dest='input',required=True, help="PATH to file or executable psql string")
 
 
 #arguments pertaining to only mol2csv
 parser.add_argument('-o',dest='name_csv', help="Feed output file name")
 parser.add_argument('--null',dest='not_none', action="store_true",help="output in the csv to have NULL, instead of being empty")
+
+
+#arguments pertaining to only str2exe 
+parser.add_argument('-d','--dbname',dest='db_name',help="")
+parser.add_argument('-ur','--user',dest='user',help="")
+parser.add_argument('-pw','--pw',dest='pw',help="")
+parser.add_argument('-ht','--host',dest='host',help="")
+parser.add_argument('-pt','--prt',dest='port',help="")
+
 
 
 #arguements pertaining to csv2psql
@@ -60,6 +69,10 @@ if (args.job == "mol2csv"):
     mol2obj.mol2obj2write(read_files,output_name)
    
 
+elif (args.job == "str2exe"):
+    psql_exe = args.input
+    ap.execute(psql_exe,db_name="",user_name="",pw="",ht="",prt="")
+    
 
 elif (args.job == "csv2psql"):
     input_csv   = args.input
