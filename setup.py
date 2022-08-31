@@ -9,7 +9,7 @@ setup(
     author_email='steven.pak10@gmail.com',    
     license='MIT license',
     packages=['mol2db'],
-    install_requires=['Cython'],
+    install_requires=['Cython','psycopg2'],
 
     classifiers=[
         'Development Status :: 1 - Planning',
