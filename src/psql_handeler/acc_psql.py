@@ -4,7 +4,7 @@ import psycopg
 
 
 
-#def connect2psql (db_name="",user_name="",pw="",ht="",prt=""):
+#def connect2psql (dbname="",user_name="",pw="",ht="",prt=""):
 def connect2psql (**kwargs):
 
     conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'])
@@ -14,11 +14,11 @@ def connect2psql (**kwargs):
     return conn
 
 
-#def execute(exe,db_name="",user_name="",pw="",ht="",prt=""):
+#def execute(exe,dbname="",user_name="",pw="",ht="",prt=""):
 def execute(exe,**kwargs):
-    #NOTES: this next line is empty because now I realise there is a lot of passing of many arguments.
-    #NOTES: through many passing of functions
-    #NOTES: 08/31/2022
+
+
+
     conn = connect2psql(**kwargs)
     cur = conn.cursor()
     cur.execute(exe)
@@ -26,6 +26,12 @@ def execute(exe,**kwargs):
     print(rows)
     conn.close()
     
+
+def csv2psql():
+    print("csv2psql")
+
+
+
 
 
 #connect2psql("spak","spak","KapSat2400180000","/var/run/postgresql","5432")
