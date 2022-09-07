@@ -1,10 +1,13 @@
 
 def handle_kwargs(args):
- 
+    subcommand = args.subcommand 
 
-    if (args.job == "mol2csv"): 
-        print("kwargs_mol2csv")
-    elif (args.job == "str2exe"):
-        kwargs = {"dbname":args.dbname,"user_name":args.user,"pw":args.pw,"ht":args.host,"prt":args.port} 
+
+    kwargs = {}
+
+    if (subcommand == "mol2csv"): 
+        kwargs = vars(args)
+    elif (subcommand == "str2exe"):
+        kwargs = vars(args)
 
     return kwargs
