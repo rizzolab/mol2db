@@ -12,6 +12,7 @@ from mol2obj import mol2object as mol2obj
 from mol2obj import utilities as ut
 from write_mol import write_mol as wm
 from psql_handeler import acc_psql as ap 
+from argument_handeler import kwargs as kw 
 
 #start time
 start_time = time.time()
@@ -28,7 +29,7 @@ parser.add_argument('--null',dest='not_none', action="store_true",help="output i
 
 
 #arguments pertaining to only str2exe 
-parser.add_argument('-d','--dbname',dest='db_name',help="")
+parser.add_argument('-d','--dbname',dest='dbname',help="")
 parser.add_argument('-ur','--user',dest='user',help="")
 parser.add_argument('-pw','--pw',dest='pw',help="")
 parser.add_argument('-ht','--host',dest='host',help="")
@@ -43,10 +44,10 @@ parser.add_argument('-pt','--prt',dest='port',help="")
 #make args object
 args = parser.parse_args()
 
+#passing args into kwargs
+kwargs = kw.handle_kwargs(args)
 
 ##decision tree here
-#if (args.job == "mol2csv"):
-
 #give the path of the mol2 you want to process
 #SELECTED_JOB: raw mol2 to csv file for importation into the library 
 if (args.job == "mol2csv"):
@@ -71,7 +72,8 @@ if (args.job == "mol2csv"):
 
 elif (args.job == "str2exe"):
     psql_exe = args.input
-    ap.execute(psql_exe,db_name="",user_name="",pw="",ht="",prt="")
+    
+    ap.execute(psql_exe,**kwargs)
     
 
 elif (args.job == "csv2psql"):
