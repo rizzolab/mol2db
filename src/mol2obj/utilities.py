@@ -24,6 +24,8 @@ def is_floatnumber(float_line):
                    # it'll raise `ValueError` exception
     except ValueError:
         return False
+    except AttributeError: 
+        return False
     return True
 
 #this function accepts an array of elements and check each element is a
@@ -34,8 +36,11 @@ def is_intnumber(int_line):
             if line.isdigit() == False:
                 return False 
         return True 
-    except:
+    except ValueError:
        return False
+    except AttributeError:
+        return False
+    return True
 
 #check if the string line means the atom
 def if_atom(line):

@@ -9,7 +9,10 @@ class Test_Utilities_Func(unittest.TestCase):
         tests = [
                 (["5.4","3.0000","0.00001"],True),
                 (["5","3","0"],False),
-                (["5.4","3.0000","0"],False)]
+                (["5.4","3.0000","0"],False), 
+                ([5.4],False)
+                ]
+                
    
         for test,expected in tests:
             with self.subTest(value=test): 
@@ -19,7 +22,9 @@ class Test_Utilities_Func(unittest.TestCase):
         tests = [
                 (["5.4","3.0000","0.00001"],False),
                 (["5","3","0"],True),
-                (["5.4","3.0000","0"],False)]
+                (["5.4","3.0000","0"],False),
+                ([5.4],False)
+                ]
 
         for test,expected in tests:
             with self.subTest(value=test):
