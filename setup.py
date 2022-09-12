@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 from setuptools import setup
+from setuptools import find_packages
 
 setup(
     name='mol2db',
@@ -8,7 +10,10 @@ setup(
     author='Steven Pak',
     author_email='steven.pak10@gmail.com',    
     license='MIT license',
-    packages=['mol2db'],
+    #src is where all of the devloping code is
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
+    #
     install_requires=['Cython','psycopg'],
 
     classifiers=[
