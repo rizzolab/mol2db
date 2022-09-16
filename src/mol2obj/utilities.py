@@ -51,25 +51,35 @@ def if_atom(line):
     try:      
         if is_intnumber([line.split()[0]]) == True and is_floatnumber([line.split()[2],line.split()[3],line.split()[4]]) == True:
             return True
-    except:
-        return return_value 
+    except TypeError:
+        return False
+    except AttributeError:
+        return False
+
+    return return_value 
 
 #check if the string line means the bond
 def if_bond(line):
     return_value = False
     try:
-        if len(line.split()) == 4 and is_intnumber([line.split()[0],line.split()[1],line.split()[2]]):
+        if len(line.split()) == 4 and is_intnumber([line.split()[0],line.split()[1],line.split()[2]]) and int(line.split()[0]) and int(line.split()[1]) and int(line.split()[2]) > 0:
             return True
-    except:
-        return return_value
+    except TypeError:
+        return False
+    except AttributeError:
+        return False
+    return return_value
 #check if the string line means header line
 def if_header(line):
     return_value = False
     try:
         if len(line.split()) == 3 and line.split()[0] == "##########":
             return True
-    except:
-        return return_value
+    except TypeError:
+        return False
+    except AttributeError:
+        return False
+    return return_value
 
 #gather the the number of atoms and bonds in a molecule
 def calculate_num_rows(mol2):
