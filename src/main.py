@@ -45,6 +45,14 @@ command_csv2psql.add_argument('-i',dest='input',required=True, help="input your 
 command_csv2psql.add_argument('-t','--type',dest='csv_type',required=True,help="to know what set of molecule format")
 
 
+#arguements pertaining to iniatedb
+command_iniatedb = subparsers.add_parser('initiatedb', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
+command_iniatedb.add_argument('-i',dest='input',required=True, help="input your name of db")
+command_iniatedb.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
+command_iniatedb.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
+command_iniatedb.add_argument('-ht','--host' ,dest='ht',help="enter your host")
+command_iniatedb.add_argument('-pt','--prt' ,dest='prt',help="enter your port number")
+
 #make args object
 args = parser.parse_args()
 
@@ -73,6 +81,9 @@ elif (args.subcommand == "str2exe"):
 
 elif (args.subcommand == "csv2psql"):
     input_csv   = args.input
+
+elif (args.subcommand == "iniatedb"):
+    print(args.input)    
 
 
 
