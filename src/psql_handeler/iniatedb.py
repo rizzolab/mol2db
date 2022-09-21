@@ -1,9 +1,26 @@
 #This module creates a db with a specified name
 import psycopg
+from psql_handeler import acc_psql as ap
+
+def iniatedb(DB_NAME,**kwargs):
+    conn = ap.connect2psql(dbname="postgres",**kwargs,autocommit=True)
+    #conn = psycopg.connect(dbname="postgres", user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=True)
+    print("Opened database successfully. Connected with postgres db")
+    cur = conn.cursor()
+    i_dbname = DB_NAME
+    cur.execute('CREATE DATABASE ' + i_dbname)  
+    conn.close()
+    print(i_dbname+' db was created')
 
 
-def iniatedb(**kwargs):
+def deletedb(DB_NAME,**kwargs):   
+    conn = ap.connect2psql(dbname="postgres",**kwargs,autocommit=True)
+    #conn = psycopg.connect(dbname="postgres", user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=True)
+    print("Opened database successfully. Connected with postgres db")
+    cur = conn.cursor()
+    i_dbname = DB_NAME
+    cur.execute('DROP DATABASE ' + i_dbname)
+    conn.close()
+    print(i_dbname+' db was deleted')
 
-    conn = psycopg.connect(dbname=kwargs['postgres'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'])
 
-    print("Opened database successfully")

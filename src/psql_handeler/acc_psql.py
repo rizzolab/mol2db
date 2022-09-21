@@ -5,9 +5,9 @@ import psycopg
 
 
 #def connect2psql (dbname="",user_name="",pw="",ht="",prt=""):
-def connect2psql (**kwargs):
+def connect2psql (autocommit=False, **kwargs):
 
-    conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'])
+    conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=autocommit)
     print("Opened database successfully")
     
     print("Operation done successfully")
