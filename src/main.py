@@ -12,7 +12,7 @@ from mol2obj import mol2object as mol2obj
 from mol2obj import utilities as ut
 from write_mol import write_mol as wm
 from psql_handeler import acc_psql as ap 
-from psql_handeler import iniatedb as ib
+from psql_handeler import database as db
 from argument_handeler import kwargs as kw 
 
 #start time
@@ -21,7 +21,6 @@ start_time = time.time()
 #where we specify input parameters
 parser = argparse.ArgumentParser(prog='mol2db')
 subparsers = parser.add_subparsers(help='help for subcommand', dest="subcommand")
-
 
 #arguments pertaining to only mol2csv
 command_mol2csv = subparsers.add_parser('mol2csv', help='to convert molecules into csv')
@@ -44,7 +43,6 @@ command_csv2psql = subparsers.add_parser('csv2psql', help='to load up csv into d
 command_csv2psql.add_argument('-i',dest='input',required=True, help="input your csv file")
 command_csv2psql.add_argument('-t','--type',dest='csv_type',required=True,help="to know what set of molecule format")
 
-
 #arguements pertaining to iniatedb
 command_iniatedb = subparsers.add_parser('initiate', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
 command_iniatedb.add_argument(dest='DB_NAME', help="input your name of db")
@@ -54,7 +52,6 @@ command_iniatedb.add_argument('-pw','--pw'   ,dest='pw',help="enter your passwor
 command_iniatedb.add_argument('-ht','--host' ,dest='ht',help="enter your host")
 command_iniatedb.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
 
-
 #arguements pertaining to deletedb
 command_deletedb = subparsers.add_parser('delete', help='to delete your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
 command_deletedb.add_argument(dest='DB_NAME', help="input your name of db")
@@ -63,6 +60,9 @@ command_deletedb.add_argument('-ur','--user' ,dest='user_name',help="enter your 
 command_deletedb.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
 command_deletedb.add_argument('-ht','--host' ,dest='ht',help="enter your host")
 command_deletedb.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
+
+
+
 
 #make args object
 args = parser.parse_args()
@@ -82,7 +82,6 @@ if (args.subcommand == "mol2csv"):
     
     ##convert mol2 file into mol2objects and write them into .mol2 files
     mol2obj.mol2obj2write(read_files,output_name)
-   
 
 elif (args.subcommand == "execute"):
     psql_exe = args.str_2_exe
@@ -92,12 +91,10 @@ elif (args.subcommand == "csv2psql"):
     input_csv   = args.input
 
 elif (args.subcommand == "initiate"):
-    ib.iniatedb(args.DB_NAME,**kwargs) 
+    db.initiatedb(**kwargs) 
 
 elif (args.subcommand == "delete"):
-    ib.deletedb(args.DB_NAME,**kwargs)
-
+    db.deletedb(**kwargs)
 
 end_time = time.time()
 print('duration: ' + str(end_time - start_time)+ " seconds")
-

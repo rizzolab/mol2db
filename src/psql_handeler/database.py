@@ -2,23 +2,23 @@
 import psycopg
 from psql_handeler import acc_psql as ap
 
-def iniatedb(DB_NAME,**kwargs):
+def initiatedb(**kwargs):
     conn = ap.connect2psql(dbname="postgres",**kwargs,autocommit=True)
     #conn = psycopg.connect(dbname="postgres", user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=True)
     print("Opened database successfully. Connected with postgres db")
     cur = conn.cursor()
-    i_dbname = DB_NAME
+    i_dbname = kwargs['DB_NAME']
     cur.execute('CREATE DATABASE ' + i_dbname)  
     conn.close()
     print(i_dbname+' db was created')
 
 
-def deletedb(DB_NAME,**kwargs):   
+def deletedb(**kwargs):   
     conn = ap.connect2psql(dbname="postgres",**kwargs,autocommit=True)
     #conn = psycopg.connect(dbname="postgres", user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=True)
     print("Opened database successfully. Connected with postgres db")
     cur = conn.cursor()
-    i_dbname = DB_NAME
+    i_dbname =kwargs['DB_NAME']
     cur.execute('DROP DATABASE ' + i_dbname)
     conn.close()
     print(i_dbname+' db was deleted')
