@@ -29,9 +29,9 @@ command_mol2csv.add_argument('-i',dest='input',required=True, help="input a mol2
 command_mol2csv.add_argument('-o',dest='name_csv', help="Feed output file name")
 command_mol2csv.add_argument('--null',dest='not_none', action="store_true",help="output in the csv to have NULL, instead of being empty")
 
-#arguments pertaining to only str2exe 
-command_str2exe = subparsers.add_parser('str2exe', help='to execute a sql string')
-command_str2exe.add_argument('-i',dest='input',required=True, help="input a mol2 script")
+#arguments pertaining to only execute 
+command_str2exe = subparsers.add_parser('execute', help='to execute a sql string')
+command_str2exe.add_argument(dest='str_2_exe', help="input a mol2 script")
 
 command_str2exe.add_argument('-d','--dbname',dest='dbname',help="enter your database name to access")
 command_str2exe.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
@@ -47,7 +47,7 @@ command_csv2psql.add_argument('-t','--type',dest='csv_type',required=True,help="
 
 #arguements pertaining to iniatedb
 command_iniatedb = subparsers.add_parser('initiate', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
-command_iniatedb.add_argument(dest='input', help="input your name of db")
+command_iniatedb.add_argument(dest='DB_NAME', help="input your name of db")
 
 command_iniatedb.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
 command_iniatedb.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
@@ -57,7 +57,7 @@ command_iniatedb.add_argument('-pt','--prt'  ,dest='prt',help="enter your port n
 
 #arguements pertaining to deletedb
 command_deletedb = subparsers.add_parser('delete', help='to delete your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
-command_deletedb.add_argument(dest='input', help="input your name of db")
+command_deletedb.add_argument(dest='DB_NAME', help="input your name of db")
 
 command_deletedb.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
 command_deletedb.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
@@ -84,20 +84,18 @@ if (args.subcommand == "mol2csv"):
     mol2obj.mol2obj2write(read_files,output_name)
    
 
-elif (args.subcommand == "str2exe"):
-    psql_exe = args.input
-    
+elif (args.subcommand == "execute"):
+    psql_exe = args.str_2_exe
     ap.execute(psql_exe,**kwargs)
-    
 
 elif (args.subcommand == "csv2psql"):
     input_csv   = args.input
 
 elif (args.subcommand == "initiate"):
-    ib.iniatedb(args.input,**kwargs) 
-elif (args.subcommand == "delete"):
-    ib.deletedb(args.input,**kwargs)
+    ib.iniatedb(args.DB_NAME,**kwargs) 
 
+elif (args.subcommand == "delete"):
+    ib.deletedb(args.DB_NAME,**kwargs)
 
 
 end_time = time.time()

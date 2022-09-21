@@ -28,7 +28,6 @@ def write_mol (output_name, mol):
             wr.writerow(row)
 
 
-
 def write_mols (output_name, mols):
     if (output_name != None):
         with open (output_name, 'a') as write_output:
