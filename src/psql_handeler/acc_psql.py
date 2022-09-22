@@ -1,6 +1,7 @@
 
 #import psycopg, which is a python psql interfacing program
 import psycopg
+from write import write_exe as wt
 
 #def connect2psql (dbname="",user_name="",pw="",ht="",prt=""):
 def connect2psql (**kwargs):
@@ -18,11 +19,10 @@ def execute(exe,**kwargs):
     cur = conn.cursor()
     if (kwargs['psql_script']):
         cur.execute(open(str(exe), "r").read()) 
-        print(cur.fetchall())
     else: 
         cur.execute(exe)
-        print(cur.fetchall())
-
+    wt.write_exe(kwargs['output_name'],cur.fetchall())
+   
     cur.close()
     conn.close()
 

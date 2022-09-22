@@ -10,7 +10,7 @@ from mol2obj import mol2object as mol2obj
 
 #import other functions
 from mol2obj import utilities as ut
-from write_mol import write_mol as wm
+from write import write_mol as wm
 from psql_handeler import acc_psql as ap 
 from psql_handeler import database as db
 from argument_handeler import kwargs as kw 
@@ -41,7 +41,7 @@ command_mol2csv.add_argument('--null',dest='not_none', action="store_true",help=
 command_str2exe = subparsers.add_parser('execute', help='to execute a sql string')
 command_str2exe.add_argument(dest='str_2_exe', help="input string or psql script")
 command_str2exe.add_argument('-ps','--psql_script',dest='psql_script', action="store_true", help="specify if you want to sql script(True) or not(False). No flag (False)")
-command_str2exe.add_argument('-o',dest='output_txt', help="input string")
+command_str2exe.add_argument('-o',dest='output_name', help="output_name")
 
 
 #arguments pertaining to csv2psql
@@ -64,7 +64,6 @@ args = parser.parse_args()
 
 #preparing kwargs with args 
 kwargs = kw.handle_kwargs(args)
-print(kwargs)
 
 ##decision tree here
 #give the path of the mol2 you want to process

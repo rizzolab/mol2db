@@ -3,7 +3,7 @@ import sys
 
 #import self-made modules
 import mol2obj.utilities as ut
-from write_mol import write_mol as wm
+from write import write_mol as wm
 
 
 class Mol2obj:

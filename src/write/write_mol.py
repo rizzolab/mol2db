@@ -3,12 +3,6 @@
 import csv
 
 
-#import mol2db object functions
-#import mol2obj.write_mol as 
-
-
-
-
 #write one mol at a time
 def write_mol (output_name, mol):
 
