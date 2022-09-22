@@ -55,6 +55,8 @@ def if_atom(line):
         return False
     except AttributeError:
         return False
+    except:
+        return False
 
     return return_value 
 

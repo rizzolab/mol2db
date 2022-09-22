@@ -21,7 +21,9 @@ def execute(exe,**kwargs):
         cur.execute(open(str(exe), "r").read()) 
     else: 
         cur.execute(exe)
-    wt.write_exe(kwargs['output_name'],cur.fetchall())
+    #NOTE: I commented this out because I wanted to check if my sql scripts are working out
+    #NOTE: 09/22/2022
+    #wt.write_exe(kwargs['output_name'],cur.fetchall())
    
     cur.close()
     conn.close()
