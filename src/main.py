@@ -20,6 +20,15 @@ start_time = time.time()
 
 #where we specify input parameters
 parser = argparse.ArgumentParser(prog='mol2db')
+
+#Optional arguments flags
+parser.add_argument('--autocommit',dest='auto_commit', action="store_true", help="specify if you want to autocommit(True) or not(False). No flag (False)")
+parser.add_argument('-d','--dbname',dest='dbname',help="enter your database name to access")
+parser.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
+parser.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
+parser.add_argument('-ht','--host' ,dest='ht',help="enter your host")
+parser.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
+
 subparsers = parser.add_subparsers(help='help for subcommand', dest="subcommand")
 
 #arguments pertaining to only mol2csv
@@ -30,13 +39,10 @@ command_mol2csv.add_argument('--null',dest='not_none', action="store_true",help=
 
 #arguments pertaining to only execute 
 command_str2exe = subparsers.add_parser('execute', help='to execute a sql string')
-command_str2exe.add_argument(dest='str_2_exe', help="input a mol2 script")
+command_str2exe.add_argument(dest='str_2_exe', help="input string or psql script")
+command_str2exe.add_argument('-ps','--psql_script',dest='psql_script', action="store_true", help="specify if you want to sql script(True) or not(False). No flag (False)")
+command_str2exe.add_argument('-o',dest='output_txt', help="input string")
 
-command_str2exe.add_argument('-d','--dbname',dest='dbname',help="enter your database name to access")
-command_str2exe.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
-command_str2exe.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
-command_str2exe.add_argument('-ht','--host' ,dest='ht',help="enter your host")
-command_str2exe.add_argument('-pt','--prt' ,dest='prt',help="enter your port number")
 
 #arguments pertaining to csv2psql
 command_csv2psql = subparsers.add_parser('csv2psql', help='to load up csv into db')
@@ -44,24 +50,13 @@ command_csv2psql.add_argument('-i',dest='input',required=True, help="input your 
 command_csv2psql.add_argument('-t','--type',dest='csv_type',required=True,help="to know what set of molecule format")
 
 #arguements pertaining to iniatedb
-command_iniatedb = subparsers.add_parser('initiate', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
+command_iniatedb = subparsers.add_parser('create', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
 command_iniatedb.add_argument(dest='DB_NAME', help="input your name of db")
 
-command_iniatedb.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
-command_iniatedb.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
-command_iniatedb.add_argument('-ht','--host' ,dest='ht',help="enter your host")
-command_iniatedb.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
 
 #arguements pertaining to deletedb
 command_deletedb = subparsers.add_parser('delete', help='to delete your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
 command_deletedb.add_argument(dest='DB_NAME', help="input your name of db")
-
-command_deletedb.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
-command_deletedb.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
-command_deletedb.add_argument('-ht','--host' ,dest='ht',help="enter your host")
-command_deletedb.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
-
-
 
 
 #make args object
@@ -69,6 +64,7 @@ args = parser.parse_args()
 
 #preparing kwargs with args 
 kwargs = kw.handle_kwargs(args)
+print(kwargs)
 
 ##decision tree here
 #give the path of the mol2 you want to process
@@ -84,13 +80,12 @@ if (args.subcommand == "mol2csv"):
     mol2obj.mol2obj2write(read_files,output_name)
 
 elif (args.subcommand == "execute"):
-    psql_exe = args.str_2_exe
-    ap.execute(psql_exe,**kwargs)
+    ap.execute(args.str_2_exe,**kwargs)
 
 elif (args.subcommand == "csv2psql"):
-    input_csv   = args.input
+    input_csv = args.input
 
-elif (args.subcommand == "initiate"):
+elif (args.subcommand == "create"):
     db.initiatedb(**kwargs) 
 
 elif (args.subcommand == "delete"):

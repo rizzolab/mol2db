@@ -2,12 +2,10 @@
 #import psycopg, which is a python psql interfacing program
 import psycopg
 
-
-
 #def connect2psql (dbname="",user_name="",pw="",ht="",prt=""):
-def connect2psql (autocommit=False, **kwargs):
+def connect2psql (**kwargs):
 
-    conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=autocommit)
+    conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=kwargs['auto_commit'])
     print("Opened database successfully")
     
     print("Operation done successfully")
@@ -16,23 +14,21 @@ def connect2psql (autocommit=False, **kwargs):
 
 #def execute(exe,dbname="",user_name="",pw="",ht="",prt=""):
 def execute(exe,**kwargs):
-
-
-
     conn = connect2psql(**kwargs)
     cur = conn.cursor()
-    cur.execute(exe)
-    rows = cur.fetchall()
-    print(rows)
+    if (kwargs['psql_script']):
+        cur.execute(open(str(exe), "r").read()) 
+        print(cur.fetchall())
+    else: 
+        cur.execute(exe)
+        print(cur.fetchall())
+
+    cur.close()
     conn.close()
-    
+
+
 
 def csv2psql():
     print("csv2psql")
 
 
-
-
-
-#connect2psql("spak","spak","KapSat2400180000","/var/run/postgresql","5432")
-#connect2psql("SELECT * FROM example;",db_name="spak",user_name="spak")
