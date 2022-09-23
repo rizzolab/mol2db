@@ -23,7 +23,10 @@ def execute(exe,**kwargs):
         cur.execute(exe)
     #NOTE: I commented this out because I wanted to check if my sql scripts are working out
     #NOTE: 09/22/2022
-    #wt.write_exe(kwargs['output_name'],cur.fetchall())
+    if kwargs['output_name'] != None:
+        wt.write_exe(kwargs['output_name'],cur.fetchall())
+    else:
+        print("If you want the results to your query, you must specify output_file name")
    
     cur.close()
     conn.close()

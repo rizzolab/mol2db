@@ -44,8 +44,8 @@ cython:
 clean:
 	@rm -f ./mol2obj/*.c
 	@rm -f ./mol2obj/*.so
-	@rm -f ./write_mol/*.c
-	@rm -f ./write_mol/*.so
+	@rm -f ./write/*.c
+	@rm -f ./write/*.so
 	@rm -f ./psql_handeler/*.c
 	@rm -f ./psql_handeler/*.so
 	@rm -rf ./build
