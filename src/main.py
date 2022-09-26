@@ -40,14 +40,16 @@ command_mol2csv.add_argument('--null',dest='not_none', action="store_true",help=
 #arguments pertaining to only execute 
 command_str2exe = subparsers.add_parser('execute', help='to execute a sql string')
 command_str2exe.add_argument(dest='str_2_exe', help="input string or psql script")
-command_str2exe.add_argument('-ps','--psql_script',dest='psql_script', action="store_true", help="specify if you want to sql script(True) or not(False). No flag (False)")
 command_str2exe.add_argument('-o',dest='output_name', help="output_name")
+command_str2exe.add_argument('-ps','--psql_script',dest='psql_script', action="store_true", help="specify if you want to sql script(True) or not(False). No flag (False)")
 
 
 #arguments pertaining to csv2psql
 command_csv2psql = subparsers.add_parser('csv2psql', help='to load up csv into db')
-command_csv2psql.add_argument('-i',dest='input',required=True, help="input your csv file")
-command_csv2psql.add_argument('-t','--type',dest='csv_type',required=True,help="to know what set of molecule format")
+command_csv2psql.add_argument(dest='input_csv', help="input your csv file")
+
+#arguments pertaining to moltables
+command_moltables = subparsers.add_parser('moltables', help='to load up csv into db')
 
 #arguements pertaining to iniatedb
 command_iniatedb = subparsers.add_parser('create', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
@@ -65,6 +67,7 @@ args = parser.parse_args()
 #preparing kwargs with args 
 kwargs = kw.handle_kwargs(args)
 
+print(kwargs)
 ##decision tree here
 #give the path of the mol2 you want to process
 #SELECTED_JOB: raw mol2 to csv file for importation into the library 
@@ -82,8 +85,15 @@ elif (args.subcommand == "execute"):
     ap.execute(args.str_2_exe,**kwargs)
 
 elif (args.subcommand == "csv2psql"):
-    input_csv = args.input
+    input_csv = args.input_csv
+    exe = open(str('./sql_scripts/import_csv.sql'), "r").read()
+    #with open('./sql_scripts/import_csv.sql','r') as sql_lines: 
+    #    readlines = sql_lines.readlines()
+    ap.execute(exe,**kwargs)
 
+elif (args.subcommand == "moltables"):
+    exe = open(str('./sql_scripts/mol_tables.sql'), "r").read()
+    ap.execute(exe,**kwargs)
 elif (args.subcommand == "create"):
     db.initiatedb(**kwargs) 
 

@@ -17,16 +17,26 @@ def connect2psql (**kwargs):
 def execute(exe,**kwargs):
     conn = connect2psql(**kwargs)
     cur = conn.cursor()
-    if (kwargs['psql_script']):
-        cur.execute(open(str(exe), "r").read()) 
-    else: 
+    
+ 
+    if 'psql_script' in kwargs: 
+        if (kwargs['psql_script']== False):
+            cur.execute(exe)
+        else:
+            cur.execute(open(str(exe), "r").read()) 
+    else:
         cur.execute(exe)
+        
+
+
+
     #NOTE: I commented this out because I wanted to check if my sql scripts are working out
     #NOTE: 09/22/2022
-    if kwargs['output_name'] != None:
-        wt.write_exe(kwargs['output_name'],cur.fetchall())
-    else:
-        print("If you want the results to your query, you must specify output_file name")
+    if 'output_name' in kwargs:
+        if kwargs['output_name'] != None:
+            wt.write_exe(kwargs['output_name'],cur.fetchall())
+        else:
+            print("If you want the results to your query, you must specify output_file name")
    
     cur.close()
     conn.close()
