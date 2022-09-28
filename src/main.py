@@ -15,6 +15,9 @@ from write import write_mol as wm
 from psql_handeler import acc_psql as ap 
 from psql_handeler import database as db
 from argument_handeler import kwargs as kw 
+from sql_scripts import sql_script as ss 
+
+scripts = ss.SqlScripts()
 
 #start time
 start_time = time.time()
@@ -91,7 +94,8 @@ elif (args.subcommand == "csv2psql"):
     ap.execute(exe,**kwargs)
 
 elif (args.subcommand == "moltables"):
-    exe = open(file_dir + '/sql_scripts/mol_tables.sql', "r").read()
+    #exe = open(file_dir + '/sql_scripts/mol_tables.sql', "r").read()
+    exe = scripts.molTables
     ap.execute(exe,**kwargs)
 elif (args.subcommand == "create"):
     db.initiatedb(**kwargs) 
