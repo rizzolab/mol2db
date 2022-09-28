@@ -28,5 +28,3 @@ class SqlScripts:
                               PAINS_NAMES TEXT,
                               SMILES TEXT
                           );"""
-
-

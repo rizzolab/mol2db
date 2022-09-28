@@ -5,18 +5,20 @@ import os
 import argparse
 import csv
 import time
+import pkgutil
 
 #import dockmol class
 from mol2obj import mol2object as mol2obj
 
 #import other functions
 from mol2obj import utilities as ut
-from write import write_mol as wm
+from write import write_csv as wc
 from psql_handeler import acc_psql as ap 
 from psql_handeler import database as db
 from argument_handeler import kwargs as kw 
 from sql_scripts import sql_script as ss 
 
+#create an object from SqlScripts
 scripts = ss.SqlScripts()
 
 #start time

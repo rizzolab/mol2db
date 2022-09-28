@@ -3,7 +3,7 @@ import sys
 
 #import self-made modules
 import mol2obj.utilities as ut
-from write import write_mol as wm
+from write import write_csv as wc
 
 
 class Mol2obj:
@@ -262,7 +262,7 @@ def mol2obj2write(mol2s,output_name):
             obj.bonds["bond_type"]   = tmp_bond_type
            
             #write the python object 
-            wm.write_mol(output_name,obj)
+            wc.write_csv(output_name,obj)
 
             #clear the tmp_atom and tmp_bond and iterate to the next molecule         
             tmp_atom_num  = []

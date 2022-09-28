@@ -10,7 +10,7 @@ ext_modules = cythonize([
     Extension("mol2obj.mol2object", ["mol2obj/mol2object.py"]),
     Extension("mol2obj.utilities", ["mol2obj/utilities.py"]),
     Extension("write.write_exe", ["write/write_exe.py"]),
-    Extension("write.write_mol", ["write/write_mol.py"]),
+    Extension("write.write_csv", ["write/write_csv.py"]),
     Extension("psql_handeler.acc_psql", ["psql_handeler/acc_psql.py"]),
     Extension("psql_handeler.database", ["psql_handeler/database.py"])
     ],
