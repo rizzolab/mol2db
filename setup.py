@@ -11,9 +11,11 @@ setup(
     author_email='steven.pak10@gmail.com',    
     license='MIT license',
     #src is where all of the devloping code is
-    packages=find_packages(),
-    #package_dir={'': 'src'},
+    #packages=find_packages(),
+    package_dir={'': 'src'},
+    py_modules=["main","mol2obj/mol2object"],
     #
+    include_package_data=True,
     install_requires=['Cython','psycopg','pandas'],
 
     classifiers=[
