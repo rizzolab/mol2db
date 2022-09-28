@@ -1,7 +1,12 @@
 
+import csv
 #import psycopg, which is a python psql interfacing program
 import psycopg
+#import pandas
+import pandas as pd
+
 from write import write_exe as wt
+
 
 #def connect2psql (dbname="",user_name="",pw="",ht="",prt=""):
 def connect2psql (**kwargs):
@@ -13,25 +18,26 @@ def connect2psql (**kwargs):
     return conn
 
 
-#def execute(exe,dbname="",user_name="",pw="",ht="",prt=""):
 def execute(exe,**kwargs):
     conn = connect2psql(**kwargs)
-    cur = conn.cursor()
+    with conn.cursor() as cur:
     
- 
-    if 'psql_script' in kwargs: 
-        if (kwargs['psql_script']== False):
-            cur.execute(exe)
+        if 'psql_script' in kwargs: 
+            if (kwargs['psql_script']== False):
+                cur.execute(exe)
+            else:
+                cur.execute(open(str(exe), "r").read()) 
+        elif 'input_csv' in kwargs:
+            path = kwargs['input_csv']
+            df = pd.read_csv(path,delimiter='|')
+
+            with cur.copy("COPY molecules FROM STDIN ") as copy:
+                for ir in df.itertuples(index=False,name=None):
+                    copy.write_row(ir) 
+              
         else:
-            cur.execute(open(str(exe), "r").read()) 
-    else:
-        cur.execute(exe)
-        
+            cur.execute(exe)
 
-
-
-    #NOTE: I commented this out because I wanted to check if my sql scripts are working out
-    #NOTE: 09/22/2022
     if 'output_name' in kwargs:
         if kwargs['output_name'] != None:
             wt.write_exe(kwargs['output_name'],cur.fetchall())

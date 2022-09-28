@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 #import built-in python modules
 import sys
+import os
 import argparse
 import csv
 import time
@@ -86,13 +87,11 @@ elif (args.subcommand == "execute"):
 
 elif (args.subcommand == "csv2psql"):
     input_csv = args.input_csv
-    exe = open(str('./sql_scripts/import_csv.sql'), "r").read()
-    #with open('./sql_scripts/import_csv.sql','r') as sql_lines: 
-    #    readlines = sql_lines.readlines()
+    exe=""
     ap.execute(exe,**kwargs)
 
 elif (args.subcommand == "moltables"):
-    exe = open(str('./sql_scripts/mol_tables.sql'), "r").read()
+    exe = open(file_dir + '/sql_scripts/mol_tables.sql', "r").read()
     ap.execute(exe,**kwargs)
 elif (args.subcommand == "create"):
     db.initiatedb(**kwargs) 
