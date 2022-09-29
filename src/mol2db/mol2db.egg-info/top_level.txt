@@ -1,5 +1,0 @@
-argument_handeler
-mol2obj
-psql_handeler
-sql_scripts
-write
