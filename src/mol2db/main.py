@@ -15,7 +15,6 @@ from mol2db.mol2obj import utilities as ut
 from mol2db.write import write_csv as wc
 from mol2db.psql_handeler import acc_psql as ap 
 from mol2db.psql_handeler import database as db
-from mol2db.argument_handeler import kwargs as kw 
 from mol2db.sql_scripts import sql_script as ss 
 
 #create an object from SqlScripts
@@ -71,8 +70,8 @@ command_deletedb.add_argument(dest='DB_NAME', help="input your name of db")
 args = parser.parse_args()
 
 #preparing kwargs with args 
-kwargs = kw.handle_kwargs(args)
-
+kwargs = {}
+kwargs = vars(args)
 print(kwargs)
 ##decision tree here
 #give the path of the mol2 you want to process
