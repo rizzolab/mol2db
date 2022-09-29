@@ -1,6 +1,6 @@
 #This module creates a db with a specified name
 import psycopg
-from psql_handeler import acc_psql as ap
+from mol2db.psql_handeler import acc_psql as ap
 
 def initiatedb(**kwargs):
     conn = ap.connect2psql(**kwargs,autocommit=True)

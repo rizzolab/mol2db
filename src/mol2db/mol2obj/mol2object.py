@@ -2,8 +2,9 @@
 import sys
 
 #import self-made modules
-import mol2obj.utilities as ut
-from write import write_csv as wc
+#import mol2obj.utilities as ut
+import mol2db.mol2obj.utilities as ut
+from mol2db.write import write_csv as wc
 
 
 class Mol2obj:

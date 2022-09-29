@@ -5,7 +5,7 @@ import psycopg
 #import pandas
 import pandas as pd
 
-from write import write_exe as wt
+from mol2db.write import write_exe as wt
 
 
 #def connect2psql (dbname="",user_name="",pw="",ht="",prt=""):

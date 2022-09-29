@@ -8,15 +8,15 @@ import time
 import pkgutil
 
 #import dockmol class
-from mol2obj import mol2object as mol2obj
+from mol2db.mol2obj import mol2object as mol2obj
 
 #import other functions
-from mol2obj import utilities as ut
-from write import write_csv as wc
-from psql_handeler import acc_psql as ap 
-from psql_handeler import database as db
-from argument_handeler import kwargs as kw 
-from sql_scripts import sql_script as ss 
+from mol2db.mol2obj import utilities as ut
+from mol2db.write import write_csv as wc
+from mol2db.psql_handeler import acc_psql as ap 
+from mol2db.psql_handeler import database as db
+from mol2db.argument_handeler import kwargs as kw 
+from mol2db.sql_scripts import sql_script as ss 
 
 #create an object from SqlScripts
 scripts = ss.SqlScripts()
