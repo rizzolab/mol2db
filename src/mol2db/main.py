@@ -96,14 +96,13 @@ elif (args.subcommand == "csv2psql"):
     ap.execute(exe,**kwargs)
 
 elif (args.subcommand == "moltables"):
-    #exe = open(file_dir + '/sql_scripts/mol_tables.sql', "r").read()
     exe = scripts.molTables
     ap.execute(exe,**kwargs)
 elif (args.subcommand == "create"):
-    db.initiatedb(**kwargs) 
+    ap.initiatedb(**kwargs) 
 
 elif (args.subcommand == "delete"):
-    db.deletedb(**kwargs)
+    ap.deletedb(**kwargs)
 
 end_time = time.time()
 print('duration: ' + str(end_time - start_time)+ " seconds")

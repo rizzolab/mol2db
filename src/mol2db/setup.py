@@ -12,7 +12,6 @@ ext_modules = cythonize([
     Extension("write.write_exe", ["write/write_exe.py"]),
     Extension("write.write_csv", ["write/write_csv.py"]),
     Extension("psql_handeler.acc_psql", ["psql_handeler/acc_psql.py"]),
-    Extension("psql_handeler.database", ["psql_handeler/database.py"])
     ],
     compiler_directives={'language_level' : "3"}
 )
