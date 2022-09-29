@@ -43,10 +43,10 @@ all:
 	@make main
 
 main: main.c
-	$(CC) -Os -I $(INCDIR) -o ./src/mol2db/mol2db ./src/mol2db/main.c -l$(PYLIB) $(LIBS) $(SYSLIBS) $(LINKFORSHARED) 	
+	$(CC) -Os -I $(INCDIR) -o ./src/mol2db/m2db ./src/mol2db/main.c -l$(PYLIB) $(LIBS) $(SYSLIBS) $(LINKFORSHARED) 	
 	@mkdir ./bin
-	@mv ./src/mol2db/mol2db ./bin
-	#@cp -r ./src/* ./bin
+	@mv ./src/mol2db/m2db ./bin
+	cp -r ./src/mol2db/ ./bin
 
 main.c:
 	$(CYTHON) -3 --embed ./src/mol2db/main.py -o ./src/mol2db/main.c
