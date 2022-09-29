@@ -5,6 +5,7 @@ import sys
 #import mol2obj.utilities as ut
 import mol2db.mol2obj.utilities as ut
 from mol2db.write import write_csv as wc
+from mol2db.write import write_mol as wm
 
 
 class Mol2obj:
@@ -16,6 +17,8 @@ class Mol2obj:
                          "y":         [],
                          "z":         [],
                          "atom_type": [],
+                         "subst_id":  [],
+                         "subst_name":[], 
                          "charge":    [] 
                      } 
 
@@ -27,6 +30,8 @@ class Mol2obj:
 
 
                      } 
+        self.num_atoms = 0
+        self.num_bonds = 0
     ##getting name of molecule
     #def get_name(self):
     #    return f"{self.Name}"
@@ -89,6 +94,8 @@ def raw_to_objects(mol2s,objs):
     tmp_y         = []
     tmp_z         = []
     tmp_atom_type = []
+    tmp_subst_id  = []
+    tmp_subst_name= []
     tmp_charge    = []
 
 
@@ -132,6 +139,8 @@ def raw_to_objects(mol2s,objs):
             tmp_y.append(float(line.split()[3]))         
             tmp_z.append(float(line.split()[4]))         
             tmp_atom_type.append(str(line.split()[5]))
+            tmp_subst_id.append(int(line.split()[6]))
+            tmp_subst_name.append(str(line.split()[7]))
             tmp_charge.append(float(line.split()[-1]))
     
         #if line is an bond line
@@ -155,12 +164,17 @@ def raw_to_objects(mol2s,objs):
             objs[mol_count].atoms["y"]           = tmp_y       
             objs[mol_count].atoms["z"]           = tmp_z
             objs[mol_count].atoms["atom_type"]   = tmp_atom_type
+            objs[mol_count].atoms["subst_id"]    = tmp_subst_id
+            objs[mol_count].atoms["subst_name"]  = tmp_subst_name
             objs[mol_count].atoms["charge"]      = tmp_charge
            
             objs[mol_count].bonds["bond_num"]    = tmp_bond_num
             objs[mol_count].bonds["bond_first"]  = tmp_bond_first
             objs[mol_count].bonds["bond_second"] = tmp_bond_second
             objs[mol_count].bonds["bond_type"]   = tmp_bond_type
+ 
+            objs[mol_count].num_atoms = len(tmp_atom_num)
+            objs[mol_count].num_bonds = len(tmp_bond_num)
 
 
             #clear the tmp_atom and tmp_bond and iterate to the next molecule         
@@ -170,6 +184,8 @@ def raw_to_objects(mol2s,objs):
             tmp_y         = []
             tmp_z         = []
             tmp_atom_type = []
+            tmp_subst_id  = []
+            tmp_subst_name= []
             tmp_charge    = []
 
             tmp_bond_num    = []
@@ -187,6 +203,8 @@ def mol2obj2write(mol2s,output_name):
     tmp_y         = []
     tmp_z         = []
     tmp_atom_type = []
+    tmp_subst_id  = []
+    tmp_subst_name= []
     tmp_charge    = []
 
 
@@ -232,6 +250,8 @@ def mol2obj2write(mol2s,output_name):
             tmp_y.append(float(line.split()[3]))
             tmp_z.append(float(line.split()[4]))
             tmp_atom_type.append(str(line.split()[5]))
+            tmp_subst_id.append(int(line.split()[6]))
+            tmp_subst_name.append(str(line.split()[7]))
             tmp_charge.append(float(line.split()[-1]))
 
         #if line is an bond line
@@ -255,15 +275,21 @@ def mol2obj2write(mol2s,output_name):
             obj.atoms["y"]           = tmp_y
             obj.atoms["z"]           = tmp_z
             obj.atoms["atom_type"]   = tmp_atom_type
+            obj.atoms["subst_id"]    = tmp_subst_id
+            obj.atoms["subst_name"]  = tmp_subst_name
             obj.atoms["charge"]      = tmp_charge
 
             obj.bonds["bond_num"]    = tmp_bond_num
             obj.bonds["bond_first"]  = tmp_bond_first
             obj.bonds["bond_second"] = tmp_bond_second
             obj.bonds["bond_type"]   = tmp_bond_type
+
+            obj.num_atoms            = len(tmp_atom_num)
+            obj.num_bonds            = len(tmp_bond_num)
            
             #write the python object 
-            wc.write_csv(output_name,obj)
+            #wc.write_csv(output_name,obj)
+            wm.write_mol(output_name,obj)
 
             #clear the tmp_atom and tmp_bond and iterate to the next molecule         
             tmp_atom_num  = []
@@ -272,6 +298,8 @@ def mol2obj2write(mol2s,output_name):
             tmp_y         = []
             tmp_z         = []
             tmp_atom_type = []
+            tmp_subst_id  = [] 
+            tmp_subst_name= []
             tmp_charge    = []
 
             tmp_bond_num    = []

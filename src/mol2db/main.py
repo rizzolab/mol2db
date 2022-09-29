@@ -14,7 +14,6 @@ from mol2db.mol2obj import mol2object as mol2obj
 from mol2db.mol2obj import utilities as ut
 from mol2db.write import write_csv as wc
 from mol2db.psql_handeler import acc_psql as ap 
-from mol2db.psql_handeler import database as db
 from mol2db.sql_scripts import sql_script as ss 
 
 #create an object from SqlScripts
