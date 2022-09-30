@@ -4,7 +4,12 @@ def write_mol(output_name,mol):
     output_name = 'output.mol2' 
 
     with open(output_name,'a') as write_file: 
+
         #using f string to fill the atom_string
+   
+        #NOTE: saving this to write out the header information for write_mol
+        header_string  = f'##########'
+
         atom_string = f'' 
         for num in range(0,mol.num_atoms):
             atom_string += f"{mol.atoms['atom_num'][num]:{7}} "
