@@ -6,6 +6,7 @@ import psycopg
 import pandas as pd
 
 from mol2db.write import write_exe as wt
+from mol2db.write import write_mol as wm
 
 
 def connect2psql (**kwargs):
@@ -50,6 +51,9 @@ def execute(exe,**kwargs):
         sys.exit("Error in closing cursor.") 
 
 
+
+
+
     try: 
         conn.close()
         print("Closed database successfully")
@@ -62,8 +66,13 @@ def csv2psql():
     print("csv2psql")
 
 
+def psql2mol2():
+    return
 
 
+
+
+#creating and deleting databases
 def initiatedb(**kwargs):
     conn = connect2psql(**kwargs,autocommit=True)
     print("Opened database successfully. Connected with postgres db")
