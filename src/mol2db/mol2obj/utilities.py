@@ -8,8 +8,8 @@ import sys
 import csv
 import time
 
-
-
+#import header_dict
+from mol2db.parameters.headers import header_dict as hd
 
 
 #this function accepts an array of elements and check each element is a
@@ -121,10 +121,6 @@ def calc_num_mol(mol2):
             return_num+=1
     return return_num
 
-
-
-
-
 def get_headers_names(mol2s):
     header_names = []
     return_array = []
@@ -148,5 +144,14 @@ def get_headers_names(mol2s):
     return return_array
 
 
+def process_headers_names(old_headers,hd):
+    return_arr_of_dict = []
+    tmp_dict = dict()
+    for val in hd.values():
+        tmp_dict[val] = False
 
+    for j in range(len(old_headers)):
+        if old_headers[j] in hd.keys():
+            tmp_dict[hd[old_headers[j]]] = True
 
+    return tmp_dict
