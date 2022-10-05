@@ -7,6 +7,8 @@ class SqlScripts:
         self.molTables = """CREATE TABLE molecules(
                               ATOMS JSON NOT NULL,
                               BONDS JSON NOT NULL,
+                              NUM_ATOMS INT,
+                              NUM_BONDS INT,
                               NAME TEXT PRIMARY KEY NOT NULL,
                               MW DECIMAL,
                               ROT_BONDS INT,
