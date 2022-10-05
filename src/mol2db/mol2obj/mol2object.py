@@ -31,30 +31,30 @@ class Mol2obj:
 
 
                      } 
-        self.num_atoms      = 0
-        self.num_bonds      = 0
+        self.num_atoms      = None 
+        self.num_bonds      = None 
  
         # header attributes
-        self.name           = ''
-        self.mw             = 0.0
-        self.rot_bond       = 0
-        self.charge         = 0.0
-        self.hba            = 0
-        self.hbd            = 0
-        self.heavy_atoms    = 0
-        self.num_atom_rings = 0
-        self.num_alip_rings = 0
-        self.num_sat_rings  = 0
-        self.num_stereo     = 0
-        self.num_spiro      = 0
-        self.logp           = 0.0
-        self.tpsa           = 0.0
-        self.syntha         = 0.0
-        self.qed            = 0.0
-        self.logs           = 0.0 
-        self.num_pain       = 0.0
-        self.pains_names    = ''
-        self.smiles         = '' 
+        self.name           = None 
+        self.mw             = None 
+        self.rot_bond       = None 
+        self.charge         = None 
+        self.hba            = None 
+        self.hbd            = None 
+        self.heavy_atoms    = None 
+        self.num_atom_rings = None 
+        self.num_alip_rings = None 
+        self.num_sat_rings  = None 
+        self.num_stereo     = None 
+        self.num_spiro      = None 
+        self.logp           = None 
+        self.tpsa           = None 
+        self.syntha         = None 
+        self.qed            = None 
+        self.logs           = None  
+        self.num_pain       = None 
+        self.pains_names    = None 
+        self.smiles         = None 
     ##getting name of molecule
     #def get_name(self):
     #    return f"{self.Name}"
@@ -248,7 +248,6 @@ def mol2obj2write(mol2s,output_name):
             #print(headers[i][j])
     for l in headers:
         mol2_dict.append(ut.process_headers_names(l,hd))
-    print(mol2_dict)
 
     #iniate molecule and descriptor counters to access molecule headers
     mol_count       = 0
@@ -259,14 +258,21 @@ def mol2obj2write(mol2s,output_name):
     #loop through the mol2 texts via line 
     for i,line in enumerate(mol2s,0):
         if (ut.if_header(line)):
-            if len(line.split()) != 3:
-                print("Line_"+str(i)+ ": missing descriptors or corrupted header line  " )
-                setattr(obj,headers[mol_count][des_count],"NULL")
-            else:
-                #set attribute name, since the object as no set attributes, set the attributes here
-                setattr(obj,headers[mol_count][des_count],line.split()[2])
-            #print(getattr(obj,headers[mol_count][des_count]))
-            des_count += 1
+            #for key,value in mol2_dict[i].items():
+            tmp_header_name = line.split()[1].replace(":","")
+            if mol2_dict[mol_count][hd[tmp_header_name]]:
+                setattr(obj,hd[tmp_header_name],line.split()[2])
+            else: 
+                setattr(obj,hd[tmp_header_name],None)
+
+            #if len(line.split()) != 3:
+            #    print("Line_"+str(i)+ ": missing descriptors or corrupted header line  " )
+            #    setattr(obj,headers[mol_count][des_count],"NULL")
+            #else:
+            #    #set attribute name, since the object as no set attributes, set the attributes here
+            #    setattr(obj,headers[mol_count][des_count],line.split()[2])
+            ##print(getattr(obj,headers[mol_count][des_count]))
+            #des_count += 1
 
         #if line is an atom line    
         if (ut.if_atom(line)):
@@ -315,8 +321,9 @@ def mol2obj2write(mol2s,output_name):
             obj.num_bonds            = len(tmp_bond_num)
            
             #write the python object 
-            #wc.write_csv(output_name,obj)
-            wm.write_mol(output_name,obj)
+            print(obj.rot_bond)
+            wc.write_csv(output_name,obj)
+            #wm.write_mol(output_name,obj)
 
             #clear the tmp_atom and tmp_bond and iterate to the next molecule         
             tmp_atom_num  = []
@@ -350,4 +357,4 @@ def mol2obj2write(mol2s,output_name):
 
 
             mol_count += 1
-            des_count = 0
+            #des_count = 0
