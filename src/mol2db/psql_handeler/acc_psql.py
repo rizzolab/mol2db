@@ -21,34 +21,34 @@ def connect2psql (**kwargs):
 
 def execute(exe,**kwargs):
     conn = connect2psql(**kwargs)
-    try:
-        with conn.cursor() as cur:
-        
-            if 'psql_script' in kwargs: 
-                if (kwargs['psql_script']== False):
-                    cur.execute(exe)
-                else:
-                    cur.execute(open(str(exe), "r").read()) 
-            elif 'input_csv' in kwargs:
-                path = kwargs['input_csv']
-                df = pd.read_csv(path,delimiter='|')
-
-                with cur.copy("COPY molecules FROM STDIN ") as copy:
-                    for ir in df.itertuples(index=False,name=None):
-                        copy.write_row(ir) 
-                  
-            else:
+#    try:
+    with conn.cursor() as cur:
+    
+        if 'psql_script' in kwargs: 
+            if (kwargs['psql_script']== False):
                 cur.execute(exe)
-
-        if 'output_name' in kwargs:
-            if kwargs['output_name'] != None:
-                wt.write_exe(kwargs['output_name'],cur.fetchall())
             else:
-                print("If you want the results to your query, you must specify output_file name")
+                cur.execute(open(str(exe), "r").read()) 
+        elif 'input_csv' in kwargs:
+            path = kwargs['input_csv']
+            df = pd.read_csv(path,delimiter='|',header=None)
+            with cur.copy("COPY molecules FROM STDIN ") as copy:
+                for ir in df.itertuples(index=False,name=None):
+                    print(ir)
+                    copy.write_row(ir) 
+              
+        else:
+            cur.execute(exe)
+
+    if 'output_name' in kwargs:
+        if kwargs['output_name'] != None:
+            wt.write_exe(kwargs['output_name'],cur.fetchall())
+        else:
+            print("If you want the results to your query, you must specify output_file name")
    
-        cur.close()
-    except:
-        sys.exit("Error in closing cursor.") 
+    cur.close()
+#    except:
+#        sys.exit("Error in closing cursor.") 
 
 
 
