@@ -5,6 +5,8 @@ import psycopg
 #import pandas
 import pandas as pd
 
+import numpy as np
+
 from mol2db.write import write_exe as wt
 from mol2db.write import write_mol as wm
 
@@ -31,10 +33,20 @@ def execute(exe,**kwargs):
                 cur.execute(open(str(exe), "r").read()) 
         elif 'input_csv' in kwargs:
             path = kwargs['input_csv']
-            df = pd.read_csv(path,delimiter='|',header=None)
+
+
+            #read in csv file setting header and na_filter to False
+            #na_filter is set to False because we want to create an empty string for the .replace() func
+            df = pd.read_csv(path,delimiter='|',header=None,na_filter=False)
+             
+            #to replace all empty strings with None value so it can be pass 
+            #through psql tables
+            df.replace(to_replace='',value=None,inplace=True)
+
+            #insert an iteratable tuple (row) into the psql database
             with cur.copy("COPY molecules FROM STDIN ") as copy:
                 for ir in df.itertuples(index=False,name=None):
-                    print(ir)
+                    #print(ir)
                     copy.write_row(ir) 
               
         else:
