@@ -43,7 +43,7 @@ def execute(exe,**kwargs):
             #through psql tables
             df.replace(to_replace='',value=None,inplace=True)
 
-            #insert an iteratable tuple (row) into the psql database
+            #import an iteratable tuple (row) into the psql database
             with cur.copy("COPY molecules FROM STDIN ") as copy:
                 for ir in df.itertuples(index=False,name=None):
                     #print(ir)

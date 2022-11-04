@@ -41,6 +41,12 @@ command_mol2csv.add_argument('-i',dest='input',required=True, help="input a mol2
 command_mol2csv.add_argument('-o',dest='name_csv', help="Feed output file name")
 command_mol2csv.add_argument('--null',dest='not_none', action="store_true",help="output in the csv to have NULL, instead of being empty")
 
+#arguments pertaining to only csv2mol2
+command_csv2mol2 = subparsers.add_parser('csv2mol2',help="to convert csv file into mol2 file")
+command_csv2mol2.add_argument('-i',dest='input',required=True,help="input a csv file")
+command_csv2mol2.add_argument('-o',dest='name_mol2',help="Feed output file name")
+
+
 #arguments pertaining to only execute 
 command_str2exe = subparsers.add_parser('execute', help='to execute a sql string')
 command_str2exe.add_argument(dest='str_2_exe', help="input string or psql script")
@@ -76,6 +82,9 @@ args = parser.parse_args()
 kwargs = {}
 kwargs = vars(args)
 print(kwargs)
+
+
+
 ##decision tree here
 #give the path of the mol2 you want to process
 #SELECTED_JOB: raw mol2 to csv file for importation into the library 
@@ -88,6 +97,12 @@ if (args.subcommand == "mol2csv"):
     
     ##convert mol2 file into mol2objects and write them into .mol2 files
     mol2obj.mol2obj2write(read_files,output_name)
+elif (args.subcommand == "csv2mol2"):
+    input_csv   = kwargs['input']
+    output_name = kwargs['name_mol2']
+
+    mol2obj.csv2mol2write(input_csv,output_name)   
+     
 
 elif (args.subcommand == "execute"):
     ap.execute(args.str_2_exe,**kwargs)

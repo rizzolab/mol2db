@@ -1,6 +1,9 @@
 #import built-in
 import sys
 
+#import pandas
+import pandas as pd
+
 #import self-made modules
 #import mol2obj.utilities as ut
 import mol2db.mol2obj.utilities as ut
@@ -218,6 +221,24 @@ class Mol2obj:
 #            tmp_bond_type   = []
 #            mol_count += 1
 #            des_count = 0
+
+
+def csv2mol2write(input_csv,output_name):
+    df = pd.read_csv(input_csv,delimiter='|',header=None,na_filter=False)
+    df.replace(to_replace='',value=None,inplace=True)
+
+
+    #access column of atoms information (coordinates, atom types, etc)
+   
+    for row_num in range(0,len(df)): 
+        print(df[0][row_num]) 
+
+   
+    print(df[0])
+
+    print("csv2mol2write")
+
+
 
 
 def mol2obj2write(mol2s,output_name):
