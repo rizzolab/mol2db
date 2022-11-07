@@ -227,17 +227,50 @@ def csv2mol2write(input_csv,output_name):
     df = pd.read_csv(input_csv,delimiter='|',header=None,na_filter=False)
     df.replace(to_replace='',value=None,inplace=True)
 
+    tmp_atom_num  = []
+    tmp_atom_name = []
+    tmp_x         = []
+    tmp_y         = []
+    tmp_z         = []
+    tmp_atom_type = []
+    tmp_subst_id  = []
+    tmp_subst_name= []
+    tmp_charge    = []
 
+
+    tmp_bond_num    = []
+    tmp_bond_first  = []
+    tmp_bond_second = []
+    tmp_bond_type   = []
+
+    obj = Mol2obj()
     #access column of atoms information (coordinates, atom types, etc)
-   
     for row_num in range(0,len(df)): 
-        print(df[0][row_num]) 
+        print(df[0][row_num])
+        ##if line is an atom line    
+    
+        dict_atom = dict(df[0][row_num])
+        print(dict_atom)
+        tmp_atom_num= df[0][row_num].get("atom_num")
+        print(tmp_atom_num)
 
-   
-    print(df[0])
+        #tmp_atom_name.append(str(line.split()[1]))
+        #tmp_x.append(float(line.split()[2]))
+        #tmp_y.append(float(line.split()[3]))
+        #tmp_z.append(float(line.split()[4]))
+        #tmp_atom_type.append(str(line.split()[5]))
+        #tmp_subst_id.append(int(line.split()[6]))
+        #tmp_subst_name.append(str(line.split()[7]))
+        #tmp_charge.append(float(line.split()[-1]))
 
+        ##if line is an bond line
+        #tmp_bond_num.append(int(line.split()[0]))
+        #tmp_bond_first.append(int(line.split()[1]))
+        #tmp_bond_second.append(int(line.split()[2]))
+        #tmp_bond_type.append(str(line.split()[3]))
+    
+    #wm.write_mol(output_name,obj)
     print("csv2mol2write")
-
 
 
 
@@ -342,9 +375,7 @@ def mol2obj2write(mol2s,output_name):
             obj.num_bonds            = len(tmp_bond_num)
            
             #write the python object 
-            print(obj.rot_bond)
             wc.write_csv(output_name,obj)
-            #wm.write_mol(output_name,obj)
 
             #clear the tmp_atom and tmp_bond and iterate to the next molecule         
             tmp_atom_num  = []
