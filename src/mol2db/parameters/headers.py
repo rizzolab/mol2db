@@ -24,6 +24,30 @@ header_dict = {
                   "RD_SMILES": "smiles"         
 }
 
+header_dict_reverse = {
+       "name"           :                "Name",
+       "mw"             :    "Molecular_Weight",
+       "rot_bond"       :"DOCK_Rotatable_Bonds",
+       "charge"         :       "Formal_Charge",
+       "hba"            :     "HBond_Acceptors",
+       "hbd"            :        "HBond_Donors",
+       "heavy_atoms"    :         "Heavy_Atoms",
+       "num_atom_rings" :   "RD_num_arom_rings",
+       "num_alip_rings" :   "RD_num_alip_rings",
+       "num_sat_rings"  :    "RD_num_sat_rings",
+       "num_stereo"     :    "RD_Stereocenters",
+       "num_spiro"      :      "RD_Spiro_atoms",
+       "logp"           :             "RD_LogP",
+       "tpsa"           :             "RD_TPSA",
+       "syntha"         :           "RD_SYNTHA",
+       "qed"            :              "RD_QED",
+       "logs"           :             "RD_LogS",
+       "num_pain"       :     "RD_num_of_PAINS",
+       "pains_names"    :      "RD_PAINS_names",
+       "smiles"         :           "RD_SMILES"
+}
+
+
 
 pandas_dict = {
              #0:pd.StringDtype(),

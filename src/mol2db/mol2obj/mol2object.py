@@ -1,5 +1,6 @@
 #import built-in
 import sys
+import json
 
 #import pandas
 import pandas as pd
@@ -246,30 +247,86 @@ def csv2mol2write(input_csv,output_name):
     obj = Mol2obj()
     #access column of atoms information (coordinates, atom types, etc)
     for row_num in range(0,len(df)): 
-        print(df[0][row_num])
-        ##if line is an atom line    
-    
-        dict_atom = dict(df[0][row_num])
-        print(dict_atom)
-        tmp_atom_num= df[0][row_num].get("atom_num")
-        print(tmp_atom_num)
 
-        #tmp_atom_name.append(str(line.split()[1]))
-        #tmp_x.append(float(line.split()[2]))
-        #tmp_y.append(float(line.split()[3]))
-        #tmp_z.append(float(line.split()[4]))
-        #tmp_atom_type.append(str(line.split()[5]))
-        #tmp_subst_id.append(int(line.split()[6]))
-        #tmp_subst_name.append(str(line.split()[7]))
-        #tmp_charge.append(float(line.split()[-1]))
+        ##if line is an atom line    
+        dict_atom = json.loads(df[0][row_num])
+        tmp_atom_num   = dict_atom["atom_num"]
+        tmp_atom_name  = dict_atom["atom_name"]
+        tmp_x          = dict_atom["x"] 
+        tmp_y          = dict_atom["y"] 
+        tmp_z          = dict_atom["z"] 
+        tmp_atom_type  = dict_atom["atom_type"]
+        tmp_subst_id   = dict_atom["subst_id"]
+        tmp_subst_name = dict_atom["subst_name"]
+        tmp_charge     = dict_atom["charge"]
 
         ##if line is an bond line
-        #tmp_bond_num.append(int(line.split()[0]))
-        #tmp_bond_first.append(int(line.split()[1]))
-        #tmp_bond_second.append(int(line.split()[2]))
-        #tmp_bond_type.append(str(line.split()[3]))
-    
-    #wm.write_mol(output_name,obj)
+        dict_bond = json.loads(df[1][row_num])
+        tmp_bond_num   = dict_bond["bond_num"]
+        tmp_bond_first = dict_bond["bond_first"] 
+        tmp_bond_second= dict_bond["bond_second"] 
+        tmp_bond_type  = dict_bond["bond_type"]
+   
+        obj.atoms["atom_num"]    = tmp_atom_num
+        obj.atoms["atom_name"]   = tmp_atom_name
+        obj.atoms["x"]           = tmp_x
+        obj.atoms["y"]           = tmp_y
+        obj.atoms["z"]           = tmp_z
+        obj.atoms["atom_type"]   = tmp_atom_type
+        obj.atoms["subst_id"]    = tmp_subst_id
+        obj.atoms["subst_name"]  = tmp_subst_name
+        obj.atoms["charge"]      = tmp_charge
+
+        obj.bonds["bond_num"]    = tmp_bond_num
+        obj.bonds["bond_first"]  = tmp_bond_first
+        obj.bonds["bond_second"] = tmp_bond_second
+        obj.bonds["bond_type"]   = tmp_bond_type
+
+        obj.num_atoms            = len(tmp_atom_num)
+        obj.num_bonds            = len(tmp_bond_num) 
+       
+        obj.name                 = df[4][row_num] 
+        obj.mw                   = df[5][row_num] 
+        obj.rot_bond             = df[6][row_num] 
+        obj.charge               = df[7][row_num] 
+        obj.hba                  = df[8][row_num] 
+        obj.hbd                  = df[9][row_num] 
+        obj.heavy_atoms          = df[10][row_num] 
+        obj.num_atom_rings       = df[11][row_num] 
+        obj.num_alip_rings       = df[12][row_num] 
+        obj.num_sat_rings        = df[13][row_num] 
+        obj.num_stereo           = df[14][row_num] 
+        obj.num_spiro            = df[15][row_num] 
+        obj.logp                 = df[16][row_num] 
+        obj.tpsa                 = df[17][row_num] 
+        obj.syntha               = df[18][row_num] 
+        obj.qed                  = df[19][row_num] 
+        obj.logs                 = df[20][row_num] 
+        obj.num_pain             = df[21][row_num] 
+        obj.pains_names          = df[22][row_num] 
+        obj.smiles               = df[23][row_num] 
+      
+        print(obj.logp) 
+        
+        wm.write_mol(output_name,obj)
+
+        #clear the tmp_atom and tmp_bond and iterate to the next molecule         
+        tmp_atom_num  = []
+        tmp_atom_name = []
+        tmp_x         = []
+        tmp_y         = []
+        tmp_z         = []
+        tmp_atom_type = []
+        tmp_subst_id  = []
+        tmp_subst_name= []
+        tmp_charge    = []
+
+        tmp_bond_num    = []
+        tmp_bond_first  = []
+        tmp_bond_second = []
+        tmp_bond_type   = []
+
+        obj.clear()
     print("csv2mol2write")
 
 
