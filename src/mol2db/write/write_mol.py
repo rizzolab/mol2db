@@ -13,7 +13,10 @@ def write_mol(output_name,mol):
 
         header_string  = f''
         for key,value in hdr.items():
-            header_string += f"{hashT:{22}}{value:>25}:{getattr(mol,key):>20}\n"       
+            if (getattr(mol,key)==None):
+                header_string += f"{hashT:{22}}{value:>25}:{'':>20}\n"
+            else:
+                header_string += f"{hashT:{22}}{value:>25}:{getattr(mol,key):>20}\n"       
 
         atom_string = f'' 
         for num in range(0,mol.num_atoms):

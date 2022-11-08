@@ -306,7 +306,7 @@ def csv2mol2write(input_csv,output_name):
         obj.pains_names          = df[22][row_num] 
         obj.smiles               = df[23][row_num] 
       
-        print(obj.logp) 
+        print(obj.name) 
         
         wm.write_mol(output_name,obj)
 
