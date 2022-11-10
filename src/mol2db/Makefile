@@ -48,6 +48,8 @@ clean:
 	@rm -f ./write/*.so
 	@rm -f ./parameters/*.c
 	@rm -f ./parameters/*.so
+	@rm -f ./sql_scripts/*.c
+	@rm -f ./sql_scripts/*.so
 	@rm -f ./psql_handeler/*.c
 	@rm -f ./psql_handeler/*.so
 	@rm -rf ./build
@@ -59,6 +61,8 @@ localclean:
 	@rm -f ./write/*.so
 	@rm -f ./parameters/*.c
 	@rm -f ./parameters/*.so
+	@rm -f ./sql_scripts/*.c
+	@rm -f ./sql_scripts/*.so
 	@rm -f ./psql_handeler/*.c
 	@rm -f ./psql_handeler/*.so
 	@rm -rf ./build
