@@ -306,8 +306,6 @@ def csv2mol2write(input_csv,output_name):
         obj.pains_names          = df[22][row_num] 
         obj.smiles               = df[23][row_num] 
       
-        print(obj.name) 
-        
         wm.write_mol(output_name,obj)
 
         #clear the tmp_atom and tmp_bond and iterate to the next molecule         

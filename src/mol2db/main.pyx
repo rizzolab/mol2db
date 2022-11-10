@@ -102,7 +102,6 @@ elif (args.subcommand == "csv2mol2"):
     output_name = kwargs['name_mol2']
 
     mol2obj.csv2mol2write(input_csv,output_name)   
-     
 
 elif (args.subcommand == "execute"):
     ap.execute(args.str_2_exe,**kwargs)

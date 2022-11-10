@@ -2,7 +2,8 @@ from mol2db.parameters.headers import header_dict_reverse as hdr
 
 def write_mol(output_name,mol):
 
-    output_name = 'output.mol2' 
+    if output_name == None:
+        output_name = "output.mol2"
 
     with open(output_name,'a') as write_file: 
 
