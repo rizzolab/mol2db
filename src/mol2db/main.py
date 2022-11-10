@@ -59,7 +59,7 @@ command_csv2psql = subparsers.add_parser('csv2psql', help='to load up csv into d
 command_csv2psql.add_argument(dest='input_csv', help="input your csv file")
 
 #arguments pertaining to moltables
-command_moltables = subparsers.add_parser('moltables', help='to load up csv into db')
+command_moltables = subparsers.add_parser('moltables', help='to create a molecular table')
 
 ##arguments pertaining to psql2mol2
 #command_psql2mol2 = subparsers.add_parser('psql2mol2', help='to load up csv into db')
