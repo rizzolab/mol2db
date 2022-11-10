@@ -84,7 +84,7 @@ positional arguments:
     csv2mol2            to convert csv file into mol2 file
     execute             to execute a sql string
     csv2psql            to load up csv into db
-    moltables           to load up csv into db
+    moltables           to create a molecular table
     create              to create your own db. This command will initially connect db
                         named "postgres" under your username. This should be created by
                         default when installing psql. Then it will create the dbname of
