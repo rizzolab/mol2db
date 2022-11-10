@@ -45,7 +45,7 @@ all:
 main: main.c
 	$(CC) -Os -I $(INCDIR) -o ./src/mol2db/m2db ./src/mol2db/main.c -l$(PYLIB) $(LIBS) $(SYSLIBS) $(LINKFORSHARED) 	
 	@mkdir ./bin
-	cp -r ./src/mol2db/ ./bin
+	mv ./src/mol2db/m2db ./bin
 
 main.c:
 	$(CYTHON) -3 --embed ./src/mol2db/main.pyx -o ./src/mol2db/main.c
