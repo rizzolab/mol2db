@@ -46,6 +46,20 @@ clean:
 	@rm -f ./mol2obj/*.so
 	@rm -f ./write/*.c
 	@rm -f ./write/*.so
+	@rm -f ./parameters/*.c
+	@rm -f ./parameters/*.so
 	@rm -f ./psql_handeler/*.c
 	@rm -f ./psql_handeler/*.so
 	@rm -rf ./build
+
+localclean:
+	@rm -f ./mol2obj/*.c
+	@rm -f ./mol2obj/*.so
+	@rm -f ./write/*.c
+	@rm -f ./write/*.so
+	@rm -f ./parameters/*.c
+	@rm -f ./parameters/*.so
+	@rm -f ./psql_handeler/*.c
+	@rm -f ./psql_handeler/*.so
+	@rm -rf ./build
+	@rm -f *.c *.so
