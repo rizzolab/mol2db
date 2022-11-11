@@ -4,26 +4,31 @@ Mol2db is a python-based software to interface with your mol2-based molecular li
 
 
 ## requirements
-Cython is an optional to install. Pandas and psycopg (not psycopg2) are required to install this build. 
-Cython converts python code into C-code. 
+Cython is an optional to install, but it is recommended because cython is used to make a binary. Pandas, psycopg (not psycopg2), and psql are required to install this build. 
 
+Cython is a python to C compiler. Cython, in this case, makes a binary to combine all python scripts created for this project.
 To install:
-` 
+```
 pip install Cython
-`
+```
 
 Pandas is a data manipulation tool. 
 To install: 
-`
+```
 pip install pandas
-`
+```
 
 psycopg is a PostgreSQL python adaptor. This build does not use psycopg2
 To install:
-`
+```
 pip install psycopg
-`
+```
 
+psql (PostgreSQL) is a open source object-relational database system
+To install:
+```
+apt-get install postgresql-12
+```
 
 ## Installation with Cython
 
