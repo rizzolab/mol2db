@@ -9,15 +9,16 @@ import numpy as np
 
 from mol2db.write import write_exe as wt
 from mol2db.write import write_mol as wm
+#from mol2db.sql_scripts import sql_script as ss
 
 
 def connect2psql (**kwargs):
 
-    try: 
-        conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=kwargs['auto_commit'])
-        print("Opened database successfully")
-    except:
-        sys.exit("ERROR in accessing database. Please double check on your psql set up")
+    #try: 
+    conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=kwargs['auto_commit'])
+    print("Opened database successfully")
+    #except:
+    #    sys.exit("ERROR in accessing database. Please double check on your psql set up")
     return conn
 
 
@@ -48,15 +49,15 @@ def execute(exe,**kwargs):
                 for ir in df.itertuples(index=False,name=None):
                     #print(ir)
                     copy.write_row(ir) 
-              
         else:
             cur.execute(exe)
 
-    if 'output_name' in kwargs:
-        if kwargs['output_name'] != None:
-            wt.write_exe(kwargs['output_name'],cur.fetchall())
-        else:
-            print("If you want the results to your query, you must specify output_file name")
+        if 'output_name' in kwargs:
+            if kwargs['output_name'] != None:
+                wt.write_exe(kwargs['output_name'],cur.fetchall())
+            else:
+                for i, line in enumerate(cur.fetchall(),0): print(str(i)+" RESULTS: "+str(line))
+                print("If you want the results to query to an output file, you must specify output_file name")
    
     cur.close()
 #    except:
@@ -103,3 +104,15 @@ def deletedb(**kwargs):
     cur.execute('DROP DATABASE ' + i_dbname)
     conn.close()
     print(i_dbname+' db was deleted')
+
+def ifex(exe,**kwargs):
+    conn = connect2psql(**kwargs,autocommit=True)
+    print("Opened database successfully. Connected with postgres db")
+    cur = conn.cursor()
+    cur.execute(exe)
+    for i, line in enumerate(cur.fetchall(),0):
+        if True in line: 
+            print("Table named "+kwargs["component"] + " does exists in " + kwargs["dbname"])
+        else:
+            print("Table named "+kwargs["component"] + " does not exists in " + kwargs["dbname"])
+    conn.close()

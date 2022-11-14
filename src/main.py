@@ -74,6 +74,9 @@ command_iniatedb.add_argument(dest='DB_NAME', help="input your name of db")
 command_deletedb = subparsers.add_parser('delete', help='to delete your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
 command_deletedb.add_argument(dest='DB_NAME', help="input your name of db")
 
+#arguments pertaining to ifexist
+command_ifexist = subparsers.add_parser('ifex', help='if components of psql exists')
+command_ifexist.add_argument(dest='component', help='to see if component in a selected database name exist')
 
 #make args object
 args = parser.parse_args()
@@ -119,6 +122,13 @@ elif (args.subcommand == "create"):
 
 elif (args.subcommand == "delete"):
     ap.deletedb(**kwargs)
+
+elif (args.subcommand == "ifex"):
+    if kwargs["dbname"] == None:
+        print("dbname must be specified")
+        exit(0)
+    exe = scripts.ifex(args.dbname,args.component)
+    ap.ifex(exe,**kwargs)
 
 end_time = time.time()
 print('duration: ' + str(end_time - start_time)+ " seconds")

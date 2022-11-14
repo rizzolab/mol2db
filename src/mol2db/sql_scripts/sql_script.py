@@ -30,3 +30,10 @@ class SqlScripts:
                               PAINS_NAMES TEXT,
                               SMILES TEXT
                           );"""
+    def ifex(self,db_name, table_name):
+        return_ifex = " SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE " \
+        " table_schema='public' AND table_name="\
+        + "'"+table_name+"'" + ");"
+        return return_ifex
+
+
