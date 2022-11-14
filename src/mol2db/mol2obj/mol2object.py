@@ -7,7 +7,7 @@ import pandas as pd
 
 #import self-made modules
 #import mol2obj.utilities as ut
-import mol2db.mol2obj.utilities as ut
+from mol2db.mol2obj import utilities as ut
 from mol2db.write import write_csv as wc
 from mol2db.write import write_mol as wm
 from mol2db.parameters.headers import header_dict as hd
