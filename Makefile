@@ -18,8 +18,8 @@ SYSLIBS :=  $(shell $(PYTHON) -c "import distutils.sysconfig; print(distutils.sy
 
 WORKDIR := $(shell pwd)
 
-CYTHON := $(shell which cython)
-.PHONY: paths all clean test
+#CYTHON := $(shell which cython)
+#.PHONY: paths all clean test
 
 paths:
 	@echo "PYTHON=$(PYTHON)"
@@ -38,21 +38,27 @@ paths:
 	@echo "CYTHON=$(CYTHON)"
 	@echo "WORKDIR=$(WORKDIR)"
 
-all:
-	@make cython
+mol2db:
+	#@make cython
 	@make main
 
-main: main.c
-	$(CC) -Os -I $(INCDIR) -o ./src/mol2db/m2db ./src/mol2db/main.c -l$(PYLIB) $(LIBS) $(SYSLIBS) $(LINKFORSHARED) 	
-	@mkdir ./bin
-	mv ./src/mol2db/m2db ./bin
+main:   
+	@cd ./src && $(PYTHON) INSTALL.py 
+	@mkdir bin
+	@mv ./src/dist/main ./bin/m2db 
 
-main.c:
-	$(CYTHON) -3 --embed ./src/mol2db/main.pyx -o ./src/mol2db/main.c
-
-cython:
-	@cd $(WORKDIR)/src/mol2db && make cython
+#main: main.c
+#	$(CC) -Os -I $(INCDIR) -o ./src/mol2db/m2db ./src/mol2db/main.c -l$(PYLIB) $(LIBS) $(SYSLIBS) $(LINKFORSHARED) 	
+#	@mkdir ./bin
+#	mv ./src/mol2db/m2db ./bin
+#
+#main.c:
+#	$(CYTHON) -3 --embed ./src/mol2db/main.pyx -o ./src/mol2db/main.c
+#
+#cython:
+#	@cd $(WORKDIR)/src/mol2db && make cython
 
 clean:
 	@rm -rf ./bin
-	@cd $(WORKDIR)/src/mol2db && rm -f main.c && make clean
+	#@cd $(WORKDIR)/src/mol2db && rm -f main.c && make clean
+	@rm -rf ./src/build ./src/dist ./src/main.spec

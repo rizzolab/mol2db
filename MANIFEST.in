@@ -1,5 +1,0 @@
-include LICENSE
-include README.md
-include Makefile
-include src/Makefile
-recursive-include package *
