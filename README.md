@@ -4,12 +4,13 @@ Mol2db is a python-based software to interface with your mol2-based molecular li
 
 
 ## requirements
-Cython is an optional to install, but it is recommended because cython is used to make a binary. Pandas, psycopg (not psycopg2), and psql are required to install this build. 
+Pyinstaller is necessary to install if you want a binary, but you can call the main function from the build by using python3. 
+Pandas, psycopg (not psycopg2), and psql are required to install this build
 
 Cython is a python to C compiler. Cython, in this case, makes a binary to combine all python scripts created for this project.
 To install:
 ```
-pip install Cython
+pip install pyinstaller
 ```
 
 Pandas is a data manipulation tool. 
@@ -30,18 +31,12 @@ To install:
 apt-get install postgresql-12
 ```
 
-## Installation with Cython
+## Installation with pyinstaller
 
-To install with Cython:
+To install with pyinstaller:
 ```
-make all
-```
-After compiling using Cython, this should output a binary named `m2db` in a bin folder. 
-
-Please add this to your `~/.bashrc` file and source it,
-```
-export MOL2DB='/PATH/TO/mol2db'
-export PATH=$MOL2DB/bin\:$PATH
+cd mol2db
+make mol2db
 ```
 
 To clean:
