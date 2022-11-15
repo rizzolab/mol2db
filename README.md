@@ -7,7 +7,7 @@ Mol2db is a python-based software to interface with your mol2-based molecular li
 Pyinstaller is necessary to install if you want a binary, but you can call the main function from the build by using python3. 
 Pandas, psycopg (not psycopg2), and psql are required to install this build
 
-Cython is a python to C compiler. Cython, in this case, makes a binary to combine all python scripts created for this project.
+To install pyinstaller
 To install:
 ```
 pip install pyinstaller
