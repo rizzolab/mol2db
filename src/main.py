@@ -32,6 +32,7 @@ parser.add_argument('-ur','--user' ,dest='user_name',help="enter your user name"
 parser.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
 parser.add_argument('-ht','--host' ,dest='ht',help="enter your host")
 parser.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
+parser.add_argument('-v',dest='verbose',action="store_true",help="add verbose func")
 
 subparsers = parser.add_subparsers(help='help for subcommand', dest="subcommand")
 
@@ -84,7 +85,14 @@ args = parser.parse_args()
 #preparing kwargs with args 
 kwargs = {}
 kwargs = vars(args)
-print(kwargs)
+
+if args.verbose:
+    print("############################")
+    print("Parameters used:")
+    print("############################")
+    for key,val in kwargs.items():
+        print(str(key)+": " + str(val))
+    print("############################")
 
 
 
