@@ -62,9 +62,10 @@ command_csv2psql.add_argument(dest='input_csv', help="input your csv file")
 #arguments pertaining to moltables
 command_moltables = subparsers.add_parser('moltables', help='to create a molecular table')
 
-##arguments pertaining to psql2mol2
-#command_psql2mol2 = subparsers.add_parser('psql2mol2', help='to load up csv into db')
-#command_psql2mol2.add_argument(dest='input_csv', help="input your csv file")
+#arguments pertaining to pull_mols
+command_pull_mols = subparsers.add_parser('pull_mols', help='to pull one molecule from the psql db')
+command_pull_mols.add_argument('-i',dest='input_zincids',required=True, help="input a text file with a list of ZINCIDs you want to pull")
+command_pull_mols.add_argument('-o',dest='output_name', help="output_name")
 
 #arguements pertaining to iniatedb
 command_iniatedb = subparsers.add_parser('create', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
@@ -125,6 +126,9 @@ elif (args.subcommand == "csv2psql"):
 elif (args.subcommand == "moltables"):
     exe = scripts.molTables
     ap.execute(exe,**kwargs)
+elif (args.subcommand == "pull_mols"):
+    exe = scripts.pull_mols(args.input_zincids)
+    ap.pull_mols(exe,**kwargs) 
 elif (args.subcommand == "create"):
     ap.initiatedb(**kwargs) 
 

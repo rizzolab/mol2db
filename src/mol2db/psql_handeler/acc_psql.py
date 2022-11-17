@@ -9,6 +9,7 @@ import numpy as np
 
 from mol2db.write import write_exe as wt
 from mol2db.write import write_mol as wm
+from mol2db.mol2obj import mol2object as m2o
 #from mol2db.sql_scripts import sql_script as ss
 
 
@@ -51,6 +52,7 @@ def execute(exe,**kwargs):
                     copy.write_row(ir) 
         else:
             cur.execute(exe)
+            
 
         if 'output_name' in kwargs:
             if kwargs['output_name'] != None:
@@ -77,12 +79,6 @@ def execute(exe,**kwargs):
 
 def csv2psql():
     print("csv2psql")
-
-
-def psql2mol2():
-    return
-
-
 
 
 #creating and deleting databases
@@ -116,3 +112,16 @@ def ifex(exe,**kwargs):
         else:
             print("Table named "+kwargs["component"] + " does not exists in " + kwargs["dbname"])
     conn.close()
+
+def pull_mols(exe,**kwargs):
+    conn = connect2psql(**kwargs,autocommit=True)
+    print("Opened database successfully. Connected with postgres db")
+    cur = conn.cursor()
+    cur.execute(exe)
+    #for i, line in enumerate(cur.fetchall(),0): print(str(i)+" RESULTS: "+str(line))
+    for i, line in enumerate(cur.fetchall(),0):
+        m2o.curline2mol2write(line)
+    cur.close()
+    conn.close()
+
+

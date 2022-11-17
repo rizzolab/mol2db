@@ -36,4 +36,17 @@ class SqlScripts:
         + "'"+table_name+"'" + ");"
         return return_ifex
 
+    def pull_mols(self,input_file):
+        names = "('"
+        with open (input_file,'r') as zinc_file:
+            read_files = zinc_file.readlines()
+
+        for i,line in enumerate(read_files,0):
+            if i+1 == len(read_files):
+                names += line.strip('\n') +"')"
+            else:
+                names += line.strip('\n') +"','"
+        return_name = "SELECT * FROM molecules WHERE name in " + names + ";"
+        return return_name
+
 
