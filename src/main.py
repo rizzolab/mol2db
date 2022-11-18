@@ -127,6 +127,8 @@ elif (args.subcommand == "moltables"):
     exe = scripts.molTables
     ap.execute(exe,**kwargs)
 elif (args.subcommand == "pull_mols"):
+    if kwargs["output_name"] == None:
+        kwargs["output_name"] = "output.mol2"
     exe = scripts.pull_mols(args.input_zincids)
     ap.pull_mols(exe,**kwargs) 
 elif (args.subcommand == "create"):

@@ -222,10 +222,10 @@ class Mol2obj:
 #            tmp_bond_type   = []
 #            mol_count += 1
 #            des_count = 0
-def curline2mol2write(cur_line):
-    #print(cur_line)
-    df = ()
-    df = cur_line
+def curline2mol2write(cur_line,output_name):
+    ##print(cur_line)
+    #df = ()
+    #df = cur_line
 
     tmp_atom_num  = []
     tmp_atom_name = []
@@ -247,25 +247,22 @@ def curline2mol2write(cur_line):
     #access column of atoms information (coordinates, atom types, etc)
  
     ##if line is an atom line    
-    print(str(df[0]))
-    dict_atom = json.loads(json.dumps('"'+df[0]+'"'))
-    print(dict_atom)
-    tmp_atom_num   = dict_atom["atom_num"]
-    tmp_atom_name  = dict_atom["atom_name"]
-    tmp_x          = dict_atom["x"]
-    tmp_y          = dict_atom["y"]
-    tmp_z          = dict_atom["z"]
-    tmp_atom_type  = dict_atom["atom_type"]
-    tmp_subst_id   = dict_atom["subst_id"]
-    tmp_subst_name = dict_atom["subst_name"]
-    tmp_charge     = dict_atom["charge"]
+    tmp_atom_num   = cur_line[0]["atom_num"]
+    tmp_atom_name  = cur_line[0]["atom_name"]
+    tmp_x          = cur_line[0]["x"]
+    tmp_y          = cur_line[0]["y"]
+    tmp_z          = cur_line[0]["z"]
+    tmp_atom_type  = cur_line[0]["atom_type"]
+    tmp_subst_id   = cur_line[0]["subst_id"]
+    tmp_subst_name = cur_line[0]["subst_name"]
+    tmp_charge     = cur_line[0]["charge"]
  
     ##if line is an bond line
-    dict_bond = json.loads(str(df[1]))
-    tmp_bond_num   = dict_bond["bond_num"]
-    tmp_bond_first = dict_bond["bond_first"]
-    tmp_bond_second= dict_bond["bond_second"]
-    tmp_bond_type  = dict_bond["bond_type"]
+    #dict_bond = json.loads(str(df[1]))
+    tmp_bond_num   = cur_line[1]["bond_num"]
+    tmp_bond_first = cur_line[1]["bond_first"]
+    tmp_bond_second= cur_line[1]["bond_second"]
+    tmp_bond_type  = cur_line[1]["bond_type"]
  
     obj.atoms["atom_num"]    = tmp_atom_num
     obj.atoms["atom_name"]   = tmp_atom_name
@@ -285,26 +282,26 @@ def curline2mol2write(cur_line):
     obj.num_atoms            = len(tmp_atom_num)
     obj.num_bonds            = len(tmp_bond_num)
  
-    obj.name                 = df[4]
-    obj.mw                   = df[5]
-    obj.rot_bond             = df[6]
-    obj.charge               = df[7]
-    obj.hba                  = df[8]
-    obj.hbd                  = df[9]
-    obj.heavy_atoms          = df[10]
-    obj.num_atom_rings       = df[11]
-    obj.num_alip_rings       = df[12]
-    obj.num_sat_rings        = df[13]
-    obj.num_stereo           = df[14]
-    obj.num_spiro            = df[15]
-    obj.logp                 = df[16]
-    obj.tpsa                 = df[17]
-    obj.syntha               = df[18]
-    obj.qed                  = df[19]
-    obj.logs                 = df[20]
-    obj.num_pain             = df[21]
-    obj.pains_names          = df[22]
-    obj.smiles               = df[23]
+    obj.name                 = cur_line[4]
+    obj.mw                   = cur_line[5]
+    obj.rot_bond             = cur_line[6]
+    obj.charge               = cur_line[7]
+    obj.hba                  = cur_line[8]
+    obj.hbd                  = cur_line[9]
+    obj.heavy_atoms          = cur_line[10]
+    obj.num_atom_rings       = cur_line[11]
+    obj.num_alip_rings       = cur_line[12]
+    obj.num_sat_rings        = cur_line[13]
+    obj.num_stereo           = cur_line[14]
+    obj.num_spiro            = cur_line[15]
+    obj.logp                 = cur_line[16]
+    obj.tpsa                 = cur_line[17]
+    obj.syntha               = cur_line[18]
+    obj.qed                  = cur_line[19]
+    obj.logs                 = cur_line[20]
+    obj.num_pain             = cur_line[21]
+    obj.pains_names          = cur_line[22]
+    obj.smiles               = cur_line[23]
  
     wm.write_mol(output_name,obj)
  

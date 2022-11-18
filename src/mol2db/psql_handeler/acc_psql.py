@@ -119,8 +119,9 @@ def pull_mols(exe,**kwargs):
     cur = conn.cursor()
     cur.execute(exe)
     #for i, line in enumerate(cur.fetchall(),0): print(str(i)+" RESULTS: "+str(line))
+
     for i, line in enumerate(cur.fetchall(),0):
-        m2o.curline2mol2write(line)
+        m2o.curline2mol2write(line,kwargs["output_name"])
     cur.close()
     conn.close()
 
