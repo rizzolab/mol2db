@@ -67,6 +67,14 @@ command_pull_mols = subparsers.add_parser('pull_mols', help='to pull one molecul
 command_pull_mols.add_argument('-i',dest='input_zincids',required=True, help="input a text file with a list of ZINCIDs you want to pull")
 command_pull_mols.add_argument('-o',dest='output_name', help="output_name")
 
+#arguments pertaining to pull_by_des
+command_pull_by_des = subparsers.add_parser('pull_by_des',help='to pull molecules by descriptors')
+command_pull_by_des.add_argument(dest='des', help="enter your descriptor")
+command_pull_by_des.add_argument(dest='ope', help="enter operator")
+command_pull_by_des.add_argument(dest='range', help="set the range")
+command_pull_by_des.add_argument('-o',dest='output_name', help="output_name")
+
+
 #arguements pertaining to iniatedb
 command_iniatedb = subparsers.add_parser('create', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
 command_iniatedb.add_argument(dest='DB_NAME', help="input your name of db")
@@ -131,6 +139,11 @@ elif (args.subcommand == "pull_mols"):
         kwargs["output_name"] = "output.mol2"
     exe = scripts.pull_mols(args.input_zincids)
     ap.pull_mols(exe,**kwargs) 
+elif (args.subcommand =="pull_by_des"):
+    if kwargs["output_name"] == None:
+        kwargs["output_name"] = "output.mol2"
+    exe = scripts.pull_by_des(kwargs["des"],kwargs["ope"],kwargs["range"])
+    ap.pull_mols(exe,**kwargs)
 elif (args.subcommand == "create"):
     ap.initiatedb(**kwargs) 
 

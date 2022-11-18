@@ -1,6 +1,6 @@
 #import built-in
 import sys
-
+from mol2db.parameters import operators as op
 
 class SqlScripts:
     def __init__(self):
@@ -46,7 +46,9 @@ class SqlScripts:
                 names += line.strip('\n') +"')"
             else:
                 names += line.strip('\n') +"','"
-        return_name = "SELECT * FROM molecules WHERE name in " + names + ";"
+        return_name = f"SELECT * FROM molecules WHERE name in {names};"
         return return_name
-
-
+    def pull_by_des(self,des,ope,set_range):
+        sign = op.operators[ope] 
+        return_exe = f"SELECT * FROM molecules WHERE {des} {sign} {set_range};"
+        return return_exe
