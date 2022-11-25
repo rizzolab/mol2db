@@ -382,7 +382,7 @@ def csv2mol2write(input_csv,output_name):
         obj.bonds["bond_first"]  = tmp_bond_first
         obj.bonds["bond_second"] = tmp_bond_second
         obj.bonds["bond_type"]   = tmp_bond_type
-
+        
         obj.num_atoms            = len(tmp_atom_num)
         obj.num_bonds            = len(tmp_bond_num) 
        
