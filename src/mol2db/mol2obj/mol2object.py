@@ -11,30 +11,34 @@ from mol2db.mol2obj import utilities as ut
 from mol2db.write import write_csv as wc
 from mol2db.write import write_mol as wm
 from mol2db.parameters.headers import header_dict as hd
+from mol2db.mol2obj import atoms as at
+from mol2db.mol2obj import bonds as bn
 
 
 class Mol2obj:
     def __init__(self): #, atoms, bonds):
-        self.atoms = {
-                         "atom_num":  [],
-                         "atom_name": [],
-                         "x":         [],
-                         "y":         [],
-                         "z":         [],
-                         "atom_type": [],
-                         "subst_id":  [],
-                         "subst_name":[], 
-                         "charge":    [] 
-                     } 
+        self.atoms = at.atoms()
+        self.bonds = bn.bonds()
+        # self.atoms = {
+        #                  "atom_num":  [],
+        #                  "atom_name": [],
+        #                  "x":         [],
+        #                  "y":         [],
+        #                  "z":         [],
+        #                  "atom_type": [],
+        #                  "subst_id":  [],
+        #                  "subst_name":[], 
+        #                  "charge":    [] 
+        #              } 
 
-        self.bonds = {
-                         "bond_num":    [],
-                         "bond_first":  [],
-                         "bond_second": [],
-                         "bond_type":   []
+        # self.bonds = {
+        #                  "bond_num":    [],
+        #                  "bond_first":  [],
+        #                  "bond_second": [],
+        #                  "bond_type":   []
 
 
-                     } 
+        #              } 
         self.num_atoms      = None 
         self.num_bonds      = None 
  
@@ -87,22 +91,10 @@ class Mol2obj:
                     setattr(self,att,None)
                 else:
                     setattr(self,att,"NULL")
-        self.atoms = {
-                         "atom_num":  [],
-                         "atom_name": [],
-                         "x":         [],
-                         "y":         [],
-                         "z":         [],
-                         "atom_type": [],
-                         "charge":    []
-                     }
 
-        self.bonds = {
-                         "bond_num":    [],
-                         "bond_first":  [],
-                         "bond_second": [],
-                         "bond_type":   []
-                     }
+        self.atoms.clear()
+        self.bonds.clear()
+
     #getting all atoms of molecules
     def get_atoms(self):
         return f"{self.atoms}" 
@@ -264,20 +256,20 @@ def curline2mol2write(cur_line,output_name):
     tmp_bond_second= cur_line[1]["bond_second"]
     tmp_bond_type  = cur_line[1]["bond_type"]
  
-    obj.atoms["atom_num"]    = tmp_atom_num
-    obj.atoms["atom_name"]   = tmp_atom_name
-    obj.atoms["x"]           = tmp_x
-    obj.atoms["y"]           = tmp_y
-    obj.atoms["z"]           = tmp_z
-    obj.atoms["atom_type"]   = tmp_atom_type
-    obj.atoms["subst_id"]    = tmp_subst_id
-    obj.atoms["subst_name"]  = tmp_subst_name
-    obj.atoms["charge"]      = tmp_charge
+    obj.atoms.atom_num    = tmp_atom_num
+    obj.atoms.atom_name   = tmp_atom_name
+    obj.atoms.x           = tmp_x
+    obj.atoms.y           = tmp_y
+    obj.atoms.z           = tmp_z
+    obj.atoms.atom_type   = tmp_atom_type
+    obj.atoms.subst_id    = tmp_subst_id
+    obj.atoms.subst_name  = tmp_subst_name
+    obj.atoms.charge      = tmp_charge
  
-    obj.bonds["bond_num"]    = tmp_bond_num
-    obj.bonds["bond_first"]  = tmp_bond_first
-    obj.bonds["bond_second"] = tmp_bond_second
-    obj.bonds["bond_type"]   = tmp_bond_type
+    obj.bonds.bond_num    = tmp_bond_num
+    obj.bonds.bond_first  = tmp_bond_first
+    obj.bonds.bond_second = tmp_bond_second
+    obj.bonds.bond_type   = tmp_bond_type
  
     obj.num_atoms            = len(tmp_atom_num)
     obj.num_bonds            = len(tmp_bond_num)
@@ -367,22 +359,22 @@ def csv2mol2write(input_csv,output_name):
         tmp_bond_first = dict_bond["bond_first"] 
         tmp_bond_second= dict_bond["bond_second"] 
         tmp_bond_type  = dict_bond["bond_type"]
-   
-        obj.atoms["atom_num"]    = tmp_atom_num
-        obj.atoms["atom_name"]   = tmp_atom_name
-        obj.atoms["x"]           = tmp_x
-        obj.atoms["y"]           = tmp_y
-        obj.atoms["z"]           = tmp_z
-        obj.atoms["atom_type"]   = tmp_atom_type
-        obj.atoms["subst_id"]    = tmp_subst_id
-        obj.atoms["subst_name"]  = tmp_subst_name
-        obj.atoms["charge"]      = tmp_charge
 
-        obj.bonds["bond_num"]    = tmp_bond_num
-        obj.bonds["bond_first"]  = tmp_bond_first
-        obj.bonds["bond_second"] = tmp_bond_second
-        obj.bonds["bond_type"]   = tmp_bond_type
-        
+        obj.atoms.atom_num    = tmp_atom_num
+        obj.atoms.atom_name   = tmp_atom_name
+        obj.atoms.x           = tmp_x
+        obj.atoms.y           = tmp_y
+        obj.atoms.z           = tmp_z
+        obj.atoms.atom_type   = tmp_atom_type
+        obj.atoms.subst_id    = tmp_subst_id
+        obj.atoms.subst_name  = tmp_subst_name
+        obj.atoms.charge      = tmp_charge
+     
+        obj.bonds.bond_num    = tmp_bond_num
+        obj.bonds.bond_first  = tmp_bond_first
+        obj.bonds.bond_second = tmp_bond_second
+        obj.bonds.bond_type   = tmp_bond_type
+
         obj.num_atoms            = len(tmp_atom_num)
         obj.num_bonds            = len(tmp_bond_num) 
        
@@ -512,20 +504,20 @@ def mol2obj2write(mol2s,output_name):
         if 'ROOT' in line:
             #print("ROOT")
             #insert tmp arrays into the dictionary attributes
-            obj.atoms["atom_num"]    = tmp_atom_num
-            obj.atoms["atom_name"]   = tmp_atom_name
-            obj.atoms["x"]           = tmp_x
-            obj.atoms["y"]           = tmp_y
-            obj.atoms["z"]           = tmp_z
-            obj.atoms["atom_type"]   = tmp_atom_type
-            obj.atoms["subst_id"]    = tmp_subst_id
-            obj.atoms["subst_name"]  = tmp_subst_name
-            obj.atoms["charge"]      = tmp_charge
+            obj.atoms.atom_num    = tmp_atom_num
+            obj.atoms.atom_name   = tmp_atom_name
+            obj.atoms.x           = tmp_x
+            obj.atoms.y           = tmp_y
+            obj.atoms.z           = tmp_z
+            obj.atoms.atom_type   = tmp_atom_type
+            obj.atoms.subst_id    = tmp_subst_id
+            obj.atoms.subst_name  = tmp_subst_name
+            obj.atoms.charge      = tmp_charge
 
-            obj.bonds["bond_num"]    = tmp_bond_num
-            obj.bonds["bond_first"]  = tmp_bond_first
-            obj.bonds["bond_second"] = tmp_bond_second
-            obj.bonds["bond_type"]   = tmp_bond_type
+            obj.bonds.bond_num    = tmp_bond_num
+            obj.bonds.bond_first  = tmp_bond_first
+            obj.bonds.bond_second = tmp_bond_second
+            obj.bonds.bond_type   = tmp_bond_type
 
             obj.num_atoms            = len(tmp_atom_num)
             obj.num_bonds            = len(tmp_bond_num)
@@ -566,3 +558,4 @@ def mol2obj2write(mol2s,output_name):
 
             mol_count += 1
             #des_count = 0
+

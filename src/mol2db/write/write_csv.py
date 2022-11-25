@@ -13,8 +13,10 @@ def write_csv (output_name, mol):
             wr= csv.writer(write_output, delimiter='|', quoting=csv.QUOTE_MINIMAL,escapechar='"')
             row = []
             row = mol.get_attr_val()
-            row[0]=json.dumps(row[0])
-            row[1]=json.dumps(row[1])
+            # row[0]=json.dumps(row[0])
+            # row[1]=json.dumps(row[1])
+            row[0]=json.dumps(mol.atoms)
+            row[1]=json.dumps(mol.bonds)
             wr.writerow(row)
     #else use a default name
     else:
@@ -23,8 +25,11 @@ def write_csv (output_name, mol):
             row = []
             row = mol.get_attr_val()
              
-            row[0]=json.dumps(row[0])
-            row[1]=json.dumps(row[1])
+            # row[0]=json.dumps(row[0])
+            # row[1]=json.dumps(row[1])
+            print(mol.atoms)
+            row[0]=json.dumps(mol.atoms.atom_num)
+            row[1]=json.dumps(mol.bonds)
             wr.writerow(row)
 
 

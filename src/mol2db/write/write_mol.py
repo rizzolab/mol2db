@@ -21,30 +21,30 @@ def write_mol(output_name,mol):
 
         atom_string = f'' 
         for num in range(0,mol.num_atoms):
-            atom_string += f"{mol.atoms['atom_num'][num]:{7}} "
-            atom_string += f" {mol.atoms['atom_name'][num]:<4} " 
-            atom_string += f" {mol.atoms['x'][num]:{12}.{4}f}"
-            atom_string += f" {mol.atoms['y'][num]:{9}.{4}f}"
-            atom_string += f" {mol.atoms['z'][num]:{9}.{4}f}"
-            atom_string += f" {mol.atoms['atom_type'][num]:<5}"
-            atom_string += f" {mol.atoms['subst_id'][num]:>2}"
-            atom_string += f" {mol.atoms['subst_name'][num]:<16}"
-            atom_string += f" {mol.atoms['charge'][num]:>7.{4}f}"
+            atom_string += f"{mol.atoms.atom_num[num]:{7}} "
+            atom_string += f" {mol.atoms.atom_name[num]:<4} " 
+            atom_string += f" {mol.atoms.x[num]:{12}.{4}f}"
+            atom_string += f" {mol.atoms.y[num]:{9}.{4}f}"
+            atom_string += f" {mol.atoms.z[num]:{9}.{4}f}"
+            atom_string += f" {mol.atoms.atom_type[num]:<5}"
+            atom_string += f" {mol.atoms.subst_id[num]:>2}"
+            atom_string += f" {mol.atoms.subst_name[num]:<16}"
+            atom_string += f" {mol.atoms.charge[num]:>7.{4}f}"
             atom_string += '\n'
         
         bond_string = f'' 
         for num in range(0,mol.num_bonds):
-            bond_string += f"{mol.bonds['bond_num'][num]:{7}}"
-            bond_string += f"{mol.bonds['bond_first'][num]:{6}}"
-            bond_string += f"{mol.bonds['bond_second'][num]:{6}}"
-            bond_string += f" {mol.bonds['bond_type'][num]:>4}"
+            bond_string += f"{mol.bonds.bond_num[num]:{7}}"
+            bond_string += f"{mol.bonds.bond_first[num]:{6}}"
+            bond_string += f"{mol.bonds.bond_second[num]:{6}}"
+            bond_string += f" {mol.bonds.bond_type[num]:>4}"
             bond_string += '\n'
       
         mol_string = (
             header_string + '\n' +
             '@<TRIPOS>MOLECULE\n'+
             str(mol.name)+'\n'
-            ' ' + str(len(mol.atoms["atom_num"])) + " " + str(len(mol.bonds["bond_num"])) + ' 1 0 0\n'
+            ' ' + str(len(mol.atoms.atom_num)) + " " + str(len(mol.bonds.bond_num)) + ' 1 0 0\n'
             'SMALL\n'
             'USER_CHARGES\n'
             '\n'
