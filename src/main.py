@@ -74,6 +74,13 @@ command_pull_by_des.add_argument(dest='ope', help="enter operator")
 command_pull_by_des.add_argument(dest='range', help="set the range")
 command_pull_by_des.add_argument('-o',dest='output_name', help="output_name")
 
+#arguemtns pertaining to pull_by_range
+command_pull_by_range = subparsers.add_parser('pull_by_range',help='to pull \
+                                               molecules by descriptors based on a lower and upper range')
+command_pull_by_range.add_argument(dest='des', help="enter your descriptor")
+command_pull_by_range.add_argument(dest='lower', help="set the lower limit")
+command_pull_by_range.add_argument(dest='upper', help="set the upper limit")
+command_pull_by_range.add_argument('-o',dest='output_name', help="output_name")
 
 #arguements pertaining to iniatedb
 command_iniatedb = subparsers.add_parser('create', help='to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do not delete or change that name')
@@ -134,16 +141,26 @@ elif (args.subcommand == "csv2psql"):
 elif (args.subcommand == "moltables"):
     exe = scripts.molTables
     ap.execute(exe,**kwargs)
+
 elif (args.subcommand == "pull_mols"):
     if kwargs["output_name"] == None:
         kwargs["output_name"] = "output.mol2"
     exe = scripts.pull_mols(args.input_zincids)
     ap.pull_mols(exe,**kwargs) 
+
 elif (args.subcommand =="pull_by_des"):
     if kwargs["output_name"] == None:
         kwargs["output_name"] = "output.mol2"
     exe = scripts.pull_by_des(kwargs["des"],kwargs["ope"],kwargs["range"])
     ap.pull_mols(exe,**kwargs)
+
+elif (args.subcommand =="pull_by_range"):
+    if kwargs["output_name"] == None:
+        kwargs["output_name"] = "output.mol2"
+    exe = scripts.pull_by_range(kwargs["des"],kwargs["lower"],kwargs["upper"])
+    ap.pull_mols(exe,**kwargs)
+
+
 elif (args.subcommand == "create"):
     ap.initiatedb(**kwargs) 
 

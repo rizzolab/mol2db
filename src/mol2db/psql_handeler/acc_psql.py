@@ -125,4 +125,7 @@ def pull_mols(exe,**kwargs):
     cur.close()
     conn.close()
 
-
+def pull_by_range(exe,**kwargs):
+    conn = connect2psql(**kwargs,autocommit=True)
+    print("Opened database successfully. Connected with postgres db")
+    

@@ -1,8 +1,8 @@
 
 operators = {
     "more"  :  ">",
-    "emore" :  "=>",
+    "emore" :  ">=",
     "less"  :  "<",
-    "eless" :  "=<",
+    "eless" :  "<=",
     "equal" :  "="
 }
