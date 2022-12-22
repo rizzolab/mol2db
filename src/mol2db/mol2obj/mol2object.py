@@ -81,19 +81,20 @@ class Mol2obj:
         return attr
 
     def clear(self,not_none=False):
-        attr = []
-        for attribute, value in self.__dict__.items():
-            attr.append(attribute)
-
-        for att in attr:
-            if "atoms" not in att or "bonds" not in att:
-                if not_none == False:
-                    setattr(self,att,None)
-                else:
-                    setattr(self,att,"NULL")
-
         self.atoms.clear()
         self.bonds.clear()
+
+        attr = []
+        for attribute, value in self.__dict__.items():
+            if "atoms" or "bonds" in attribute:
+                continue
+            else:
+                attr.append(attribute)
+        for att in attr:
+            if not_none == False:
+                setattr(self,att,None)
+            else:
+                setattr(self,att,"NULL")
 
     #getting all atoms of molecules
     def get_atoms(self):
@@ -540,7 +541,7 @@ def mol2obj2write(mol2s,output_name):
             tmp_bond_first  = []
             tmp_bond_second = []
             tmp_bond_type   = []
- 
+
             obj.clear()
             #obj.atoms["atom_num"]    = tmp_atom_num
             #obj.atoms["atom_name"]   = tmp_atom_name
