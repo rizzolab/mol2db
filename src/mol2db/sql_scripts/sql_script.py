@@ -52,3 +52,6 @@ class SqlScripts:
         sign = op.operators[ope] 
         return_exe = f"SELECT * FROM molecules WHERE {des} {sign} {set_range};"
         return return_exe
+    def pull_by_range(self,des,lower,upper):
+        return_exe = f"SELECT * FROM molecules WHERE {des} BETWEEN {lower} and {upper};"
+        return return_exe
