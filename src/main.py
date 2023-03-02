@@ -6,6 +6,7 @@ import argparse
 import csv
 import time
 import pkgutil
+import json
 
 #import dockmol class
 from mol2db.mol2obj import mol2object as mol2obj
@@ -25,16 +26,29 @@ start_time = time.time()
 #where we specify input parameters
 parser = argparse.ArgumentParser(prog='mol2db')
 
-#Optional arguments flags
-parser.add_argument('--autocommit',dest='auto_commit', action="store_true", help="specify if you want to autocommit(True) or not(False). No flag (False)")
+##Optional arguments flags
+#autocommitment flag
+parser.add_argument('--autocommit',dest='auto_commit', \
+                    action="store_true", \
+                    help="specify if you want to autocommit(True) or not(False). No flag (False)")
+
+#where you add info on psql
 parser.add_argument('-d','--dbname',dest='dbname',help="enter your database name to access")
 parser.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
 parser.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
 parser.add_argument('-ht','--host' ,dest='ht',help="enter your host")
 parser.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
+
+#turn on verbose
 parser.add_argument('-v',dest='verbose',action="store_true",help="add verbose func")
 
+##
+
 subparsers = parser.add_subparsers(help='help for subcommand', dest="subcommand")
+
+#arguments to source mol2db.config file
+command_source = subparsers.add_parser('source', help='to use mol2db.config as the psql info')
+command_source.add_argument(dest='what_to_source', help="PATH TO mol2db.config file")
 
 #arguments pertaining to only mol2csv
 command_mol2csv = subparsers.add_parser('mol2csv', help='to convert molecules into csv')
@@ -102,6 +116,24 @@ args = parser.parse_args()
 kwargs = {}
 kwargs = vars(args)
 
+#if there is a source file set the args vars
+if kwargs['subcommand'] == "source":
+    config_f            = open(kwargs['what_to_source'])
+    config_data         = json.load(config_f)
+    with open("./mol2db/config/mol2db.config", "w") as outfile:
+        outfile.write(json.dumps(config_data, indent=4))
+
+if kwargs['dbname'] or kwargs['user_name'] or kwargs['pw'] or kwargs['ht'] or kwargs['prt'] != None:
+    print("NOTHIN")
+else:
+    config_f            = open('./mol2db/config/mol2db.config')
+    config_data         = json.load(config_f)
+    kwargs['dbname']    = config_data['database_name']
+    kwargs['user_name'] = config_data['user_name']
+    kwargs['pw']        = config_data['password']
+    kwargs['ht']        = config_data['host']
+    kwargs['prt']       = config_data['port']
+
 if args.verbose:
     print("############################")
     print("Parameters used:")
@@ -109,8 +141,6 @@ if args.verbose:
     for key,val in kwargs.items():
         print(str(key)+": " + str(val))
     print("############################")
-
-
 
 ##decision tree here
 #give the path of the mol2 you want to process
@@ -159,7 +189,6 @@ elif (args.subcommand =="pull_by_range"):
         kwargs["output_name"] = "output.mol2"
     exe = scripts.pull_by_range(kwargs["des"],kwargs["lower"],kwargs["upper"])
     ap.pull_mols(exe,**kwargs)
-
 
 elif (args.subcommand == "create"):
     ap.initiatedb(**kwargs) 
