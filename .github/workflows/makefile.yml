@@ -19,12 +19,11 @@ jobs:
     #- name: configure
     #  run: ./configure
     
-    #pip install pyinstaller
-
     - name: Install dependencies
       run: |
         pip install psycopg
         pip install pandas
+        pip install pyinstaller
 
     - name: compile mol2db
       run: make mol2db
