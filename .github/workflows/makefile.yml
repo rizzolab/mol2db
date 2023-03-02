@@ -18,10 +18,11 @@ jobs:
 
     #- name: configure
     #  run: ./configure
+    
+    #pip install pyinstaller
 
     - name: Install dependencies
       run: |
-        pip install pyinstaller
         pip install psycopg
         pip install pandas
 
