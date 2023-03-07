@@ -17,6 +17,9 @@ from mol2db.write import write_csv as wc
 from mol2db.psql_handeler import acc_psql as ap 
 from mol2db.sql_scripts import sql_script as ss 
 
+#import configuration functions
+from mol2db.config import configure as cf
+
 #create an object from SqlScripts
 scripts = ss.SqlScripts()
 
@@ -39,6 +42,10 @@ parser.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
 parser.add_argument('-ht','--host' ,dest='ht',help="enter your host")
 parser.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
 
+#where you source a whole file
+parser.add_argument('-cr','--cred',dest='cred',help='instead of adding creds. you can source your creds')
+
+
 #turn on verbose
 parser.add_argument('-v',dest='verbose',action="store_true",help="add verbose func")
 
@@ -46,9 +53,15 @@ parser.add_argument('-v',dest='verbose',action="store_true",help="add verbose fu
 
 subparsers = parser.add_subparsers(help='help for subcommand', dest="subcommand")
 
-#arguments to source mol2db.config file
-command_source = subparsers.add_parser('source', help='to use mol2db.config as the psql info')
-command_source.add_argument(dest='what_to_source', help="PATH TO mol2db.config file")
+##arguments to source mol2db.config file
+#command_source = subparsers.add_parser('source', help='to use mol2db.config as the psql info')
+#command_source.add_argument(dest='name_source', help="PATH TO mol2db.config file")
+
+command_createsource = subparsers.add_parser('createsource', help='to create mol2db.config as the psql info')
+command_createsource.add_argument(dest='name_create', help="PATH TO mol2db.config file")
+
+command_deletesource = subparsers.add_parser('deletesource', help='to delete mol2db.config as the psql info')
+command_deletesource.add_argument(dest='name_delete', help="PATH TO mol2db.config file")
 
 #arguments pertaining to only mol2csv
 command_mol2csv = subparsers.add_parser('mol2csv', help='to convert molecules into csv')
@@ -114,67 +127,9 @@ args = parser.parse_args()
 
 #preparing kwargs with args 
 kwargs = {}
-kwargs = vars(args)
+#kwargs = vars(args)
 
-#if there is a source file set the args vars
-if kwargs['subcommand'] == "source":
-    config_f            = open(kwargs['what_to_source'])
-    config_data         = json.load(config_f)
-
-    with open(kwargs['what_to_source'], "w") as outfile:
-        outfile.write(json.dumps(config_data, indent=4))
-
-    #fill the kwargs keys with credential
-    #information
-    kwargs['dbname']    = config_data['database_name']
-    kwargs['user_name'] = config_data['user_name']
-    kwargs['pw']        = config_data['password']
-    kwargs['ht']        = config_data['host']
-    kwargs['prt']       = config_data['port']
-
-#if there is no source command but you want to input your own
-#this will automatically create a config file and output a json 
-#with your own inputs
-elif (kwargs['dbname']    and \
-      kwargs['user_name'] and \
-      kwargs['pw']        and \
-      kwargs['ht']        and \
-      kwargs['prt']):
-
-    tmp_dict_config = dict()
-    tmp_dict_config['database_name'] = kwargs['dbname'] 
-    tmp_dict_config['user_name'] = kwargs['user_name']
-    tmp_dict_config['password'] = kwargs['pw']
-    tmp_dict_config['host'] = kwargs['ht'] 
-    tmp_dict_config['port'] = kwargs['prt']
-
-    #creating config file that contains your information. 
-    with open("./mol2db/config/mol2db.config", "w") as outfile:
-        outfile.write(json.dumps(tmp_dict_config, indent=4))
-
-#if you are not sourcing AND there are no filled in inputs
-#for the credential information try to find the config file
-#and load the creds up. if not, exit 
-elif kwargs['subcommand'] != "source" and not (kwargs['dbname']    and \
-                                               kwargs['user_name'] and \
-                                               kwargs['pw']        and \
-                                               kwargs['ht']        and \
-                                               kwargs['prt']):
-
-    try:
-        config_f        = open('./mol2db/config/mol2db.config')
-    except FileNotFoundError:
-        print("credential config file not found. Please source the file")    
-        exit()
-
-    config_data         = json.load(config_f)
-    kwargs['dbname']    = config_data['database_name']
-    kwargs['user_name'] = config_data['user_name']
-    kwargs['pw']        = config_data['password']
-    kwargs['ht']        = config_data['host']
-    kwargs['prt']       = config_data['port']
-
-
+kwargs = cf.set_configure(args)
 
 if args.verbose:
     print("############################")

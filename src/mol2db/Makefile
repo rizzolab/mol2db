@@ -52,6 +52,8 @@ clean:
 	@rm -f ./sql_scripts/*.so
 	@rm -f ./psql_handeler/*.c
 	@rm -f ./psql_handeler/*.so
+	@rm -f ./config/*.c
+	@rm -f ./config/*.so
 	@rm -rf ./build
 	@rm -f *.c *.so
 
@@ -66,5 +68,7 @@ localclean:
 	@rm -f ./sql_scripts/*.so
 	@rm -f ./psql_handeler/*.c
 	@rm -f ./psql_handeler/*.so
+	@rm -f ./config/*.c
+	@rm -f ./config/*.so
 	@rm -rf ./build
 	@rm -f *.c *.so
