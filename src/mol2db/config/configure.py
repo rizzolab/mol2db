@@ -1,6 +1,20 @@
 import json
 import sys,os
 
+if getattr(sys, 'frozen', False):
+    # If the application is run as a bundle, the PyInstaller bootloader
+    # extends the sys module by a flag frozen=True and sets the app 
+    # path into variable _MEIPASS'.
+    DIRNAME = sys._MEIPASS
+else:
+    DIRNAME = application_path = os.path.dirname(os.path.abspath(__file__))
+
+
+#DIRNAME = os.path.dirname(__file__) + '/'
+print(DIRNAME)
+print(sys.path)
+
+
 def make_kwargs(args):
 
     kwargs = {}
@@ -42,7 +56,7 @@ def make_your_own_kw(**kwargs):
         tmp_dict_config['port'] = kwargs['prt']
 
         #creating config file that contains your information. 
-        with open('./mol2db/config/'+kwargs['name_create'], "w") as outfile:
+        with open(DIRNAME+kwargs['name_create'], "w") as outfile:
             outfile.write(json.dumps(tmp_dict_config, indent=4))
             print(kwargs['name_create']+ " created!")
     else:
@@ -58,17 +72,17 @@ def set_configure (args):
     #this will automatically create a config file and output a json 
     #based on the input flags and where you place the path
     if kwargs['subcommand'] == "createsource" and kwargs['name_create']:
-        if (os.path.exists('./mol2db/config/'+kwargs['name_create'])):  
+        if (os.path.exists(DIRNAME+kwargs['name_create'])):  
             print(kwargs['name_create'] + ' already exists. Name it something else. exiting...')
             sys.exit()
         make_your_own_kw(**kwargs)
    
     #removes the config file
     elif kwargs['subcommand'] == "deletesource" and kwargs['name_delete']:
-        if not (os.path.exists('./mol2db/config/'+kwargs['name_delete'])):
+        if not (os.path.exists(DIRNAME+kwargs['name_delete'])):
             print(kwargs['name_delete'] + " does not exists. Name it something else. exiting...") 
         else:
-            os.remove('./mol2db/config/'+kwargs['name_delete'])
+            os.remove(DIRNAME+kwargs['name_delete'])
             print(kwargs['name_delete']+ ' deleted!')
  
         sys.exit()    
@@ -86,7 +100,7 @@ def set_configure (args):
             sys.exit()
 
         try:
-            config_f        = open('./mol2db/config/' + kwargs['cred'])
+            config_f        = open(DIRNAME + kwargs['cred'])
         except FileNotFoundError:
             print("credential config file not found. Please source the file")
             sys.exit()
