@@ -120,19 +120,61 @@ kwargs = vars(args)
 if kwargs['subcommand'] == "source":
     config_f            = open(kwargs['what_to_source'])
     config_data         = json.load(config_f)
-    with open("./mol2db/config/mol2db.config", "w") as outfile:
+
+    with open(kwargs['what_to_source'], "w") as outfile:
         outfile.write(json.dumps(config_data, indent=4))
 
-if kwargs['dbname'] or kwargs['user_name'] or kwargs['pw'] or kwargs['ht'] or kwargs['prt'] != None:
-    print("NOTHIN")
-else:
-    config_f            = open('./mol2db/config/mol2db.config')
+    #fill the kwargs keys with credential
+    #information
+    kwargs['dbname']    = config_data['database_name']
+    kwargs['user_name'] = config_data['user_name']
+    kwargs['pw']        = config_data['password']
+    kwargs['ht']        = config_data['host']
+    kwargs['prt']       = config_data['port']
+
+#if there is no source command but you want to input your own
+#this will automatically create a config file and output a json 
+#with your own inputs
+elif (kwargs['dbname']    and \
+      kwargs['user_name'] and \
+      kwargs['pw']        and \
+      kwargs['ht']        and \
+      kwargs['prt']):
+
+    tmp_dict_config = dict()
+    tmp_dict_config['dbname'] = kwargs['dbname'] 
+    tmp_dict_config['user_name'] = kwargs['user_name']
+    tmp_dict_config['pw'] = kwargs['pw']
+    tmp_dict_config['ht'] = kwargs['ht'] 
+    tmp_dict_config['prt'] = kwargs['prt']
+
+    #creating config file that contains your information. 
+    with open("./mol2db/config/mol2db.config", "w") as outfile:
+        outfile.write(json.dumps(tmp_dict_config, indent=4))
+
+#if you are not sourcing AND there are no filled in inputs
+#for the credential information try to find the config file
+#and load the creds up. if not, exit 
+elif kwargs['subcommand'] != "source" and not (kwargs['dbname']    and \
+                                               kwargs['user_name'] and \
+                                               kwargs['pw']        and \
+                                               kwargs['ht']        and \
+                                               kwargs['prt']):
+
+    try:
+        config_f        = open('./mol2db/config/mol2db.config')
+    except FileNotFoundError:
+        print("credential config file not found. Please source the file")    
+        exit()
+
     config_data         = json.load(config_f)
     kwargs['dbname']    = config_data['database_name']
     kwargs['user_name'] = config_data['user_name']
     kwargs['pw']        = config_data['password']
     kwargs['ht']        = config_data['host']
     kwargs['prt']       = config_data['port']
+
+
 
 if args.verbose:
     print("############################")
