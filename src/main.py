@@ -142,11 +142,11 @@ elif (kwargs['dbname']    and \
       kwargs['prt']):
 
     tmp_dict_config = dict()
-    tmp_dict_config['dbname'] = kwargs['dbname'] 
+    tmp_dict_config['database_name'] = kwargs['dbname'] 
     tmp_dict_config['user_name'] = kwargs['user_name']
-    tmp_dict_config['pw'] = kwargs['pw']
-    tmp_dict_config['ht'] = kwargs['ht'] 
-    tmp_dict_config['prt'] = kwargs['prt']
+    tmp_dict_config['password'] = kwargs['pw']
+    tmp_dict_config['host'] = kwargs['ht'] 
+    tmp_dict_config['port'] = kwargs['prt']
 
     #creating config file that contains your information. 
     with open("./mol2db/config/mol2db.config", "w") as outfile:
