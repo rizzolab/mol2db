@@ -4,14 +4,24 @@ import sys,os
 
 DIRNAME=''
 frozen = 'not'
+
+#Since PyInstaller doesn't give you the PATH when you 
+#print the base dir name, you have to 
+#get the path of the executable and edit to get the dir you want
+#if you want to check it out read the the documentation:
+#https://pyinstaller.org/en/stable/runtime-information.html#run-time-information
 if getattr(sys, 'frozen', False):
     # we are running in a bundle
     #frozen = 'ever so'
     #bundle_dir = sys._MEIPASS
     DIRNAME=(os.path.dirname(os.path.dirname(sys.executable))+"/src/mol2db/config/")
+
+#But if you are running in a regular python envrionemt (No Pyinstaller!)
+#you can just get the dirname as shown below
 else:
     # we are running in a normal Python environment
-    DIRNAME = os.path.dirname(os.path.abspath(__file__))
+    DIRNAME = os.path.dirname(os.path.abspath(__file__)) + '/'
+
 #$print( 'we are',frozen,'frozen')
 #$print( 'bundle dir is', bundle_dir )
 #$print( 'sys.argv[0] is', sys.argv[0] )
