@@ -1,19 +1,22 @@
+#!/usr/bin/env python3
 import json
 import sys,os
 
+DIRNAME=''
+frozen = 'not'
 if getattr(sys, 'frozen', False):
-    # If the application is run as a bundle, the PyInstaller bootloader
-    # extends the sys module by a flag frozen=True and sets the app 
-    # path into variable _MEIPASS'.
-    DIRNAME = sys._MEIPASS
+    # we are running in a bundle
+    #frozen = 'ever so'
+    #bundle_dir = sys._MEIPASS
+    DIRNAME=(os.path.dirname(os.path.dirname(sys.executable))+"/src/mol2db/config/")
 else:
-    DIRNAME = application_path = os.path.dirname(os.path.abspath(__file__))
-
-
-#DIRNAME = os.path.dirname(__file__) + '/'
-print(DIRNAME)
-print(sys.path)
-
+    # we are running in a normal Python environment
+    DIRNAME = os.path.dirname(os.path.abspath(__file__))
+#$print( 'we are',frozen,'frozen')
+#$print( 'bundle dir is', bundle_dir )
+#$print( 'sys.argv[0] is', sys.argv[0] )
+#$print( 'sys.executable is', sys.executable )
+#$print( 'os.getcwd is', os.getcwd() )
 
 def make_kwargs(args):
 
