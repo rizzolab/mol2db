@@ -1,0 +1,30 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "subClass_branch" ]
+  pull_request:
+    branches: [ "subClass_branch" ]
+  schedule:
+  - cron: "0 2 * * 1"
+
+jobs:
+  build:
+    name: compiling
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    #- name: configure
+    #  run: ./configure
+    
+    - name: Install dependencies
+      run: |
+        pip install psycopg
+        pip install pandas
+        pip install pyinstaller
+
+    - name: compile mol2db
+      run: make mol2db
+
