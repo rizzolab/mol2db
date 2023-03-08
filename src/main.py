@@ -44,8 +44,8 @@ parser.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
 
 #where you source a whole file
 parser.add_argument('-cr','--cred',dest='cred',help='instead of adding flags \
-                                                     you flag the name of the \
-                                                     configuration file.')
+                                                     you can specify the name \
+                                                     of configuration file.')
 
 #turn on verbose
 parser.add_argument('-v',dest='verbose',action="store_true",help="add verbose func")
@@ -133,9 +133,11 @@ args = parser.parse_args()
 
 #preparing kwargs with args 
 kwargs = {}
-
 kwargs = cf.set_configure(args)
 
+
+#if verbose is turned on:
+#display all of the parameters
 if args.verbose:
     print("############################")
     print("Parameters used:")
@@ -156,52 +158,66 @@ if (args.subcommand == "mol2csv"):
     
     ##convert mol2 file into mol2objects and write them into .mol2 files
     mol2obj.mol2obj2write(read_files,output_name)
+
+#where you convert csv2 back to mol2file
 elif (args.subcommand == "csv2mol2"):
     input_csv   = kwargs['input']
     output_name = kwargs['name_mol2']
 
+    #where you write mol2
     mol2obj.csv2mol2write(input_csv,output_name)   
 
+#where you execute your own sql string
 elif (args.subcommand == "execute"):
     ap.execute(args.str_2_exe,**kwargs)
 
+#where you load mol2db csv file
+#into your specified database
 elif (args.subcommand == "csv2psql"):
     input_csv = args.input_csv
     exe=""
     ap.execute(exe,**kwargs)
 
+#where you create a relation(table)
+#in the (un)specified database
 elif (args.subcommand == "moltables"):
     exe = scripts.molTables
     ap.execute(exe,**kwargs)
 
+#where you pull molecules via 
+#txt that contains ID names
 elif (args.subcommand == "pull_mols"):
     if kwargs["output_name"] == None:
         kwargs["output_name"] = "output.mol2"
     exe = scripts.pull_mols(args.input_zincids)
     ap.pull_mols(exe,**kwargs) 
 
+#where you pull molecules by descriptors 
+#of one sided operations
 elif (args.subcommand =="pull_by_des"):
     if kwargs["output_name"] == None:
         kwargs["output_name"] = "output.mol2"
     exe = scripts.pull_by_des(kwargs["des"],kwargs["ope"],kwargs["range"])
     ap.pull_mols(exe,**kwargs)
 
+#where you pull molecules by descriptors
+#via ranges (lower to upper limit)
 elif (args.subcommand =="pull_by_range"):
     if kwargs["output_name"] == None:
         kwargs["output_name"] = "output.mol2"
     exe = scripts.pull_by_range(kwargs["des"],kwargs["lower"],kwargs["upper"])
     ap.pull_mols(exe,**kwargs)
 
+#create db by specified name
 elif (args.subcommand == "create"):
     ap.initiatedb(**kwargs) 
 
+#delete db by specified named
 elif (args.subcommand == "delete"):
     ap.deletedb(**kwargs)
 
+#to see if a databse exist or not
 elif (args.subcommand == "ifex"):
-    if kwargs["dbname"] == None:
-        print("dbname must be specified")
-        exit(0)
     exe = scripts.ifex(args.dbname,args.component)
     ap.ifex(exe,**kwargs)
 

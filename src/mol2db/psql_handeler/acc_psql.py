@@ -12,16 +12,26 @@ from mol2db.write import write_mol as wm
 from mol2db.mol2obj import mol2object as m2o
 #from mol2db.sql_scripts import sql_script as ss
 
+connected_withpsql='Connected with db:'
 
 def connect2psql (**kwargs):
 
-    conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=kwargs['auto_commit'])
+    conn = psycopg.connect(dbname  =kwargs['dbname'],       \
+                           user     = kwargs['user_name'],  \
+                           password = kwargs['pw'],         \
+                           host     = kwargs['ht'],         \
+                           port     = kwargs['prt'],        \
+                           autocommit=kwargs['auto_commit'])
+    print(str_connect2psql(**kwargs))
     return conn
 
+def str_connect2psql(**kwargs):
+    i_dbname =kwargs['dbname']
+    return f"{connected_withpsql} {i_dbname}"
 
 def execute(exe,**kwargs):
     conn = connect2psql(**kwargs)
-#    try:
+
     with conn.cursor() as cur:
     
         if 'psql_script' in kwargs: 
@@ -58,8 +68,6 @@ def execute(exe,**kwargs):
                 print("If you want the results to query to an output file, you must specify output_file name")
    
     cur.close()
-#    except:
-#        sys.exit("Error in closing cursor.") 
 
 
 
@@ -69,7 +77,7 @@ def execute(exe,**kwargs):
         conn.close()
         print("Closed database successfully")
     except:
-        sys.exit("ERROR in closing database. Please double check on your psql set up")
+        sys.exit("EXIT: ERROR in closing database. Please double check on your psql set up")
 
 
 
@@ -79,32 +87,32 @@ def csv2psql():
 
 #creating and deleting databases
 def initiatedb(**kwargs):
-    conn = connect2psql(**kwargs,autocommit=True)
-    print("Opened database successfully. Connected with postgres db")
-    cur = conn.cursor()
     i_dbname = kwargs['DB_NAME']
-    cur.execute('CREATE DATABASE ' + i_dbname)
-    conn.close()
+    conn = connect2psql(**kwargs,autocommit=True)
+    cur = conn.cursor()
+    try:
+        cur.execute('CREATE DATABASE ' + i_dbname)
+    except psycopg.errors.DuplicateDatabase:
+        conn.close()
+        sys.exit(f'EXIT: database {i_dbname} already exists')
     print(i_dbname+' db was created')
 
 
 def deletedb(**kwargs):
-    conn = connect2psql(**kwargs,autocommit=True)
-    print("Opened database successfully. Connected with postgres db")
-    cur = conn.cursor()
     i_dbname =kwargs['DB_NAME']
+    conn = connect2psql(**kwargs,autocommit=True)
+    cur = conn.cursor()
     try:
         cur.execute('DROP DATABASE ' + i_dbname)
     except psycopg.errors.InvalidCatalogName:
-        print(f'database {i_dbname} does not exist')
         conn.close()
-        sys.exit('exiting...')
+        sys.exit(f'EXIT: database {i_dbname} does not exist')
     conn.close()
     print(i_dbname+' db was deleted')
 
 def ifex(exe,**kwargs):
+    i_dbname =kwargs['dbname']
     conn = connect2psql(**kwargs,autocommit=True)
-    print("Opened database successfully. Connected with postgres db")
     cur = conn.cursor()
     cur.execute(exe)
     for i, line in enumerate(cur.fetchall(),0):
@@ -115,8 +123,8 @@ def ifex(exe,**kwargs):
     conn.close()
 
 def pull_mols(exe,**kwargs):
+    i_dbname =kwargs['DB_NAME']
     conn = connect2psql(**kwargs,autocommit=True)
-    print("Opened database successfully. Connected with postgres db")
     cur = conn.cursor()
     cur.execute(exe)
 
@@ -125,7 +133,7 @@ def pull_mols(exe,**kwargs):
     if len(cur.fetchall())==0:
         cur.close()
         conn.close()
-        sys.exit('Nothing was pulled out. Check out the contents of your molecular table.\n' + \
+        sys.exit('EXIT: Nothing was pulled out. Check out the contents of your molecular table.\n' + \
                   'Make sure you are specifying the correct database and table')
 
     for i, line in enumerate(cur.fetchall(),0):
