@@ -4,6 +4,7 @@ import sys,os
 
 DIRNAME=''
 frozen = 'not'
+default_config=''
 
 #Since PyInstaller doesn't give you the PATH when you 
 #print the base dir name, you have to 
@@ -97,13 +98,13 @@ def set_configure (args):
     #if there is source command but you want to input your own
     #this will automatically create a config file and output a json 
     #based on the input flags and where you place the path
-    if kwargs['subcommand'] == "createsource" and kwargs['name_create']:
+    if kwargs['subcommand'] == "createsource":
         if (os.path.exists(DIRNAME+kwargs['name_create'])):  
             sys.exit(kwargs['name_create'] + ' already exists. Name it something else. exiting...')
         make_your_own_kw(**kwargs)
    
     #removes the config file
-    elif kwargs['subcommand'] == "deletesource" and kwargs['name_delete']:
+    elif kwargs['subcommand'] == "deletesource":
         if not (os.path.exists(DIRNAME+kwargs['name_delete'])):
             sys.exit(kwargs['name_delete'] + " does not exists. Name it something else. exiting...")
         else:
@@ -119,23 +120,38 @@ def set_configure (args):
             sys.exit(kwargs['name_update'] + " does not exist to update.")
         sys.exit()
 
+    #adding flags always takes precedance over no flag
+    #or specified creds 
+    elif if_any_exist(**kwargs):
+        return kwargs        
+
     #if you are not sourcing AND there are no filled in inputs
     #for the credential information try to find the config file
     #and load the creds up. if not, exit 
-    elif kwargs['cred']:
+    elif kwargs['cred'] or (kwargs['subcommand'] != "updatesource" and kwargs['subcommand'] != "createsource"):
         if (if_any_exist(**kwargs)):
             print("remove any flags if sourcing. exiting...")
             sys.exit()
+        if (kwargs['cred']):
+            try:
+                config_f        = open(DIRNAME + kwargs['cred'])
+            except FileNotFoundError:
+                print("credential config file not found. Please source the file")
+                sys.exit()
+            except KeyError:
+                print("you forgot to name config file")
+                sys.exit()
+        else:
+            default_config="mol2db.config"
+            try:
+                config_f        = open(DIRNAME + default_config)
+            except FileNotFoundError:
+                print(f"credential config file {default_config} not found. Please source the file")
+                sys.exit()
+            except KeyError:
+                print("you forgot to name config file")
+                sys.exit()
 
-        try:
-            config_f        = open(DIRNAME + kwargs['cred'])
-        except FileNotFoundError:
-            print("credential config file not found. Please source the file")
-            sys.exit()
-        except KeyError:
-            print("you forgot to name config file")
-            sys.exit()
-    
         config_data         = json.load(config_f)
         kwargs['dbname']    = config_data['database_name']
         kwargs['user_name'] = config_data['user_name']

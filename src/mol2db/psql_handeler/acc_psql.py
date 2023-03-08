@@ -119,7 +119,14 @@ def pull_mols(exe,**kwargs):
     print("Opened database successfully. Connected with postgres db")
     cur = conn.cursor()
     cur.execute(exe)
+
     #for i, line in enumerate(cur.fetchall(),0): print(str(i)+" RESULTS: "+str(line))
+
+    if len(cur.fetchall())==0:
+        cur.close()
+        conn.close()
+        sys.exit('Nothing was pulled out. Check out the contents of your molecular table.\n' + \
+                  'Make sure you are specifying the correct database and table')
 
     for i, line in enumerate(cur.fetchall(),0):
         m2o.curline2mol2write(line,kwargs["output_name"])
