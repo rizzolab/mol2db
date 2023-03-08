@@ -43,31 +43,34 @@ parser.add_argument('-ht','--host' ,dest='ht',help="enter your host")
 parser.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
 
 #where you source a whole file
-parser.add_argument('-cr','--cred',dest='cred',help='instead of adding creds. you can source your creds')
-
+parser.add_argument('-cr','--cred',dest='cred',help='instead of adding flags \
+                                                     you flag the name of the \
+                                                     configuration file.')
 
 #turn on verbose
 parser.add_argument('-v',dest='verbose',action="store_true",help="add verbose func")
 
-##
-
+#arguments to handle creds
 subparsers = parser.add_subparsers(help='help for subcommand', dest="subcommand")
 
-##arguments to source mol2db.config file
-#command_source = subparsers.add_parser('source', help='to use mol2db.config as the psql info')
-#command_source.add_argument(dest='name_source', help="PATH TO mol2db.config file")
+command_createsource = subparsers.add_parser('createsource', help='to create \
+                                              mol2db.config as the psql info')
+command_createsource.add_argument(dest='name_create', help="name of mol2db.config file")
 
-command_createsource = subparsers.add_parser('createsource', help='to create mol2db.config as the psql info')
-command_createsource.add_argument(dest='name_create', help="PATH TO mol2db.config file")
+command_deletesource = subparsers.add_parser('deletesource', help='to delete \
+                                              mol2db.config as the psql info')
+command_deletesource.add_argument(dest='name_delete', help="name of mol2db.config file")
 
-command_deletesource = subparsers.add_parser('deletesource', help='to delete mol2db.config as the psql info')
-command_deletesource.add_argument(dest='name_delete', help="PATH TO mol2db.config file")
+command_updatesource = subparsers.add_parser('updatesource', help = 'update \
+                                              the configuration file.')
+command_updatesource.add_argument(dest='name_update', help="name of mol2db.config file")
 
 #arguments pertaining to only mol2csv
 command_mol2csv = subparsers.add_parser('mol2csv', help='to convert molecules into csv')
 command_mol2csv.add_argument('-i',dest='input',required=True, help="input a mol2 script")
 command_mol2csv.add_argument('-o',dest='name_csv', help="Feed output file name")
-command_mol2csv.add_argument('--null',dest='not_none', action="store_true",help="output in the csv to have NULL, instead of being empty")
+command_mol2csv.add_argument('--null',dest='not_none', action="store_true", \
+                             help="output in the csv to have NULL, instead of being empty")
 
 #arguments pertaining to only csv2mol2
 command_csv2mol2 = subparsers.add_parser('csv2mol2',help="to convert csv file into mol2 file")
@@ -79,7 +82,8 @@ command_csv2mol2.add_argument('-o',dest='name_mol2',help="Feed output file name"
 command_str2exe = subparsers.add_parser('execute', help='to execute a sql string')
 command_str2exe.add_argument(dest='str_2_exe', help="input string or psql script")
 command_str2exe.add_argument('-o',dest='output_name', help="output_name")
-command_str2exe.add_argument('-ps','--psql_script',dest='psql_script', action="store_true", help="specify if you want to sql script(True) or not(False). No flag (False)")
+command_str2exe.add_argument('-ps','--psql_script',dest='psql_script', action="store_true",\
+                             help="specify if you want to sql script(True) or not(False). No flag (False)")
 
 
 #arguments pertaining to csv2psql
@@ -90,14 +94,16 @@ command_csv2psql.add_argument(dest='input_csv', help="input your csv file")
 command_moltables = subparsers.add_parser('moltables', help='to create a molecular table')
 
 #arguments pertaining to pull_mols
-command_pull_mols = subparsers.add_parser('pull_mols', help='to pull one molecule from the psql db')
+command_pull_mols = subparsers.add_parser('pull_mols', help='to pull molecule(s) \
+                                                             via text file')
 command_pull_mols.add_argument('-i',dest='input_zincids',required=True, help="input a text file with a list of ZINCIDs you want to pull")
 command_pull_mols.add_argument('-o',dest='output_name', help="output_name")
 
 #arguments pertaining to pull_by_des
 command_pull_by_des = subparsers.add_parser('pull_by_des',help='to pull molecules by descriptors')
 command_pull_by_des.add_argument(dest='des', help="enter your descriptor")
-command_pull_by_des.add_argument(dest='ope', help="enter operator")
+command_pull_by_des.add_argument(dest='ope', help="available operators [more, emore, equal, less, eless] \
+                                                   to choose from.")
 command_pull_by_des.add_argument(dest='range', help="set the range")
 command_pull_by_des.add_argument('-o',dest='output_name', help="output_name")
 
@@ -127,7 +133,6 @@ args = parser.parse_args()
 
 #preparing kwargs with args 
 kwargs = {}
-#kwargs = vars(args)
 
 kwargs = cf.set_configure(args)
 

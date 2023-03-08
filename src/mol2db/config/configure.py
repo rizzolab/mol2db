@@ -35,6 +35,16 @@ def make_kwargs(args):
 
     return kwargs
 
+def if_any_exist(**kwargs): 
+    if  kwargs['dbname']    or \
+        kwargs['user_name'] or \
+        kwargs['pw']        or \
+        kwargs['ht']        or \
+        kwargs['prt']:
+        return True
+    else:
+        return False
+
 
 def source(**kwargs):
 
@@ -56,11 +66,7 @@ def source(**kwargs):
 
 def make_your_own_kw(**kwargs):
 
-    if kwargs['dbname']         or \
-            kwargs['user_name'] or \
-            kwargs['pw']        or \
-            kwargs['ht']        or \
-            kwargs['prt']:
+    if if_any_exist(**kwargs):
         tmp_dict_config = dict()
         tmp_dict_config['database_name'] = kwargs['dbname']
         tmp_dict_config['user_name'] = kwargs['user_name']
@@ -68,13 +74,20 @@ def make_your_own_kw(**kwargs):
         tmp_dict_config['host'] = kwargs['ht']
         tmp_dict_config['port'] = kwargs['prt']
 
-        #creating config file that contains your information. 
-        with open(DIRNAME+kwargs['name_create'], "w") as outfile:
-            outfile.write(json.dumps(tmp_dict_config, indent=4))
-            print(kwargs['name_create']+ " created!")
+
+        if kwargs['subcommand'] == "createsource":
+            #creating config file that contains your information. 
+            with open(DIRNAME+kwargs['name_create'], "w") as outfile:
+                outfile.write(json.dumps(tmp_dict_config, indent=4))
+                print(kwargs['name_create']+ " created!")
+
+        elif  kwargs['subcommand'] == "updatesource":
+            #creating config file that contains your information. 
+            with open(DIRNAME+kwargs['name_update'], "w") as outfile:
+                outfile.write(json.dumps(tmp_dict_config, indent=4))
+                print(kwargs['name_update']+ " updated!") 
     else:
         print("you have placed no input flags for configuration")
-        sys.exit()
 
 
 def set_configure (args):
@@ -86,29 +99,31 @@ def set_configure (args):
     #based on the input flags and where you place the path
     if kwargs['subcommand'] == "createsource" and kwargs['name_create']:
         if (os.path.exists(DIRNAME+kwargs['name_create'])):  
-            print(kwargs['name_create'] + ' already exists. Name it something else. exiting...')
-            sys.exit()
+            sys.exit(kwargs['name_create'] + ' already exists. Name it something else. exiting...')
         make_your_own_kw(**kwargs)
    
     #removes the config file
     elif kwargs['subcommand'] == "deletesource" and kwargs['name_delete']:
         if not (os.path.exists(DIRNAME+kwargs['name_delete'])):
-            print(kwargs['name_delete'] + " does not exists. Name it something else. exiting...") 
+            sys.exit(kwargs['name_delete'] + " does not exists. Name it something else. exiting...")
         else:
             os.remove(DIRNAME+kwargs['name_delete'])
             print(kwargs['name_delete']+ ' deleted!')
- 
         sys.exit()    
+
+    #update the config file
+    elif kwargs['subcommand'] == "updatesource":
+        if os.path.exists(DIRNAME+kwargs['name_update']):
+            make_your_own_kw(**kwargs)
+        else:
+            sys.exit(kwargs['name_update'] + " does not exist to update.")
+        sys.exit()
+
     #if you are not sourcing AND there are no filled in inputs
     #for the credential information try to find the config file
     #and load the creds up. if not, exit 
     elif kwargs['cred']:
-        if (kwargs['dbname']    or \
-            kwargs['user_name'] or \
-            kwargs['pw']        or \
-            kwargs['ht']        or \
-            kwargs['prt']):
-
+        if (if_any_exist(**kwargs)):
             print("remove any flags if sourcing. exiting...")
             sys.exit()
 

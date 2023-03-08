@@ -15,11 +15,7 @@ from mol2db.mol2obj import mol2object as m2o
 
 def connect2psql (**kwargs):
 
-    #try: 
     conn = psycopg.connect(dbname=kwargs['dbname'], user = kwargs['user_name'], password = kwargs['pw'],host = kwargs['ht'], port = kwargs['prt'], autocommit=kwargs['auto_commit'])
-    print("Opened database successfully")
-    #except:
-    #    sys.exit("ERROR in accessing database. Please double check on your psql set up")
     return conn
 
 
@@ -97,7 +93,12 @@ def deletedb(**kwargs):
     print("Opened database successfully. Connected with postgres db")
     cur = conn.cursor()
     i_dbname =kwargs['DB_NAME']
-    cur.execute('DROP DATABASE ' + i_dbname)
+    try:
+        cur.execute('DROP DATABASE ' + i_dbname)
+    except psycopg.errors.InvalidCatalogName:
+        print(f'database {i_dbname} does not exist')
+        conn.close()
+        sys.exit('exiting...')
     conn.close()
     print(i_dbname+' db was deleted')
 
