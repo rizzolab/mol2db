@@ -38,8 +38,13 @@ class SqlScripts:
 
     def pull_mols(self,input_file):
         names = "('"
-        with open (input_file,'r') as zinc_file:
-            read_files = zinc_file.readlines()
+
+        try:
+            with open (input_file,'r') as zinc_file:
+                read_files = zinc_file.readlines()
+        except FileNotFoundError:
+            print('Path of file cannot be found. adjust the path name')
+            sys.exit('exiting...')
 
         for i,line in enumerate(read_files,0):
             if i+1 == len(read_files):
