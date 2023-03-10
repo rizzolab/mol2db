@@ -54,9 +54,10 @@ def execute(exe,**kwargs):
             #import an iteratable tuple (row) into the psql database
             with cur.copy("COPY molecules FROM STDIN ") as copy:
                 for ir in df.itertuples(index=False,name=None):
-                    #print(ir)
                     copy.write_row(ir) 
+                    continue;
         else:
+            print("HAHA")
             cur.execute(exe)
             
 
@@ -123,21 +124,20 @@ def ifex(exe,**kwargs):
     conn.close()
 
 def pull_mols(exe,**kwargs):
-    i_dbname =kwargs['DB_NAME']
     conn = connect2psql(**kwargs,autocommit=True)
     cur = conn.cursor()
     cur.execute(exe)
-
-    #for i, line in enumerate(cur.fetchall(),0): print(str(i)+" RESULTS: "+str(line))
-
-    if len(cur.fetchall())==0:
+   
+    if cur.rowcount==0:
         cur.close()
         conn.close()
         sys.exit('EXIT: Nothing was pulled out. Check out the contents of your molecular table.\n' + \
                   'Make sure you are specifying the correct database and table')
 
     for i, line in enumerate(cur.fetchall(),0):
+        print(line)
         m2o.curline2mol2write(line,kwargs["output_name"])
+
     cur.close()
     conn.close()
 
