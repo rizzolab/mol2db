@@ -58,14 +58,33 @@ m2db --autocommit create DATABASE_NAME
 
 Then create psql molecular table:
 ```
-m2db -d DATABASE_NAME -u USER_NAME -pw PASSWORD --ht HOST --pt PORT --autocommit moltables
+m2db -d DATABASE_NAME -u USER_NAME --autocommit moltables
 ```
 
 Then insert the .csv file into the table:
 ```
-m2db -d DATABASE_NAME -u USER_NAME -pw PASSWORD --autocommit csv2psql output.csv
+m2db -d DATABASE_NAME -u USER_NAME --autocommit csv2psql output.csv
 ```
 
+If you want to pull molecules by ID:
+
+```
+m2db -d DATABASE_NAME -u USER_NAME  pull_mols -i ID.txt
+```
+
+
+If you want to save your credentials rather than inputting flags for 
+every request:
+
+```
+m2db -d DATABASE_NAME -u USER_NAME createsource LABEL
+```
+
+If you want to update your credentials:
+
+```
+m2db -d DATABASE_NAME -u USER_NAME updatesource LABEL
+```
 
 If you want help:
 ```
@@ -74,30 +93,32 @@ m2db --help
 
 output:
 ```
-usage: mol2db [-h] [--autocommit] [-d DBNAME] [-ur USER_NAME] [-pw PW] [-ht HT] [-pt PRT]
-              {mol2csv,csv2mol2,execute,csv2psql,moltables,create,delete} ...
+usage: mol2db [-h] [--autocommit] [-d DBNAME] [-ur USER_NAME] [-pw PW] [-ht HT] [-pt PRT] [-cr CRED] [-v]
+              {createsource,deletesource,updatesource,mol2csv,csv2mol2,execute,csv2psql,moltables,pull_mols,pull_by_des,pull_by_range,create,delete,ifex} ...
 
 positional arguments:
-  {mol2csv,csv2mol2,execute,csv2psql,moltables,create,delete}
+  {createsource,deletesource,updatesource,mol2csv,csv2mol2,execute,csv2psql,moltables,pull_mols,pull_by_des,pull_by_range,create,delete,ifex}
                         help for subcommand
+    createsource        to create mol2db.config as the psql info
+    deletesource        to delete mol2db.config as the psql info
+    updatesource        update the configuration file.
     mol2csv             to convert molecules into csv
     csv2mol2            to convert csv file into mol2 file
     execute             to execute a sql string
     csv2psql            to load up csv into db
     moltables           to create a molecular table
-    create              to create your own db. This command will initially connect db
-                        named "postgres" under your username. This should be created by
-                        default when installing psql. Then it will create the dbname of
-                        your choice. Please do not delete or change that name
-    delete              to delete your own db. This command will initially connect db
-                        named "postgres" under your username. This should be created by
-                        default when installing psql. Then it will create the dbname of
-                        your choice. Please do not delete or change that name
+    pull_mols           to pull molecule(s) via text file
+    pull_by_des         to pull molecules by descriptors
+    pull_by_range       to pull molecules by descriptors based on a lower and upper range
+    create              to create your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do
+                        not delete or change that name
+    delete              to delete your own db. This command will initially connect db named "postgres" under your username. This should be created by default when installing psql. Then it will create the dbname of your choice. Please do
+                        not delete or change that name
+    ifex                if components of psql exists
 
 optional arguments:
   -h, --help            show this help message and exit
-  --autocommit          specify if you want to autocommit(True) or not(False). No flag
-                        (False)
+  --autocommit          specify if you want to autocommit(True) or not(False). No flag (False)
   -d DBNAME, --dbname DBNAME
                         enter your database name to access
   -ur USER_NAME, --user USER_NAME
@@ -105,6 +126,9 @@ optional arguments:
   -pw PW, --pw PW       enter your password
   -ht HT, --host HT     enter your host
   -pt PRT, --prt PRT    enter your port number
+  -cr CRED, --cred CRED
+                        instead of adding flags you can specify the name of configuration file.
+  -v                    add verbose func
 
 ```
 
