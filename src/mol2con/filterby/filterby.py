@@ -11,17 +11,16 @@ from mol2db.write import write_mol as wm
 
 #get header parameters
 from mol2db.parameters import headers as hd
-from mol2db.parameters import ops as op
+from mol2db.parameters import operators as op
 
 
 def check_if_in_range(mol,**kwargs):
-
     if not kwargs['des'] or \
        not kwargs['ope'] or \
        not kwargs['range']:
         sys.exit('input is not corrent')
 
-    return op[kwargs['ope']](getattr(mol,kwargs['des']),kwargs['range'])   
+    return op.ops[kwargs['ope']](getattr(mol,kwargs['des']),kwargs['range'])   
 
 def select_by_des(input_mol2,**kwargs):
    
@@ -30,11 +29,10 @@ def select_by_des(input_mol2,**kwargs):
 
     for i,line in enumerate(input_mol2,0):  
         single_mol.append(line) 
-
+         
         if "ROOT" in line:
             obj = mol2obj.Mol2obj(single_mol) 
-            if check_if_in_range(obj,kwargs):
-               wm.write_mol(None,obj)
-            
+            if check_if_in_range(obj,**kwargs):
+                wm.write_mol(kwargs['output_name'],obj)
             obj.clear()
             single_mol=[]

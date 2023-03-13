@@ -7,7 +7,7 @@ import time
 #import other functions
 from mol2db.mol2obj import mol2object as mol2obj
 from mol2db.config import configure as cf
-from mol2con.pullby import pullby as pb 
+from mol2con.filterby import filterby as fb 
 
 #start time
 start_time = time.time()
@@ -56,12 +56,10 @@ if args.verbose:
 
 ##decision tree here
 if (args.subcommand == "filter_by_des"):
-    input_mol2  = kwargs['input']
-    output_name = kwargs['output_name']
 
-    with open('two.mol2','r') as mol2:
+    with open(kwargs['input'],'r') as mol2:
         readlines = mol2.readlines()
-        pb.select_by_des(readlines)
+        fb.select_by_des(readlines,**kwargs)
 
 
 end_time = time.time()
