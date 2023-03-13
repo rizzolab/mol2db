@@ -1,3 +1,4 @@
+import operator
 
 operators = {
     "more"  :  ">",
@@ -5,4 +6,13 @@ operators = {
     "less"  :  "<",
     "eless" :  "<=",
     "equal" :  "="
+}
+
+
+ops = {
+    '>': operator.gt,
+    '<': operator.lt,
+    '>=': operator.ge,
+    '<=': operator.le,
+    '==': operator.eq
 }
