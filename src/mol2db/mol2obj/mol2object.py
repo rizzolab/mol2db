@@ -69,7 +69,7 @@ class Mol2obj:
 
         attr = []
         for attribute, value in self.__dict__.items():
-            if ("atoms" or "bonds") in attribute:
+            if attribute in ["atoms","bonds"]:
                 continue
             else:
                 attr.append(attribute)
@@ -476,7 +476,10 @@ def mol2obj2write(mol2s,output_name):
             obj.atoms.subst_id    = tmp_subst_id
             obj.atoms.subst_name  = tmp_subst_name
             obj.atoms.charge      = tmp_charge
-
+           
+            print(obj.name)
+            print(tmp_bond_num)
+ 
             obj.bonds.bond_num    = tmp_bond_num
             obj.bonds.bond_first  = tmp_bond_first
             obj.bonds.bond_second = tmp_bond_second
