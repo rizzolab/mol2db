@@ -57,7 +57,6 @@ def execute(exe,**kwargs):
                     copy.write_row(ir) 
                     continue;
         else:
-            print("HAHA")
             cur.execute(exe)
             
 

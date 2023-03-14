@@ -3,7 +3,6 @@
 
 def write_exe(output_name, lines):
 
-    print(lines)
     #if user did specify name use that name
     if (output_name != None):
         with open (output_name, 'w') as write_output:

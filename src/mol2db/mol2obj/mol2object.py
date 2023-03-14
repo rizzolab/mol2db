@@ -391,7 +391,6 @@ def csv2mol2write(input_csv,output_name):
         tmp_bond_type   = []
 
         obj.clear()
-    print("csv2mol2write")
 
 
 
@@ -420,7 +419,6 @@ def mol2obj2write(mol2s,output_name):
     for i in range(len(headers)):
         for j in range(len(headers[i])):
             headers[i][j] = headers[i][j].replace(":","")
-            #print(headers[i][j])
     for l in headers:
         mol2_dict.append(ut.process_headers_names(l,hd))
 
@@ -476,9 +474,6 @@ def mol2obj2write(mol2s,output_name):
             obj.atoms.subst_id    = tmp_subst_id
             obj.atoms.subst_name  = tmp_subst_name
             obj.atoms.charge      = tmp_charge
-           
-            print(obj.name)
-            print(tmp_bond_num)
  
             obj.bonds.bond_num    = tmp_bond_num
             obj.bonds.bond_first  = tmp_bond_first
