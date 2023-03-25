@@ -104,7 +104,7 @@ Then create a new database:
 m2db --autocommit create DATABASE_NAME
 ```
 
-Set up your configuration file for you psql access.
+Set up your configuration file for your psql access.
 This command will make these flags as default psql credential information
 into your psql database. An example:
 ```
