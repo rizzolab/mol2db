@@ -89,6 +89,9 @@ The first column is the label of the descriptors. The second column is the datat
       SMILES           TEXT
 
 ```
+
+To generate these descriptors, [DOCK6](https://dock.compbio.ucsf.edu/DOCK_6/index.htm), a molecular modeling software, can generate these descriptors as headers in each molecule in a multi-mol2 file.
+
 ###################################
 
 To convert a mol2 file into a `mol2db` compatible csv file.
@@ -125,6 +128,13 @@ that are found in the psql library:
 ```
 m2db pull_mols -i ID.txt
 ```
+
+if you want to pull molecules by descriptor. Let's say I want to pull molecules that have logp values between
+-2 to 5:
+```
+m2db pull_by_range logp -2 5
+```
+
 
 
 ## How to edit your credentials
