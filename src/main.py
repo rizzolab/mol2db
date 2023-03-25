@@ -38,12 +38,11 @@ parser.add_argument('--autocommit',dest='auto_commit', \
 #where you add info on psql
 parser.add_argument('-d','--dbname',dest='dbname',help="enter your database name to access")
 parser.add_argument('-ur','--user' ,dest='user_name',help="enter your user name")
-parser.add_argument('-pw','--pw'   ,dest='pw',help="enter your password")
 parser.add_argument('-ht','--host' ,dest='ht',help="enter your host")
 parser.add_argument('-pt','--prt'  ,dest='prt',help="enter your port number")
 
 #where you source a whole file
-parser.add_argument('-cr','--cred',dest='cred',help='instead of adding flags \
+parser.add_argument('-cr','--cred',dest='cred',default=None,nargs="?",help='instead of adding flags \
                                                      you can specify the name \
                                                      of configuration file.')
 
@@ -54,16 +53,16 @@ parser.add_argument('-v',dest='verbose',action="store_true",help="add verbose fu
 subparsers = parser.add_subparsers(help='help for subcommand', dest="subcommand")
 
 command_createsource = subparsers.add_parser('createsource', help='to create \
-                                              mol2db.config as the psql info')
-command_createsource.add_argument(dest='name_create', help="name of mol2db.config file")
+                                              credential file as the psql info.')
+command_createsource.add_argument(dest='cred',default=None,nargs="?", help="name of credential file you want to create")
 
 command_deletesource = subparsers.add_parser('deletesource', help='to delete \
                                               mol2db.config as the psql info')
-command_deletesource.add_argument(dest='name_delete', help="name of mol2db.config file")
+command_deletesource.add_argument(dest='cred',default=None,nargs="?",help="name of credential file you want to delete")
 
 command_updatesource = subparsers.add_parser('updatesource', help = 'update \
                                               the configuration file.')
-command_updatesource.add_argument(dest='name_update', help="name of mol2db.config file")
+command_updatesource.add_argument( dest='cred',default=None,nargs="?",help="name of creadential file you want to update")
 
 #arguments pertaining to only mol2csv
 command_mol2csv = subparsers.add_parser('mol2csv', help='to convert molecules into csv')
@@ -145,6 +144,7 @@ if args.verbose:
     for key,val in kwargs.items():
         print(str(key)+": " + str(val))
     print("############################")
+
 
 ##decision tree here
 #give the path of the mol2 you want to process

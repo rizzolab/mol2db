@@ -134,7 +134,6 @@ def pull_mols(exe,**kwargs):
                   'Make sure you are specifying the correct database and table')
 
     for i, line in enumerate(cur.fetchall(),0):
-        print(line)
         m2o.curline2mol2write(line,kwargs["output_name"])
 
     cur.close()
