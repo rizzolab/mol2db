@@ -64,30 +64,20 @@ descriptors or by their IDs.
 Below are column label for a molecular table. These are the available descriptors you can pull. 
 The first column is the label of the descriptors. The second column is the datatype of that descriptor. 
 
-```
-      NUM_ATOMS         INT,
-      NUM_BONDS         INT,
-      MW            DECIMAL,
-      ROT_BONDS         INT,
-      FORMAL_CHARGE DECIMAL,
-      HBA               INT,
-      HBD               INT,
-      HEAVY_ATOMS       INT,
-      NUM_AROM          INT,
-      NUM_ALIP          INT,
-      NUM_SAT           INT,
-      NUM_STEREO        INT,
-      NUM_SPIRO         INT,
-      LOGP          DECIMAL,
-      TPSA          DECIMAL,
-      SYNTHA        DECIMAL,
-      QED           DECIMAL,
-      LOGS          DECIMAL,
-      NUM_PAINS         INT,
-      PAINS_NAMES      TEXT,
-      SMILES           TEXT
+| Headers        | Data Type |   | Headers     | Data Type |
+|----------------|-----------|---|-------------|-----------|
+| NUM_ATOMS      | INT       |   | NUM_STEREO  | INT       |
+| NUM_BONDS      | INT       |   | NUM_SPIRO   | INT       |
+| MW             | DECIMAL   |   | LOGP        | DECIMAL   |
+| ROT_BONDS      | INT       |   | TPSA        | DECIMAL   |
+| FORMAL_CHARGE  | DECIMAL   |   | SYNTHA      | DECIMAL   |
+| HBA            | INT       |   | QED         | DECIMAL   |
+| HBD            | INT       |   | LOGS        | DECIMAL   |
+| HEAVY_ATOMS    | INT       |   | NUM_PAINS   | INT       |
+| NUM_AROM       | INT       |   | PAINS_NAMES | TEXT      |
+| NUM_ALIP       | INT       |   | SMILES      | TEXT      |
+| NUM_SAT        | INT       |   |             |           |
 
-```
 
 To generate these descriptors, [DOCK6](https://dock.compbio.ucsf.edu/DOCK_6/index.htm), a molecular modeling software, can generate these descriptors as headers in each molecule in a multi-mol2 file.
 
