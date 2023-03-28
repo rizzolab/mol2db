@@ -3,7 +3,7 @@
 Mol2db is a python-based software to interface with your mol2-based molecular library database on a linux-based command line. The database utitlizes psql to organize and store your mol2 molecules. Instead of storing your mol2 molecules into a multi-mol2 file format, which can be in the order of millions of molecules, you can store them in a SQL-based database by using mol2db commands.  
 
 
-## requirements
+## Requirements
 Pyinstaller is necessary to install if you want a binary, but you can call the main function from the build by using python3. 
 Pandas, psycopg (not psycopg2), and psql are required to install this build
 
@@ -55,11 +55,10 @@ make clean
 
 The general workflow:
 
-Mol2 files are converted into csv files, then these csv files can be imported into your generated psql database
-
-You create a molecular table that is in that database.
-
-While the mol2s are stored into your database, you can pull molecules out based on their cheminformatic
+1. Mol2 files are converted into csv files
+2. These csv files can be imported into your generated psql database
+3. You create a molecular table in your database
+4. While the mol2s are stored into your database, you can pull molecules out based on their cheminformatic
 descriptors or by their IDs.
 
 Below are column label for a molecular table. These are the available descriptors you can pull. 
@@ -92,9 +91,10 @@ The first column is the label of the descriptors. The second column is the datat
 
 To generate these descriptors, [DOCK6](https://dock.compbio.ucsf.edu/DOCK_6/index.htm), a molecular modeling software, can generate these descriptors as headers in each molecule in a multi-mol2 file.
 
-###################################
+---
 
 To convert a mol2 file into a `mol2db` compatible csv file.
+
 ```
 m2db mol2csv -i input.mol2 -o output.csv
 ```
