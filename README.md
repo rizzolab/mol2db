@@ -191,6 +191,11 @@ NOTE: `-u -ht -pt` could be optional since it could be dependant on your privile
 
 NOTE: `--autocommit` is **necessary** if you are at anytime changing ANYTHING (e.g creating/deleting database, creating/truncating tables) in your psql setup. Please double check when you are autocommitting. You could be deleting or manipulating a lot of information. 
 
+# Acknowledgements 
+I want to acknowledge [Samuel Pak](https://github.com/sp1301) for giving me advice and guidance on the codebase itself, and teaching me the basics of SQL and databases. 
+
+
+
 
 
 
