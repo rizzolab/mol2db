@@ -1,6 +1,7 @@
-#import built-in
+# import built-in
 import sys
 from mol2db.parameters import operators as op
+
 
 class SqlScripts:
     def __init__(self):
@@ -30,33 +31,37 @@ class SqlScripts:
                               PAINS_NAMES TEXT,
                               SMILES TEXT
                           );"""
-    def ifex(self,db_name, table_name):
-        return_ifex = " SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE " \
-        " table_schema='public' AND table_name="\
-        + "'"+table_name+"'" + ");"
+
+    def ifex(self, db_name, table_name):
+        return_ifex = (
+            " SELECT EXISTS(SELECT 1 FROM information_schema.tables WHERE "
+            " table_schema='public' AND table_name=" + "'" + table_name + "'" + ");"
+        )
         return return_ifex
 
-    def pull_mols(self,input_file):
+    def pull_mols(self, input_file):
         names = "('"
 
         try:
-            with open (input_file,'r') as zinc_file:
+            with open(input_file, "r") as zinc_file:
                 read_files = zinc_file.readlines()
         except FileNotFoundError:
-            print('Path of file cannot be found. adjust the path name')
-            sys.exit('exiting...')
+            print("Path of file cannot be found. adjust the path name")
+            sys.exit("exiting...")
 
-        for i,line in enumerate(read_files,0):
-            if i+1 == len(read_files):
-                names += line.strip('\n') +"')"
+        for i, line in enumerate(read_files, 0):
+            if i + 1 == len(read_files):
+                names += line.strip("\n") + "')"
             else:
-                names += line.strip('\n') +"','"
+                names += line.strip("\n") + "','"
         return_name = f"SELECT * FROM molecules WHERE name in {names};"
         return return_name
-    def pull_by_des(self,des,ope,set_range):
-        sign = op.operators[ope] 
+
+    def pull_by_des(self, des, ope, set_range):
+        sign = op.operators[ope]
         return_exe = f"SELECT * FROM molecules WHERE {des} {sign} {set_range};"
         return return_exe
-    def pull_by_range(self,des,lower,upper):
+
+    def pull_by_range(self, des, lower, upper):
         return_exe = f"SELECT * FROM molecules WHERE {des} BETWEEN {lower} and {upper};"
         return return_exe

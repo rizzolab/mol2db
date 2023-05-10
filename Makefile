@@ -62,3 +62,6 @@ clean:
 	@rm -rf ./bin
 	#@cd $(WORKDIR)/src/mol2db && rm -f main.c && make clean
 	@rm -rf ./src/build ./src/dist ./src/main.spec
+
+black:
+	@cd ./src && black .
