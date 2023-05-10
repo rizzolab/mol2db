@@ -5,8 +5,9 @@ DIRNAME = os.path.dirname(__file__) + "/"
 
 PyInstaller.__main__.run(
     [
-        "main.py",
-        "--onefile",
+        "m2db.py",
+        "--onedir",
+	"--distpath=./m2db",
         #'--clean',
         #'--add-data=./mol2db/config/mol2db.cred:./mol2db/config/',
         #'--paths='+DIRNAME

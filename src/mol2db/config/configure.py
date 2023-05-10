@@ -20,7 +20,8 @@ if getattr(sys, "frozen", False):
     # we are running in a bundle
     # frozen = 'ever so'
     # bundle_dir = sys._MEIPASS
-    DIRNAME = os.path.dirname(os.path.dirname(sys.executable)) + "/src/mol2db/config/"
+    DIRNAME = os.path.dirname(os.path.dirname(sys.executable))
+    # DIRNAME = sys._MEIPASS
 
 # But if you are running in a regular python envrionemt (No Pyinstaller!)
 # you can just get the dirname as shown below
@@ -28,11 +29,11 @@ else:
     # we are running in a normal Python environment
     DIRNAME = os.path.dirname(os.path.abspath(__file__)) + "/"
 
-# $print( 'we are',frozen,'frozen')
-# $print( 'bundle dir is', bundle_dir )
-# $print( 'sys.argv[0] is', sys.argv[0] )
-# $print( 'sys.executable is', sys.executable )
-# $print( 'os.getcwd is', os.getcwd() )
+# print( 'we are',frozen,'frozen')
+# print( 'bundle dir is', bundle_dir )
+# print( 'sys.argv[0] is', sys.argv[0] )
+# print( 'sys.executable is', sys.executable )
+# print( 'os.getcwd is', os.getcwd() )
 
 
 def make_kwargs(args):
@@ -63,10 +64,10 @@ def if_any_exist(**kwargs):
 
 
 def source(**kwargs):
-    config_f = open(kwargs["what_to_source"])
+    config_f = open(kwargs["cred"])
     config_data = json.load(config_f)
 
-    with open(kwargs["what_to_source"], "w") as outfile:
+    with open(DIRNAME + "/" + kwargs["cred"], "w") as outfile:
         outfile.write(json.dumps(config_data, indent=4))
 
     # fill the kwargs keys with credential
@@ -95,13 +96,13 @@ def make_your_own_kw(**kwargs):
 
         if kwargs["subcommand"] == "createsource":
             # creating config file that contains your information.
-            with open(DIRNAME + str_cred, "w") as outfile:
+            with open(DIRNAME + "/" + str_cred, "w") as outfile:
                 outfile.write(json.dumps(tmp_dict_config, indent=4))
                 print(str_cred + " created!")
 
         elif kwargs["subcommand"] == "updatesource":
             # creating config file that contains your information.
-            with open(DIRNAME + str_cred, "w") as outfile:
+            with open(DIRNAME + "/" + str_cred, "w") as outfile:
                 outfile.write(json.dumps(tmp_dict_config, indent=4))
                 print(str_cred + " updated!")
     else:
@@ -121,22 +122,22 @@ def set_configure(args):
     # this will automatically create a config file and output a json
     # based on the input flags and where you place the path
     if kwargs["subcommand"] == "createsource" and if_any_exist(**kwargs):
-        if os.path.exists(DIRNAME + str_cred):
+        if os.path.exists(DIRNAME + "/" + str_cred):
             sys.exit(str_cred + " already exists. Just update it exiting...")
         make_your_own_kw(**kwargs)
 
     # removes the config file
     elif kwargs["subcommand"] == "deletesource":
-        if not (os.path.exists(DIRNAME + str_cred)):
+        if not (os.path.exists(DIRNAME + "/" + str_cred)):
             sys.exit(str_cred + " does not exists. exiting...")
         else:
-            os.remove(DIRNAME + str_cred)
+            os.remove(DIRNAME + "/" + str_cred)
             print(str_cred + " deleted!")
         sys.exit()
 
     # update the config file
     elif kwargs["subcommand"] == "updatesource" and if_any_exist(**kwargs):
-        if os.path.exists(DIRNAME + str_cred):
+        if os.path.exists(DIRNAME + "/" + str_cred):
             make_your_own_kw(**kwargs)
         else:
             sys.exit(str_cred + " does not exist to update. please create one.")
@@ -163,7 +164,7 @@ def set_configure(args):
             print("remove any flags if sourcing. exiting...")
             sys.exit()
         try:
-            config_f = open(DIRNAME + str(str_cred))
+            config_f = open(DIRNAME + "/" + str(str_cred))
         except FileNotFoundError:
             print("credential config file not found. Please source the file")
             sys.exit()
@@ -180,13 +181,12 @@ def set_configure(args):
         #        print("you forgot to name config file")
         #        sys.exit()
 
-        hashed_pw = get_hash(str(kwargs.get("pw")))
         config_data = json.load(config_f)
         kwargs["dbname"] = config_data["database_name"]
         kwargs["user_name"] = config_data["user_name"]
-        hashed_pw = config_data["password"]
         kwargs["ht"] = config_data["host"]
         kwargs["prt"] = config_data["port"]
+        kwargs["pw"] = config_data["password"]
         return kwargs
 
     return kwargs
