@@ -1,5 +1,7 @@
 # mol2db 0.1.0-alpha
 
+![GitHub last commit](https://img.shields.io/github/last-commit/rizzolab/mol2db) ![GitHub](https://img.shields.io/github/license/rizzolab/mol2db)
+
 Mol2db is a python-based software to interface with your mol2-based molecular library database on a linux-based command line. The database utitlizes psql to organize and store your mol2 molecules. Instead of storing your mol2 molecules into a multi-mol2 file format, which can be in the order of millions of molecules, you can store them in a SQL-based database by using mol2db commands.  
 
 
