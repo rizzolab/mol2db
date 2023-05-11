@@ -2,9 +2,9 @@ name: Makefile CI
 
 on:
   push:
-    branches: [ "subClass_branch" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "subClass_branch" ]
+    branches: [ "main" ]
   schedule:
   - cron: "0 2 * * 1"
 
